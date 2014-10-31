@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+#import "ParseChat.h"
 
 @interface XSkyerChatroomTests : XCTestCase
 
@@ -25,11 +26,25 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
+- (void) testA{
+    
+    NSURL *url = [NSURL URLWithString:@"http://www.xbox-skyer.com/mgc_cb_evo_ajax.php"];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60];
+    [request setHTTPMethod:@"POST"];//设置请求方式为POST，默认为GET
+    
+    NSString *str = @"do=ajax_refresh_chat&chatids=50";//设置参数
+    
+    NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+    
+    [request setHTTPBody:data];
+    
+    //第三步，连接服务器
+    NSData *received = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    NSString *str1 = [[NSString alloc]initWithData:received encoding:NSUTF8StringEncoding];
+    NSLog(@"%@",str1);
+    NSArray *chats = [[[ParseChat alloc]init] parseXMLDataForCurrentChat:received];
+    XCTAssert(chats,@"123");
 }
-
 - (void)testPerformanceExample {
     // This is an example of a performance test case.
     [self measureBlock:^{

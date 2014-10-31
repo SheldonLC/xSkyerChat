@@ -9,11 +9,21 @@
 /* Begin PBXBuildFile section */
 		4DB69A011A00BD7900B493D9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A001A00BD7900B493D9 /* main.m */; };
 		4DB69A041A00BD7900B493D9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A031A00BD7900B493D9 /* AppDelegate.m */; };
-		4DB69A071A00BD7900B493D9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A061A00BD7900B493D9 /* ViewController.m */; };
 		4DB69A0A1A00BD7900B493D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4DB69A081A00BD7900B493D9 /* Main.storyboard */; };
 		4DB69A0C1A00BD7900B493D9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DB69A0B1A00BD7900B493D9 /* Images.xcassets */; };
 		4DB69A0F1A00BD7900B493D9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DB69A0D1A00BD7900B493D9 /* LaunchScreen.xib */; };
 		4DB69A1B1A00BD7900B493D9 /* XSkyerChatroomTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A1A1A00BD7900B493D9 /* XSkyerChatroomTests.m */; };
+		4DB69A261A00BDB700B493D9 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A251A00BDB700B493D9 /* TableViewController.m */; };
+		4DB69A2B1A00BDF700B493D9 /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A281A00BDF700B493D9 /* TFHpple.m */; };
+		4DB69A2C1A00BDF700B493D9 /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A281A00BDF700B493D9 /* TFHpple.m */; };
+		4DB69A2D1A00BDF700B493D9 /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A2A1A00BDF700B493D9 /* TFHppleElement.m */; };
+		4DB69A2E1A00BDF700B493D9 /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A2A1A00BDF700B493D9 /* TFHppleElement.m */; };
+		4DB69A331A00BE5700B493D9 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A321A00BE5700B493D9 /* XPathQuery.m */; };
+		4DB69A351A00BE6E00B493D9 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB69A341A00BE6E00B493D9 /* libxml2.dylib */; };
+		4DB69A381A00BF9700B493D9 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A371A00BF9700B493D9 /* Constants.m */; };
+		4DB69A3C1A00C09700B493D9 /* ChatData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A3B1A00C09700B493D9 /* ChatData.m */; };
+		4DB69A3F1A00C0DA00B493D9 /* AccessControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A3E1A00C0DA00B493D9 /* AccessControl.m */; };
+		4DB69A421A00C0FD00B493D9 /* ParseChat.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A411A00C0FD00B493D9 /* ParseChat.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,14 +42,29 @@
 		4DB69A001A00BD7900B493D9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4DB69A021A00BD7900B493D9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4DB69A031A00BD7900B493D9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		4DB69A051A00BD7900B493D9 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		4DB69A061A00BD7900B493D9 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		4DB69A091A00BD7900B493D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4DB69A0B1A00BD7900B493D9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4DB69A0E1A00BD7900B493D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		4DB69A141A00BD7900B493D9 /* XSkyerChatroomTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XSkyerChatroomTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DB69A191A00BD7900B493D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4DB69A1A1A00BD7900B493D9 /* XSkyerChatroomTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XSkyerChatroomTests.m; sourceTree = "<group>"; };
+		4DB69A241A00BDB700B493D9 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
+		4DB69A251A00BDB700B493D9 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
+		4DB69A271A00BDF700B493D9 /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
+		4DB69A281A00BDF700B493D9 /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
+		4DB69A291A00BDF700B493D9 /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
+		4DB69A2A1A00BDF700B493D9 /* TFHppleElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHppleElement.m; sourceTree = "<group>"; };
+		4DB69A311A00BE5700B493D9 /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathQuery.h; sourceTree = "<group>"; };
+		4DB69A321A00BE5700B493D9 /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
+		4DB69A341A00BE6E00B493D9 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		4DB69A361A00BF9700B493D9 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		4DB69A371A00BF9700B493D9 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		4DB69A3A1A00C09700B493D9 /* ChatData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatData.h; sourceTree = "<group>"; };
+		4DB69A3B1A00C09700B493D9 /* ChatData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatData.m; sourceTree = "<group>"; };
+		4DB69A3D1A00C0DA00B493D9 /* AccessControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccessControl.h; sourceTree = "<group>"; };
+		4DB69A3E1A00C0DA00B493D9 /* AccessControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccessControl.m; sourceTree = "<group>"; };
+		4DB69A401A00C0FD00B493D9 /* ParseChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseChat.h; sourceTree = "<group>"; };
+		4DB69A411A00C0FD00B493D9 /* ParseChat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseChat.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DB69A351A00BE6E00B493D9 /* libxml2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +89,7 @@
 		4DB699F21A00BD7900B493D9 = {
 			isa = PBXGroup;
 			children = (
+				4DB69A341A00BE6E00B493D9 /* libxml2.dylib */,
 				4DB699FD1A00BD7900B493D9 /* XSkyerChatroom */,
 				4DB69A171A00BD7900B493D9 /* XSkyerChatroomTests */,
 				4DB699FC1A00BD7900B493D9 /* Products */,
@@ -81,11 +108,11 @@
 		4DB699FD1A00BD7900B493D9 /* XSkyerChatroom */ = {
 			isa = PBXGroup;
 			children = (
-				4DB69A021A00BD7900B493D9 /* AppDelegate.h */,
-				4DB69A031A00BD7900B493D9 /* AppDelegate.m */,
-				4DB69A051A00BD7900B493D9 /* ViewController.h */,
-				4DB69A061A00BD7900B493D9 /* ViewController.m */,
+				4DB69A391A00C07D00B493D9 /* Model */,
+				4DB69A2F1A00BE1E00B493D9 /* Hpple */,
 				4DB69A081A00BD7900B493D9 /* Main.storyboard */,
+				4DB69A241A00BDB700B493D9 /* TableViewController.h */,
+				4DB69A251A00BDB700B493D9 /* TableViewController.m */,
 				4DB69A0B1A00BD7900B493D9 /* Images.xcassets */,
 				4DB69A0D1A00BD7900B493D9 /* LaunchScreen.xib */,
 				4DB699FE1A00BD7900B493D9 /* Supporting Files */,
@@ -96,8 +123,12 @@
 		4DB699FE1A00BD7900B493D9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4DB69A021A00BD7900B493D9 /* AppDelegate.h */,
+				4DB69A031A00BD7900B493D9 /* AppDelegate.m */,
 				4DB699FF1A00BD7900B493D9 /* Info.plist */,
 				4DB69A001A00BD7900B493D9 /* main.m */,
+				4DB69A361A00BF9700B493D9 /* Constants.h */,
+				4DB69A371A00BF9700B493D9 /* Constants.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -117,6 +148,40 @@
 				4DB69A191A00BD7900B493D9 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4DB69A2F1A00BE1E00B493D9 /* Hpple */ = {
+			isa = PBXGroup;
+			children = (
+				4DB69A301A00BE3E00B493D9 /* XPath */,
+				4DB69A271A00BDF700B493D9 /* TFHpple.h */,
+				4DB69A281A00BDF700B493D9 /* TFHpple.m */,
+				4DB69A291A00BDF700B493D9 /* TFHppleElement.h */,
+				4DB69A2A1A00BDF700B493D9 /* TFHppleElement.m */,
+			);
+			name = Hpple;
+			sourceTree = "<group>";
+		};
+		4DB69A301A00BE3E00B493D9 /* XPath */ = {
+			isa = PBXGroup;
+			children = (
+				4DB69A311A00BE5700B493D9 /* XPathQuery.h */,
+				4DB69A321A00BE5700B493D9 /* XPathQuery.m */,
+			);
+			name = XPath;
+			sourceTree = "<group>";
+		};
+		4DB69A391A00C07D00B493D9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4DB69A3A1A00C09700B493D9 /* ChatData.h */,
+				4DB69A3B1A00C09700B493D9 /* ChatData.m */,
+				4DB69A3D1A00C0DA00B493D9 /* AccessControl.h */,
+				4DB69A3E1A00C0DA00B493D9 /* AccessControl.m */,
+				4DB69A401A00C0FD00B493D9 /* ParseChat.h */,
+				4DB69A411A00C0FD00B493D9 /* ParseChat.m */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,9 +284,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4DB69A071A00BD7900B493D9 /* ViewController.m in Sources */,
 				4DB69A041A00BD7900B493D9 /* AppDelegate.m in Sources */,
+				4DB69A421A00C0FD00B493D9 /* ParseChat.m in Sources */,
+				4DB69A3F1A00C0DA00B493D9 /* AccessControl.m in Sources */,
+				4DB69A261A00BDB700B493D9 /* TableViewController.m in Sources */,
 				4DB69A011A00BD7900B493D9 /* main.m in Sources */,
+				4DB69A2B1A00BDF700B493D9 /* TFHpple.m in Sources */,
+				4DB69A331A00BE5700B493D9 /* XPathQuery.m in Sources */,
+				4DB69A381A00BF9700B493D9 /* Constants.m in Sources */,
+				4DB69A2D1A00BDF700B493D9 /* TFHppleElement.m in Sources */,
+				4DB69A3C1A00C09700B493D9 /* ChatData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,7 +301,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DB69A2E1A00BDF700B493D9 /* TFHppleElement.m in Sources */,
 				4DB69A1B1A00BD7900B493D9 /* XSkyerChatroomTests.m in Sources */,
+				4DB69A2C1A00BDF700B493D9 /* TFHpple.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,8 +419,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/include/libxml2,
+				);
 				INFOPLIST_FILE = XSkyerChatroom/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				"OTHER_LDFLAGS[arch=*]" = /usr/lib/libxml2.dylib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -355,8 +435,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/include/libxml2,
+				);
 				INFOPLIST_FILE = XSkyerChatroom/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				"OTHER_LDFLAGS[arch=*]" = /usr/lib/libxml2.dylib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -414,6 +500,7 @@
 				4DB69A201A00BD7900B493D9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4DB69A211A00BD7900B493D9 /* Build configuration list for PBXNativeTarget "XSkyerChatroomTests" */ = {
 			isa = XCConfigurationList;
@@ -422,6 +509,7 @@
 				4DB69A231A00BD7900B493D9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
