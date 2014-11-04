@@ -21,8 +21,8 @@
 - (NSArray *) parseXMLDataForCurrentChat:(NSData *) data
 {
     NSArray *chats = nil;
-    //NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    //NSLog(@"%@",str1);
+    NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"%@",str1);
     
     //int index = 0;
 
@@ -44,9 +44,9 @@
             NSMutableString *imgSrc = nil;
 
             for (TFHppleElement *chatElement in mElements) {
-                //TFHppleElement *chatElement = [mElements objectAtIndex:25];
+                //TFHppleElement *chatElement = [mElements objectAtIndex:36];
                 TFHppleElement *colChat = [chatElement firstChildWithTagName:@"col_chat"];
-                  //  NSLog(@"%d",index++);
+                //NSLog(@"%d",index++);
                 text = [[NSMutableString alloc]initWithString:[self getChatBy:colChat]];
                 {
                     NSRange substr1 = [text rangeOfString:@"\n\t"]; // 字符串查找,可以判断字符串中是否有
@@ -89,12 +89,17 @@
                 imgSrc = [[NSMutableString alloc] initWithString:@"http://www.xbox-skyer.com/"];
                 [imgSrc appendString:[self getImgSrcBy:colUNameElement]];
                 
+                //find chai_id
+                TFHppleElement *colChatId = [chatElement firstChildWithTagName:@"chatid"];
+                NSString *chatId = [colChatId text];
+                //NSLog(@"%@",chatId);
+
                 
                 //setup ChatData
                 ChatData *chat = [[ChatData alloc]init];
                 
                 //Set value here
-                //chat.id = ;
+                chat.chatId = chatId;
                 chat.speaker = speaker;
                 chat.dateString = time;
                 chat.content = text;
@@ -123,7 +128,10 @@
     TFHpple *xpathParserSub = [[TFHpple alloc] initWithHTMLData:htmlData];
     NSArray *elements = [xpathParserSub searchWithXPathQuery:@"//span//img"];
     NSString *childContent = [[elements objectAtIndex:0] objectForKey:@"src"];
-    
+    if (!childContent) {
+        childContent = @"***";
+    }
+
     return childContent;
 }
 
@@ -136,7 +144,10 @@
     TFHpple *xpathParserSub = [[TFHpple alloc] initWithHTMLData:htmlData];
     NSArray *elements = [xpathParserSub searchWithXPathQuery:@"//span//a"];
     NSString *childContent = [[elements objectAtIndex:0] text];
-    
+    if (!childContent) {
+        childContent = @"***";
+    }
+
     return childContent;
 }
 
@@ -150,7 +161,10 @@
     TFHpple *xpathParserSub = [[TFHpple alloc] initWithHTMLData:htmlData];
     NSArray *elements = [xpathParserSub searchWithXPathQuery:@"//span//span"];
     NSString *childContent = [[elements objectAtIndex:0] text];
-    
+    if (!childContent) {
+        childContent = @"***";
+    }
+
     return childContent;
 }
 
@@ -161,24 +175,120 @@
     NSString    *colChatContent = [[colChatChild objectAtIndex:0] content];
     NSData* htmlData = [colChatContent dataUsingEncoding:NSUTF8StringEncoding];
     
+    NSMutableString *chatContent = [[NSMutableString alloc] init];
+    BOOL isURL = NO;
+    
     TFHpple *xpathParserSub = [[TFHpple alloc] initWithHTMLData:htmlData];
     NSArray *elements = [xpathParserSub searchWithXPathQuery:@"//font//font"];
     if([elements count] == 0 ){
         //Get single font
         elements = [xpathParserSub searchWithXPathQuery:@"//font"];
-        if([elements count] == 0 ){
-            //Get span
-            elements = [xpathParserSub searchWithXPathQuery:@"//span"];
-            if ([elements count] == 0) {
-                elements = [xpathParserSub searchWithXPathQuery:@"//a"];
-            }
-        }
-    }
-    NSString *chatContent = [[elements objectAtIndex:0] text];
+        if ([elements count] == 0 ) {
+            elements = [xpathParserSub searchWithXPathQuery:@"//font//a"];
+            if([elements count] == 0 ){
+                //Get span
+                elements = [xpathParserSub searchWithXPathQuery:@"//span"];
+                
+                if ([elements count] == 0) {
+                    elements = [xpathParserSub searchWithXPathQuery:@"//a"];
+                }else{
+                    NSArray *temArr =[xpathParserSub searchWithXPathQuery:@"//span//a"];
+                    if([temArr count]>0){
+                        //Check if url
+                        TFHppleElement *temp = [temArr objectAtIndex:0];
+                        NSString *href = [temp objectForKey:@"href"];
+                        if(href){
+                            [chatContent appendString:href];
+                            isURL = YES;
+                        }
+                    }
+                    //elements = [(TFHppleElement *)[elements objectAtIndex:0] children];
+                    [chatContent appendString:[self resultString:elements isURL:isURL]];
 
+                }
+            }else{
+                [chatContent appendString:[self resultString:elements isURL:isURL]];
+            }
+
+        }else{
+            [chatContent appendString:[self resultString:elements isURL:isURL]];
+            //Check if have a-href
+            elements = [xpathParserSub searchWithXPathQuery:@"//font//a"];
+            if([elements count]>0){
+                //Check if url
+                TFHppleElement *temp = [elements objectAtIndex:0];
+                NSString *href = [temp objectForKey:@"href"];
+                if(href){
+                    [chatContent appendString:href];
+                }
+            }
+
+        }
+    }else{
+        
+        
+        [chatContent appendString:[self resultString:elements isURL:isURL]];
+    }
+    
+    if (!chatContent || [chatContent isEqualToString:@""]) {
+        //Check the /span/a/img - text combine
+
+        [chatContent appendString: @"***"];
+    }
+    NSLog(@"%@",chatContent);
     return chatContent;
 }
 
+- (NSString *) resultString:(NSArray *)elements isURL: (BOOL) isURL{
+    NSMutableString *tempStr = [[NSMutableString alloc] init];
+    if(elements){
+        if(isURL){
+            for (TFHppleElement *element in [[elements objectAtIndex:0] children]) {
+                NSString *str = [element content];
+                if(str){
+                    [tempStr appendString:str];
+                }
+            }
+
+        }else{
+            for (TFHppleElement *element in elements) {
+                NSString *str = [element text];
+                if(str){
+                    [tempStr appendString:str];
+                }
+            }
+        }
+        
+    }
+    return tempStr;
+    
+}
+- (NSString *) parseHTMLDataForAccess:(NSData *) data
+{
+    
+    //NSLog(@"%s", data.bytes);
+    NSString *sToken = nil;
+    if (data) {
+        TFHpple *xpathParser = [[TFHpple alloc] initWithHTMLData:data];
+        
+        NSArray *elements = [xpathParser searchWithXPathQuery:@"//head//script"];
+        
+        TFHppleElement *js = [elements objectAtIndex:1];
+        TFHppleElement *jsChild = [js.children objectAtIndex:0];
+        NSString *content = jsChild.content;
+        //NSLog(@"content [%@]",content);
+
+        NSArray *comp = [content componentsSeparatedByString:@"SECURITYTOKEN"];
+        if(!comp || [comp count] <2){
+            return nil;
+        }
+        NSString *securtityStr = [comp objectAtIndex:1];
+        //Extract the SECURITYTOKEN out
+        sToken = [securtityStr substringWithRange:NSMakeRange(4, 51)];
+        NSLog(@"Token [%@]",sToken);
+    }
+    return sToken;
+}
 - (NSArray *) parseHTMLDataForHistory:(NSData *) data
 {
 

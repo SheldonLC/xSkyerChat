@@ -19,4 +19,32 @@
 {
     _content = content;
 }
+
+- (BOOL)determineIfFromMeBy : (NSString *) currentUser{
+    if ([currentUser isEqualToString:self.speaker]) {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)matchedWith:(ChatData *)anotherChat{
+    return [self.chatId isEqualToString:anotherChat.chatId];
+
+}
+- (BOOL) newerThan: (ChatData *) anotherChat{
+
+    NSInteger currentID = [self.chatId integerValue];
+    NSInteger otherID = [anotherChat.chatId integerValue];
+
+    return currentID>otherID;
+}
+
+- (BOOL) olderThan: (ChatData *) anotherChat{
+    
+    NSInteger currentID = [self.chatId integerValue];
+    NSInteger otherID = [anotherChat.chatId integerValue];
+    
+    return currentID<otherID;
+}
+
 @end

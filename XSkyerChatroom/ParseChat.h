@@ -15,6 +15,7 @@
 
 - (NSArray *) parseHTMLDataForHistory:(NSData *) data;
 - (NSArray *) parseXMLDataForCurrentChat:(NSData *) data;
+- (NSString *) parseHTMLDataForAccess:(NSData *) data;
 
 
 @end

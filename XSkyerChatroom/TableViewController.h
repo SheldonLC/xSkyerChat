@@ -7,7 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PullTableView.h"
 
-@interface TableViewController : UITableViewController <NSURLSessionDelegate,NSURLSessionDataDelegate>
+
+@interface TableViewController : UIViewController <UITableViewDataSource,NSURLSessionDelegate,UITextViewDelegate, PullTableViewDelegate>{
+    PullTableView *pullTableView;
+}
+
+
+@property (strong, nonatomic) IBOutlet PullTableView *pullTableView;
 
 @end

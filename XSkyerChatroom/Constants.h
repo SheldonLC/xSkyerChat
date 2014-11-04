@@ -12,6 +12,12 @@
 
 extern NSString * const HTML_REQUEST_TARGET_CURRENT;
 extern NSString * const HTML_REQUEST_TARGET_HISTORY;
+extern NSString * const HTML_REQUEST_TARGET_LOGIN;
+
+
+extern NSString * const HTML_REQUEST_TYPE_LOGIN;
+extern NSString * const HTML_REQUEST_TYPE_CHAT;
+extern NSString * const HTML_REQUEST_TYPE_REFRESH;
 
 
 @end
