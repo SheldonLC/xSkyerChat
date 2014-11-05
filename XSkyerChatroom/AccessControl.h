@@ -10,4 +10,12 @@
 
 @interface AccessControl : NSObject
 
+@property (strong,nonatomic) NSString* userName;
+@property (strong,nonatomic) NSString* password;
+@property (nonatomic) BOOL hasLogin;
+@property  (strong,nonatomic) NSString *token;
+@property (nonatomic) BOOL isSessionTimeout;
+
+-(instancetype) initWithUser: (NSString*) user password:(NSString *) password;
+
 @end

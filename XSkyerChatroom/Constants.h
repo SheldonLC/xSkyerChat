@@ -19,5 +19,7 @@ extern NSString * const HTML_REQUEST_TYPE_LOGIN;
 extern NSString * const HTML_REQUEST_TYPE_CHAT;
 extern NSString * const HTML_REQUEST_TYPE_REFRESH;
 
+extern NSString * const ACCSEE_LOGIN_FAILED;
+extern NSString * const ACCSEE_LOGIN_CORRUPT;
 
 @end

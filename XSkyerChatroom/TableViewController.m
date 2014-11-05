@@ -7,12 +7,7 @@
 //
 
 #import "TableViewController.h"
-#import "ChatData.h"
-#import "Constants.h"
-#import "ParseChat.h"
-#import "PostParameter.h"
-#import "ChatboxPopOverController.h"
-#import <QuartzCore/QuartzCore.h>
+
 
 @interface TableViewController ()
 
@@ -20,79 +15,69 @@
 
 @property (strong,nonatomic) NSMutableArray *chats;
 
-//Session
-@property (strong,nonatomic) NSURLSession *thisSession;
-@property (strong,nonatomic) NSURL *thisUrl;
-@property (strong,nonatomic) NSData *data;
-@property (strong,nonatomic) NSData *credential;
-@property (strong,nonatomic) NSString *target;
-@property (strong,nonatomic) NSURLSessionDataTask *dataTask;
-@property (nonatomic) BOOL isCompleted;
-@property (strong,nonatomic) NSMutableData *tempData;
-@property (strong,nonatomic) ParseChat *parse;
-@property (strong,nonatomic) PostParameter* param;
-@property (strong,nonatomic) NSString *sToken;
-@property (nonatomic) BOOL isSessionTimeout;
-@property (nonatomic,strong) NSDate *toDate;
 
 @property (nonatomic,strong) ChatboxPopOverController *chatboxVC;
 
 @property (nonatomic,strong) UIView *customView;
 
-@property (strong,nonatomic) NSMutableString *chatContent;
+@property (nonatomic) NSInteger page;
 
+@property (nonatomic) BOOL  isRefreshed;
+@property  (nonatomic) BOOL isLoaded;
+@property  (nonatomic) BOOL isChatShowed;
+
+@property (strong,nonatomic) NSString  *chatContents;
 @end
+
+
 @implementation TableViewController
 
-@synthesize pullTableView = _pullTableView;
+@synthesize pullTableView;
 
-#pragma mark timer
-//Resource Leak
-//- (void)timerFireMethod:(NSTimer*)theTimer
-//{
-//    
-//
-//    NSTimeInterval seconds = [[NSDate date] timeIntervalSinceDate:self.toDate];
-//    //NSLog(@"%f",seconds);
-//
-//    //NSLog(@"%@",self.toDate.debugDescription);
-//    
-//    while (seconds >= 0.0) {
-//        self.isSessionTimeout = YES;
-//        [theTimer invalidate];
-//        theTimer = nil;
-//    }
-//}
+- (void)setAccess:(AccessControl *)access{
+    
+    _access = access;
+    NSLog(@"Set Access");
+}
 
+- (void) loginForUser: (NSString *) userName withPassword :(NSString *) password{
+    
+    
+    self.access = [[AccessControl alloc]initWithUser:userName password:password];
+    
+    [self login];
+}
 
--(NSString *)sToken{
-    if (!_sToken || self.isSessionTimeout) {
-        
+    
+- (void) login {
+    if(self.access){
         NSURL *url1 = [NSURL URLWithString:@"http://www.xbox-skyer.com/login.php"];
         NSMutableURLRequest *requestLogin = [[NSMutableURLRequest alloc]initWithURL:url1 cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60];
         [requestLogin setHTTPMethod:@"POST"];//设置请求方式为POST，默认为GET
-        NSString *str1 = @"do=login&vb_login_username=sheldonlc&vb_login_password=yb830922&cookieuser=1";//设置参数
+        NSString *str1 = [NSString stringWithFormat:@"do=login&vb_login_username=%@&vb_login_password=%@&cookieuser=1",self.access.userName,self.access.password];//设置参数
         NSData *data1 = [str1 dataUsingEncoding:NSUTF8StringEncoding];
         [requestLogin setHTTPBody:data1];
         NSData *received1 = [NSURLConnection sendSynchronousRequest:requestLogin returningResponse:nil error:nil];
         NSString *strResult1 = [[NSString alloc]initWithData:received1 encoding:NSUTF8StringEncoding];
-        
+
         NSLog(@"%@",strResult1);
 
-        
-        _sToken = [self.parse parseHTMLDataForAccess:received1];
-        
-        self.isSessionTimeout = NO;
-        
-        //Resource leak
-        //self.toDate = [[NSDate alloc] initWithTimeInterval:10 sinceDate:[NSDate date]];
-        
-        //[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
-        
+        NSString *result = [self.parse parseHTMLDataForAccess:received1];
+        if([result isEqualToString:ACCSEE_LOGIN_FAILED]){
+            self.access.isSessionTimeout = NO;
+            self.access.hasLogin = NO;
+        }else if([result isEqualToString:ACCSEE_LOGIN_CORRUPT]){
+            self.access.isSessionTimeout = YES;
+            self.access.hasLogin = NO;
+            [self login];
+        }else{
+            self.access.isSessionTimeout = NO;
+            self.access.hasLogin = YES;
+            self.access.token = result;
 
+        }
+        
     }
-    return _sToken;
-    
 }
 -(PostParameter *)param{
     if(!_param){
@@ -194,16 +179,18 @@
     [self setChatboxView];
     
     self.chatboxVC.chatbox.delegate = self;
-    self.chatContent = [[NSMutableString alloc] init];
     //Add the customView to the current view
     
     
-    self.pullTableView.pullArrowImage = [UIImage imageNamed:@"blackArrow"];
+    self.pullTableView.pullArrowImage = [UIImage imageNamed:@"blueArrow"];
     self.pullTableView.pullBackgroundColor = [UIColor whiteColor];
     self.pullTableView.pullTextColor = [UIColor grayColor];
 
     __weak TableViewController *weakSelf = self;
     self.pullTableView.pullDelegate = weakSelf;
+    
+    self.isChatShowed = NO;
+    self.page = 2;
 
 }
 
@@ -211,8 +198,16 @@
 {
     
     [super viewWillAppear:animated];
-    if(!self.pullTableView.pullTableIsRefreshing) {
-        self.pullTableView.pullTableIsRefreshing = YES;
+    
+    //Check if has logged in
+    
+    if (!self.access || !self.access.hasLogin) {
+        //Navigate to Setting page
+        //[self performSegueWithIdentifier:@"Login" sender:self];
+        return;
+    }
+    if(!self.pullTableView.pullTableIsLoadingMore) {
+        self.pullTableView.pullTableIsLoadingMore = YES;
         [self performSelector:@selector(loadMoreDataToTable) withObject:nil afterDelay:0.0f];
     }
 }
@@ -251,9 +246,18 @@
      Code to actually refresh goes here.
      
      */
-    
+    [self startRequestDataFrom:HTML_REQUEST_TARGET_HISTORY forPage:[NSString stringWithFormat:@"%lu",self.page ] forType:HTML_REQUEST_TYPE_REFRESH];
+
+    if (!self.tempData || [self.tempData length] ==0) {
+        [self startRequestDataFrom:HTML_REQUEST_TARGET_HISTORY forPage:[NSString stringWithFormat:@"%lu",self.page ] forType:HTML_REQUEST_TYPE_REFRESH];
+
+    }
     self.pullTableView.pullLastRefreshDate = [NSDate date];
     self.pullTableView.pullTableIsRefreshing = NO;
+    
+    self.isRefreshed = YES;
+    self.isLoaded = NO;
+    self.page++;
 
 }
 
@@ -268,12 +272,14 @@
     
     [self startRequestDataFrom:HTML_REQUEST_TARGET_CURRENT forType:HTML_REQUEST_TYPE_REFRESH];
     if (!self.chats || [self.chats count] ==0) {
-        self.isSessionTimeout = YES;
+        self.access.isSessionTimeout = YES;
+        [self login];
         [self startRequestDataFrom:HTML_REQUEST_TARGET_CURRENT forType:HTML_REQUEST_TYPE_REFRESH];
         
     }
 
-    
+    self.isRefreshed = NO;
+    self.isLoaded = YES;
     self.pullTableView.pullTableIsLoadingMore = NO;
 }
 
@@ -293,7 +299,6 @@
     NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
     CGSize keyboardSize = [value CGRectValue].size;
     
-    NSLog(@"keyBoard:%f", keyboardSize.height);  //216
     CGRect newTextViewFrame = self.view.bounds;
     CGFloat keyboardTop =  keyboardSize.height;
     CGRect keyboardRect = [value CGRectValue];
@@ -333,9 +338,6 @@
 {
     NSDictionary *info = [notif userInfo];
     
-    NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
-    CGSize keyboardSize = [value CGRectValue].size;
-    NSLog(@"keyboardWasHidden keyBoard:%f", keyboardSize.height);
     NSValue *animationDurationValue = [info objectForKey:UIKeyboardAnimationDurationUserInfoKey];
     NSTimeInterval animationDuration;
     [animationDurationValue getValue:&animationDuration];
@@ -373,14 +375,13 @@
 {
     if ([text isEqualToString:@"\n"]) {
         [textView resignFirstResponder];
-        #warning send message here
-        NSLog(@"%@",self.chatContent);
+        NSLog(@"Ready to speak: %@",textView.text);
+        self.chatContents = textView.text;
         [self sendMessage];
-        self.chatContent = [[NSMutableString alloc] init];
+        textView.text = @"";
 
         return NO;
     }
-    [self.chatContent appendString:text];
     return YES;
 }
 
@@ -420,14 +421,31 @@
 - (IBAction)showChat:(id)sender {
     //Display the customView with animation
 
-    [self.customView removeFromSuperview];
-    [self setChatboxView];
-    [self.view.superview addSubview:self.customView];
-    [self.view.superview bringSubviewToFront: self.customView];
+    if(!self.isChatShowed){
+        [self.customView removeFromSuperview];
+        [self setChatboxView];
+        [self.view.superview addSubview:self.customView];
+        [self.view.superview bringSubviewToFront: self.customView];
 
-    [UIView animateWithDuration:0.6 animations:^{
-        [self.customView setAlpha:1.0];
-    } completion:^(BOOL finished) {}];
+        [UIView animateWithDuration:0.4 animations:^{
+            [self.customView setAlpha:1.0];
+        } completion:^(BOOL finished) {}];
+    
+    }else{
+        __weak TableViewController *weakSelf = self;
+        [UIView animateWithDuration:0.4 animations:^{
+            [self.customView setAlpha:0.0];
+        } completion:^(BOOL finished) {
+        
+        [weakSelf.customView removeFromSuperview];
+        }];
+
+        
+
+    }
+    
+    
+    self.isChatShowed = !self.isChatShowed;
     
 
 }
@@ -457,53 +475,7 @@
 
 
 
-/*
--(void)viewWillAppear:(BOOL)animated { [super viewWillAppear:animated];
-    
-    //Initialize the toolbar
-     self.toolbar = [[UIToolbar alloc] init];
-    self.toolbar.barStyle = UIBarStyleDefault;
-    
-    //Set the toolbar to fit the width of the app.
-    [self.toolbar sizeToFit];
-    
-    //Caclulate the height of the toolbar
-    CGFloat toolbarHeight = [self.toolbar frame].size.height;
-    
-    //Get the bounds of the parent view
-    CGRect rootViewBounds = self.parentViewController.view.bounds;
-    
-    //Get the height of the parent view.
-    CGFloat rootViewHeight = CGRectGetHeight(rootViewBounds);
-    
-    //Get the width of the parent view,
-    CGFloat rootViewWidth = CGRectGetWidth(rootViewBounds);
-    
-    //Create a rectangle for the toolbar
-    CGRect rectArea = CGRectMake(0, rootViewHeight - toolbarHeight, rootViewWidth, toolbarHeight);
-    
-    //Reposition and resize the receiver
-    [self.toolbar setFrame:rectArea];
-    
-    //Create a button
-    UIBarButtonItem *infoButton = [[UIBarButtonItem alloc] initWithTitle:@"back" style:UIBarButtonItemStyleBordered target:self action:@selector(info_clicked:)];
-    
-    [self.toolbar setItems:[NSArray arrayWithObjects:infoButton,nil]];
-    
-    //Add the toolbar as a subview to the navigation controller.
-    [self.navigationController.view addSubview:self.toolbar];
-    
-    [[self tableView] reloadData];
-    
-}
 
-- (void) info_clicked:(id)sender {
-    
-    [self.navigationController popViewControllerAnimated:YES];
-    [self.toolbar removeFromSuperview];
-    
-}
-*/
 - (void) appearAtBottom{
     CGFloat contentHeight = self.pullTableView.contentSize.height;
     CGFloat frameHeight = self.pullTableView.frame.size.height;
@@ -517,6 +489,18 @@
     
 }
 
+- (void) appearAtTop{
+    CGFloat contentHeight = self.pullTableView.contentSize.height;
+    CGFloat frameHeight = self.pullTableView.frame.size.height;
+    
+    if (contentHeight > frameHeight)
+    {
+        CGPoint offset = CGPointMake(0,-60);
+        [self.pullTableView setContentOffset:offset animated:NO];
+    }
+    
+    
+}
 
 
 
@@ -524,8 +508,17 @@
 - (void)reloadView{
     
     [self.pullTableView reloadData];
-    [self appearAtBottom];
+    if (self.isRefreshed) {
+        [self appearAtTop];
+    }else{
+        [self appearAtBottom];
+    }
 
+    if (self.access.hasLogin) {
+        self.navigationController.toolbarHidden = NO;
+    }else{
+        self.navigationController.toolbarHidden = YES;
+    }
 
 }
 
@@ -534,13 +527,13 @@
 }
 
 - (void) startRequestDataFrom: (NSString *) target forPage : (NSString *) page forType: (NSString *) type{
-    [self setURLwith:target];
-    
+    [self setURLwith:target forPage:page];
+
     __weak TableViewController *weakSelf = self;
+
     self.dataTask = [self.thisSession dataTaskWithRequest:[self requestWithURL:self.thisUrl forType:type] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         //NSLog(@"%lld", response.expectedContentLength);
-        weakSelf.tempData = [[NSMutableData alloc]init];
-        
+         weakSelf.tempData = [[NSMutableData alloc]init];
         [data enumerateByteRangesUsingBlock:^(const void *bytes, NSRange byteRange, BOOL *stop) {
             
             [weakSelf.tempData appendBytes:bytes length:byteRange.length];
@@ -551,6 +544,9 @@
         }else if([target isEqualToString:HTML_REQUEST_TARGET_CURRENT]){
             [weakSelf appendCells:[weakSelf parseData]];
         }
+        [weakSelf.tempData setLength:0];
+        weakSelf.data = nil;
+
         //[self.chats addObjectsFromArray:];
         [weakSelf reloadView];
         
@@ -587,13 +583,9 @@
         //Compare the chatid, append the newly added chats
         ChatData *oldestCurrentChat = [self.chats firstObject];
         
-        ChatData *newestHistoryChat = [result lastObject];
         
-        if([newestHistoryChat olderThan:oldestCurrentChat]){
-            return;// no history found;
-        }
         //Reverse enmueator
-        NSEnumerator *enumerator = [result objectEnumerator];
+        NSEnumerator *enumerator = [result reverseObjectEnumerator];
         ChatData *chat;
         while ((chat = [enumerator nextObject]) != nil) {
             if([chat olderThan:oldestCurrentChat]){
@@ -618,25 +610,18 @@
         [weakSelf.tempData appendBytes:bytes length:byteRange.length];  }];
         weakSelf.data = weakSelf.tempData;
         if ([weakSelf.tempData length] != 112) {
-            weakSelf.isSessionTimeout = YES;
+            self.access.isSessionTimeout = YES;
+            
         }
         
     }];
     [self.dataTask resume];
 
     
-    if(self.isSessionTimeout){
+    if(self.access.isSessionTimeout){
+        [self login];
         self.dataTask = [self.thisSession dataTaskWithRequest:[self requestWithURL:self.thisUrl forType:HTML_REQUEST_TYPE_CHAT] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            //NSLog(@"%lld", response.expectedContentLength);
-            weakSelf.tempData = [[NSMutableData alloc]init];
-            
-            [data enumerateByteRangesUsingBlock:^(const void *bytes, NSRange byteRange, BOOL *stop) {
-                
-            [weakSelf.tempData appendBytes:bytes length:byteRange.length];  }];
-            weakSelf.data = weakSelf.tempData;
-            if ([weakSelf.tempData length] != 112) {
-                weakSelf.isSessionTimeout = YES;
-            }
+         
             
         }];
         [self.dataTask resume];
@@ -650,6 +635,7 @@
     [self startRequestDataFrom:HTML_REQUEST_TARGET_CURRENT forType:HTML_REQUEST_TYPE_REFRESH];
 }
 
+//Shall rerite for delegate
 - (NSMutableURLRequest *) requestWithURL:(NSURL *)URL forType:(NSString *) type
 {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.thisUrl];
@@ -658,9 +644,11 @@
             //To get curreny chat, use post
             [request setHTTPMethod:@"POST"];
             
-            NSString *str = [self.param generateRefreshWithToken: self.sToken];//Set parameter
+            NSString *str = [self.param  generateRefreshWithToken: self.access.token];//Set parameter
             NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
             [request setHTTPBody:data];
+        }else if([self.target isEqualToString:HTML_REQUEST_TARGET_HISTORY]){
+            //do nothing
         }
     }else if([type isEqualToString:HTML_REQUEST_TYPE_LOGIN]){
         
@@ -673,13 +661,15 @@
     }else if([type isEqualToString:HTML_REQUEST_TYPE_CHAT]){
         [request setHTTPMethod:@"POST"];
         #warning need to use textboxinput for chat
-        NSString *str = [self.param generateChatWithToken:self.sToken withChat:self.chatContent];//Set parameter
+        NSString *str = [self.param generateChatWithToken:self.access.token withChat:self.chatContents];//Set parameter
         NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
         [request setHTTPBody:data];
 
     }
     return request;
 }
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

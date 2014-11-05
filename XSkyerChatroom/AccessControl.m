@@ -10,4 +10,15 @@
 
 @implementation AccessControl
 
+
+-(instancetype) initWithUser: (NSString*) user password:(NSString *) password{
+    self = [super init];
+    
+    self.userName = user;
+    self.password = password;
+    
+    return self;
+}
+
+
 @end

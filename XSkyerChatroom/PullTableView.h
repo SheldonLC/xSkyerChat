@@ -62,7 +62,7 @@
     BOOL pullTableIsLoadingMore;
     
     // Delegate
-    id<PullTableViewDelegate> pullDelegate;
+    __weak id<PullTableViewDelegate> pullDelegate;
     
 }
 

@@ -18,4 +18,8 @@ NSString * const HTML_REQUEST_TYPE_LOGIN = @"LOGIN";
 NSString * const HTML_REQUEST_TYPE_CHAT = @"CHAT";
 NSString * const HTML_REQUEST_TYPE_REFRESH = @"REFRESH";
 
+NSString * const ACCSEE_LOGIN_FAILED = @"FAILD";
+NSString * const ACCSEE_LOGIN_CORRUPT = @"CORRUPT";
+
+
 @end

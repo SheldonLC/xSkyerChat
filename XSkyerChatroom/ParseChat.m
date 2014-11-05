@@ -267,32 +267,54 @@
 {
     
     //NSLog(@"%s", data.bytes);
-    NSString *sToken = nil;
+    
+    NSString *sToken = @"";
     if (data) {
         TFHpple *xpathParser = [[TFHpple alloc] initWithHTMLData:data];
-        
-        NSArray *elements = [xpathParser searchWithXPathQuery:@"//head//script"];
-        
-        TFHppleElement *js = [elements objectAtIndex:1];
-        TFHppleElement *jsChild = [js.children objectAtIndex:0];
-        NSString *content = jsChild.content;
-        //NSLog(@"content [%@]",content);
 
-        NSArray *comp = [content componentsSeparatedByString:@"SECURITYTOKEN"];
-        if(!comp || [comp count] <2){
-            return nil;
+        //Check if login failed
+        //blockrow restore
+        NSArray *elements = [xpathParser searchWithXPathQuery:@"//div[@class='blockrow restore']"];
+
+        BOOL loginSuccess = NO;
+        if(!elements || [elements count] ==0){
+            loginSuccess = YES;
         }
-        NSString *securtityStr = [comp objectAtIndex:1];
-        //Extract the SECURITYTOKEN out
-        sToken = [securtityStr substringWithRange:NSMakeRange(4, 51)];
-        NSLog(@"Token [%@]",sToken);
+        
+        if(loginSuccess){//login success, get the security token
+            NSArray *elements = [xpathParser searchWithXPathQuery:@"//head//script"];
+            
+            TFHppleElement *js = [elements objectAtIndex:1];
+            TFHppleElement *jsChild = [js.children objectAtIndex:0];
+            NSString *content = jsChild.content;
+            //NSLog(@"content [%@]",content);
+
+            NSArray *comp = [content componentsSeparatedByString:@"SECURITYTOKEN"];
+            if(!comp || [comp count] <2){
+                return nil;
+            }
+            NSString *securtityStr = [comp objectAtIndex:1];
+            //Extract the SECURITYTOKEN out
+            sToken = [securtityStr substringWithRange:NSMakeRange(4, 51)];
+            
+            NSRange range = [ sToken rangeOfString:@"IMG"];
+            if (range.location != NSNotFound) {
+
+                sToken = ACCSEE_LOGIN_CORRUPT;
+            }
+            NSLog(@"Token [%@]",sToken);
+        }else{
+            sToken = ACCSEE_LOGIN_FAILED;
+        }
     }
     return sToken;
 }
 - (NSArray *) parseHTMLDataForHistory:(NSData *) data
 {
 
-   //NSLog(@"%s", data.bytes);
+    NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"%@",str1);
+
     NSArray *chats = nil;
     if (data) {
         //Will not check if it is UTF-8, as Xbox Skyer is;
@@ -300,7 +322,9 @@
         TFHpple *xpathParser = [[TFHpple alloc] initWithHTMLData:data];
         
         NSArray *elements = [xpathParser searchWithXPathQuery:@"//body//table[@class='block mgc_cb_evo_block_chatbit']//tbody//td//span"];
-        //int index = 0;
+        
+        NSArray *idElements = [xpathParser searchWithXPathQuery:@"//body//table[@class='block mgc_cb_evo_block_chatbit']//tbody//td[@class='alt2']"];
+        int index = 0;
         if([elements count]!=0){
             //Initialize the ChatData
             NSMutableArray *mChats = [[NSMutableArray alloc] initWithCapacity:[elements count]];
@@ -325,7 +349,7 @@
                 [imgSrc appendString:[imgNode objectForKey:@"src"]];//Get the img node value
                 
                 //get chat content
-                NSArray *fontNodeArr = [span searchWithXPathQuery:@"//font"];
+                NSArray *fontNodeArr = [span searchWithXPathQuery:@"//font//font"];
                 text = [[NSMutableString alloc]init];
                 if([fontNodeArr count]){
                     TFHppleElement *fontNode = [fontNodeArr objectAtIndex:0];
@@ -339,8 +363,22 @@
                     }
                 }else{
                     //loop children for text child
-                    TFHppleElement *node = [span.children objectAtIndex:4];
-                    text = [[NSMutableString alloc]initWithString:node.content];
+                    fontNodeArr = [span searchWithXPathQuery:@"//font"];
+
+                    if([fontNodeArr count]){
+                        TFHppleElement *fontNode = [fontNodeArr objectAtIndex:0];
+                        [text appendString:[fontNode text] == nil?@"":[fontNode text]];
+                        
+                        NSArray *hrefNodeArr = [fontNode searchWithXPathQuery:@"//a"];
+                        if([hrefNodeArr count] >0){
+                            //Has sub element
+                            TFHppleElement *hrefNode = [hrefNodeArr objectAtIndex:0];
+                            [text appendString:[hrefNode text]];
+                        }
+                    }else{
+                        TFHppleElement *node = [span.children objectAtIndex:4];
+                        text = [[NSMutableString alloc]initWithString:node.content];
+                    }
                 }
 
                 
@@ -360,11 +398,23 @@
                 //Split speaker & time
                 NSArray *array = [speakerAndTime  componentsSeparatedByString:@" "];
                 
+                
+                
+                //Get chatid
+                
+                TFHppleElement *elementChatID = [idElements objectAtIndex:index];
+                index++;
+                NSString *chatS = [elementChatID objectForKey:@"id"];
+                
+                NSArray *chatArr = [chatS componentsSeparatedByString:@"_"];
+                
+                
+                
                 //setup ChatData
                 ChatData *chat = [[ChatData alloc]init];
                 
                 //Set value here
-                //chat.id = ;
+                chat.chatId = chatArr[1];
                 chat.speaker = [array objectAtIndex:0];
                 chat.dateString = [NSString stringWithFormat:@"%@ %@",[array objectAtIndex:1],[array objectAtIndex:2]];
                 chat.content = text;

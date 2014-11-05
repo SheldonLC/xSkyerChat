@@ -23,7 +23,7 @@
 
 
 -(NSString *)generateRefreshWithToken:(NSString *)sToken{
-    return [NSString stringWithFormat:@"securitytoken=%@&do=ajax_refresh_chat&chatids=100",sToken];
+    return [NSString stringWithFormat:@"securitytoken=%@&do=ajax_refresh_chat&chatids=50",sToken];
 }
 
 @end

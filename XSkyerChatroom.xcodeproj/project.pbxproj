@@ -14,6 +14,7 @@
 		4D6E30DC1A088F76007698FC /* MessageInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E30D71A088F76007698FC /* MessageInterceptor.m */; };
 		4D6E30DD1A088F76007698FC /* PullTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E30D91A088F76007698FC /* PullTableView.m */; };
 		4D6E30E01A0892AD007698FC /* ChatboxPopOverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E30DF1A0892AD007698FC /* ChatboxPopOverController.m */; };
+		4D6E30E31A08BDDC007698FC /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E30E21A08BDDC007698FC /* LoginViewController.m */; };
 		4DB69A011A00BD7900B493D9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A001A00BD7900B493D9 /* main.m */; };
 		4DB69A041A00BD7900B493D9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A031A00BD7900B493D9 /* AppDelegate.m */; };
 		4DB69A0A1A00BD7900B493D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4DB69A081A00BD7900B493D9 /* Main.storyboard */; };
@@ -61,6 +62,8 @@
 		4D6E30D91A088F76007698FC /* PullTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullTableView.m; sourceTree = "<group>"; };
 		4D6E30DE1A0892AD007698FC /* ChatboxPopOverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatboxPopOverController.h; sourceTree = "<group>"; };
 		4D6E30DF1A0892AD007698FC /* ChatboxPopOverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatboxPopOverController.m; sourceTree = "<group>"; };
+		4D6E30E11A08BDDC007698FC /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		4D6E30E21A08BDDC007698FC /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		4DB699FB1A00BD7900B493D9 /* XSkyerChatroom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XSkyerChatroom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DB699FF1A00BD7900B493D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4DB69A001A00BD7900B493D9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -161,17 +164,19 @@
 		4DB699FD1A00BD7900B493D9 /* XSkyerChatroom */ = {
 			isa = PBXGroup;
 			children = (
-				4D6E30DE1A0892AD007698FC /* ChatboxPopOverController.h */,
-				4D6E30DF1A0892AD007698FC /* ChatboxPopOverController.m */,
 				4DCB409A1A05271A00ED80C6 /* CustomViews */,
 				4DB69A391A00C07D00B493D9 /* Model */,
 				4DB69A2F1A00BE1E00B493D9 /* Hpple */,
-				4DB69A081A00BD7900B493D9 /* Main.storyboard */,
 				4D59CC071A03D172002B4AE9 /* ChatTableViewCell.h */,
 				4D59CC081A03D172002B4AE9 /* ChatTableViewCell.m */,
 				4DB69A241A00BDB700B493D9 /* TableViewController.h */,
 				4DB69A251A00BDB700B493D9 /* TableViewController.m */,
+				4D6E30DE1A0892AD007698FC /* ChatboxPopOverController.h */,
+				4D6E30DF1A0892AD007698FC /* ChatboxPopOverController.m */,
+				4D6E30E11A08BDDC007698FC /* LoginViewController.h */,
+				4D6E30E21A08BDDC007698FC /* LoginViewController.m */,
 				4DB69A0B1A00BD7900B493D9 /* Images.xcassets */,
+				4DB69A081A00BD7900B493D9 /* Main.storyboard */,
 				4DB69A0D1A00BD7900B493D9 /* LaunchScreen.xib */,
 				4DB699FE1A00BD7900B493D9 /* Supporting Files */,
 			);
@@ -369,6 +374,7 @@
 				4DB69A261A00BDB700B493D9 /* TableViewController.m in Sources */,
 				4D6E30DA1A088F76007698FC /* EGORefreshTableHeaderView.m in Sources */,
 				4DB69A011A00BD7900B493D9 /* main.m in Sources */,
+				4D6E30E31A08BDDC007698FC /* LoginViewController.m in Sources */,
 				4DB69A2B1A00BDF700B493D9 /* TFHpple.m in Sources */,
 				4DB69A331A00BE5700B493D9 /* XPathQuery.m in Sources */,
 				4DB69A381A00BF9700B493D9 /* Constants.m in Sources */,

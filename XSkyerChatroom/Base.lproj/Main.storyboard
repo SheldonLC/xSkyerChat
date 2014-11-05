@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="GFX-gN-BRE">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--XSkyer Chat Room-->
@@ -24,28 +25,101 @@
             </objects>
             <point key="canvasLocation" x="-1681" y="844"/>
         </scene>
-        <!--View Controller-->
+        <!--Login-->
         <scene sceneID="o1g-GE-Efj">
             <objects>
-                <viewController storyboardIdentifier="Login" id="GFX-gN-BRE" sceneMemberID="viewController">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0DX-u0-SE8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController storyboardIdentifier="Login" title="Login" hidesBottomBarWhenPushed="YES" id="GFX-gN-BRE" customClass="LoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ArW-m0-cS2"/>
-                        <viewControllerLayoutGuide type="bottom" id="2dh-xj-P3S"/>
+                        <viewControllerLayoutGuide type="top" id="wmI-P0-zW1"/>
+                        <viewControllerLayoutGuide type="bottom" id="ALm-OZ-jHz"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="4BD-qk-zh1">
+                    <view key="view" contentMode="scaleToFill" id="UMY-sk-2n3">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="您的密码" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="2Rf-2T-jBi">
+                                <rect key="frame" x="180" y="323" width="240" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="Nj5-3H-ov4"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" keyboardAppearance="alert" returnKeyType="go" secureTextEntry="YES"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Nj5-3H-ov4"/>
+                                    </mask>
+                                </variation>
+                            </textField>
+                            <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="powerIcon" translatesAutoresizingMaskIntoConstraints="NO" id="FnX-Al-qPc">
+                                <rect key="frame" x="188.5" y="57" width="224" height="209"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="FnX-Al-qPc" secondAttribute="height" multiplier="0.9:1" id="16F-me-iBu"/>
+                                    <constraint firstAttribute="width" secondItem="FnX-Al-qPc" secondAttribute="height" multiplier="137:128" id="PaP-nz-aqg"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="16F-me-iBu"/>
+                                    </mask>
+                                </variation>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="您的Skyer ID" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="8ys-kk-ewq">
+                                <rect key="frame" x="180" y="285" width="240" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="k5j-bn-pTe"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" keyboardAppearance="alert" returnKeyType="next"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="2Rf-2T-jBi" firstAttribute="width" secondItem="8ys-kk-ewq" secondAttribute="width" id="7MN-55-Wem"/>
+                            <constraint firstItem="8ys-kk-ewq" firstAttribute="centerY" secondItem="UMY-sk-2n3" secondAttribute="centerY" id="DOF-6n-pEg">
+                                <variation key="widthClass=compact" constant="-38"/>
+                            </constraint>
+                            <constraint firstAttribute="centerX" secondItem="FnX-Al-qPc" secondAttribute="centerX" id="F0z-Xp-V5k"/>
+                            <constraint firstAttribute="centerX" secondItem="FnX-Al-qPc" secondAttribute="centerX" id="GLS-6V-uvh"/>
+                            <constraint firstItem="2Rf-2T-jBi" firstAttribute="top" secondItem="8ys-kk-ewq" secondAttribute="bottom" constant="8" id="HW6-i9-bgZ"/>
+                            <constraint firstItem="8ys-kk-ewq" firstAttribute="centerX" secondItem="UMY-sk-2n3" secondAttribute="centerX" id="OoU-H9-7qI"/>
+                            <constraint firstItem="2Rf-2T-jBi" firstAttribute="height" secondItem="8ys-kk-ewq" secondAttribute="height" id="QrF-m3-xCJ"/>
+                            <constraint firstAttribute="centerY" secondItem="FnX-Al-qPc" secondAttribute="centerY" constant="127" id="SDl-El-FGg"/>
+                            <constraint firstItem="8ys-kk-ewq" firstAttribute="top" secondItem="FnX-Al-qPc" secondAttribute="bottom" constant="48" id="bWV-G7-WA2"/>
+                            <constraint firstItem="ALm-OZ-jHz" firstAttribute="top" secondItem="2Rf-2T-jBi" secondAttribute="bottom" constant="247" id="fe7-5I-cUW"/>
+                            <constraint firstAttribute="centerX" secondItem="2Rf-2T-jBi" secondAttribute="centerX" id="tgA-YR-2r8"/>
+                            <constraint firstItem="8ys-kk-ewq" firstAttribute="top" secondItem="FnX-Al-qPc" secondAttribute="bottom" constant="19" id="urV-Rq-8ZI">
+                                <variation key="widthClass=compact" constant="18"/>
+                            </constraint>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="F0z-Xp-V5k"/>
+                                <exclude reference="SDl-El-FGg"/>
+                                <exclude reference="bWV-G7-WA2"/>
+                                <exclude reference="fe7-5I-cUW"/>
+                            </mask>
+                        </variation>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="3RD-gf-aR8" appends="YES" id="g8S-0l-RKU"/>
+                        </connections>
                     </view>
                     <connections>
-                        <segue destination="z0v-G2-jlB" kind="showDetail" identifier="login" id="oYf-Sd-a0P"/>
+                        <outlet property="icon" destination="FnX-Al-qPc" id="4k8-jT-Odt"/>
+                        <outlet property="passwordTxt" destination="2Rf-2T-jBi" id="I7c-uV-iGq"/>
+                        <outlet property="userTxt" destination="8ys-kk-ewq" id="0y2-1B-4Fb"/>
+                        <segue destination="XdY-Cv-Ze0" kind="show" identifier="LoginSegue" id="Pgx-OE-xwS"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0DX-u0-SE8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="3RD-gf-aR8">
+                    <connections>
+                        <action selector="tagBlank:" destination="GFX-gN-BRE" id="5D5-D3-Tgz"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-1550" y="1329"/>
+            <point key="canvasLocation" x="-1677" y="30"/>
         </scene>
-        <!--XSkyer Chat Room-->
+        <!--X-Skyer Chatroom-->
         <scene sceneID="ERk-ed-CFh">
             <objects>
                 <tableViewController storyboardIdentifier="MainViewController" id="ehP-qu-iO2" customClass="TableViewController" sceneMemberID="viewController">
@@ -76,7 +150,9 @@
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="TvP-FW-Kyd"/>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" title="XSkyer Chat Room" id="OQb-1N-wek"/>
+                    <navigationItem key="navigationItem" title="X-Skyer Chatroom" id="OQb-1N-wek">
+                        <barButtonItem key="rightBarButtonItem" title="设置" id="ANt-O0-DEg"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="pullTableView" destination="Ceo-kn-hVL" id="6Yi-Gl-uMD"/>
                     </connections>
@@ -118,7 +194,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Di-9m-UsW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-972" y="1329"/>
+            <point key="canvasLocation" x="-972" y="1683"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="powerIcon" width="216" height="209"/>
+    </resources>
 </document>

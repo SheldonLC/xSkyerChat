@@ -49,7 +49,7 @@
 		label.font = [UIFont systemFontOfSize:12.0f];
 		label.shadowOffset = CGSizeMake(0.0f, 1.0f);
 		label.backgroundColor = [UIColor clearColor];
-		label.textAlignment = UITextAlignmentCenter;
+		label.textAlignment = NSTextAlignmentCenter;
 		[self addSubview:label];
 		_lastUpdatedLabel=label;
 		
@@ -59,7 +59,7 @@
 		label.font = [UIFont boldSystemFontOfSize:13.0f];
 		label.shadowOffset = CGSizeMake(0.0f, 1.0f);
 		label.backgroundColor = [UIColor clearColor];
-		label.textAlignment = UITextAlignmentCenter;
+		label.textAlignment = NSTextAlignmentCenter;
 		[self addSubview:label];
 		_statusLabel=label;
 		
@@ -288,7 +288,7 @@
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:.3];
     UIEdgeInsets currentInsets = scrollView.contentInset;
-    currentInsets.top = 0;
+    currentInsets.top = 60;
     scrollView.contentInset = currentInsets;
 	[UIView commitAnimations];
 	
