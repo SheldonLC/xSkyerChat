@@ -66,14 +66,27 @@
         if([result isEqualToString:ACCSEE_LOGIN_FAILED]){
             self.access.isSessionTimeout = NO;
             self.access.hasLogin = NO;
+            self.access.token=@"错误的用户名或密码.您已经超出了登录失败限制次数！请等待 15 分钟后重试.";
         }else if([result isEqualToString:ACCSEE_LOGIN_CORRUPT]){
             self.access.isSessionTimeout = YES;
             self.access.hasLogin = NO;
             [self login];
         }else{
-            self.access.isSessionTimeout = NO;
-            self.access.hasLogin = YES;
-            self.access.token = result;
+            NSArray *arr = [result componentsSeparatedByString:@"|"];
+            if([arr count]>1){
+//                if([ACCSEE_LOGIN_RETRY_TOO_MANY isEqualToString:arr[0]]){
+//                    
+//                }else if([ACCSEE_LOGIN_AUTH_FAILED isEqualToString:arr[0]]){
+//                    
+//                }
+                self.access.token = arr[1];
+                self.access.hasLogin = NO;
+                self.access.isSessionTimeout = NO;
+            }else{
+                self.access.isSessionTimeout = NO;
+                self.access.hasLogin = YES;
+                self.access.token = result;
+            }
 
         }
         
@@ -653,14 +666,12 @@
     }else if([type isEqualToString:HTML_REQUEST_TYPE_LOGIN]){
         
         [request setHTTPMethod:@"POST"];
-        #warning need to use the login textbox for user/password
-        NSString *str = [self.param generateLoginWithUser:@"SheldonLC" withPassword:@"yb830922"];//Set parameter
+        NSString *str = [self.param generateLoginWithUser:self.access.userName withPassword:self.access.password];//Set parameter
         NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
         [request setHTTPBody:data];
         
     }else if([type isEqualToString:HTML_REQUEST_TYPE_CHAT]){
         [request setHTTPMethod:@"POST"];
-        #warning need to use textboxinput for chat
         NSString *str = [self.param generateChatWithToken:self.access.token withChat:self.chatContents];//Set parameter
         NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
         [request setHTTPBody:data];

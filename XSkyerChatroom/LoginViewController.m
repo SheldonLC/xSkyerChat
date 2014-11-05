@@ -123,7 +123,7 @@
         [self.userTxt setValue:[UIColor redColor] forKeyPath:@"_placeholderLabel.textColor"];
         hasLogin = NO;
     }
-    if ([self isEmpty:self.userTxt]) {
+    if ([self isEmpty:self.passwordTxt]) {
         self.passwordTxt.placeholder =@"密码不能为空";
         [self.passwordTxt setValue:[UIColor redColor] forKeyPath:@"_placeholderLabel.textColor"];
         hasLogin = NO;
@@ -132,6 +132,7 @@
     if(hasLogin){
         hasLogin = [self login];
     }
+    
     if(!hasLogin){
         //Show red ring
         __weak LoginViewController *weakSelf = self;
@@ -140,8 +141,17 @@
         } completion:^(BOOL finished) {
             weakSelf.icon.image = [UIImage imageNamed:@"redRing"];
             [UIView animateWithDuration:0.8 animations:^{
-                [self.icon setAlpha:1.0];
+                [weakSelf.icon setAlpha:1.0];
             } completion:^(BOOL finished) {
+                if(self.mainVC.access.token && ![self.mainVC.access.token isEqualToString:@""]){
+                
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:self.mainVC.access.token delegate:weakSelf cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+                    // optional - add more buttons:
+                    //[alert addButtonWithTitle:@"Yes"];
+                    [alert show];
+                }
+
+                
             }];
         }];
     }
@@ -151,7 +161,7 @@
 
 - (BOOL) login{
     
-    //[self.mainVC loginForUser:self.userTxt.text withPassword:self.passwordTxt.text];
+    [self.mainVC loginForUser:self.userTxt.text withPassword:self.passwordTxt.text];
     
     if (self.mainVC.access && self.mainVC.access.hasLogin) {
         __weak LoginViewController *weakSelf = self;
@@ -182,6 +192,7 @@
         
         return YES;
     }else{
+        
         NSLog(@"Login Failed!");
         return NO;
     }

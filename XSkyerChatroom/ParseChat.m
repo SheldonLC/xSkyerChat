@@ -266,16 +266,69 @@
 - (NSString *) parseHTMLDataForAccess:(NSData *) data
 {
     
-    //NSLog(@"%s", data.bytes);
-    
+    NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"%@",str1);
+   // <div class="quote">
+    //错误的用户名或密码. <b>您已经超出了登录失败限制次数！请等待 15 分钟后重试.</b>请注意密码是区分大小写的.忘记了您的密码? 请<a href=//"http://www.xbox-skyer.com/login.php?do=lostpw">点击这里</a>!
+    //</div>
     NSString *sToken = @"";
     if (data) {
         TFHpple *xpathParser = [[TFHpple alloc] initWithHTMLData:data];
 
-        //Check if login failed
-        //blockrow restore
+        //check if locked
         NSArray *elements = [xpathParser searchWithXPathQuery:@"//div[@class='blockrow restore']"];
+        
+        if(!elements || [elements count] ==0){
 
+            //Check if login failed
+            //blockrow restore
+            elements = [xpathParser searchWithXPathQuery:@"//div[@class='quote']"];
+            
+            if(elements && [elements count]!=0){
+                
+                //Combine the error message
+                NSString *error1 = [[elements objectAtIndex:0]text];
+
+                NSString *error1Trimed = [error1 stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+                NSArray *child =  [xpathParser searchWithXPathQuery:@"//div[@class='quote']//b"];
+                NSMutableString *mStr =nil;
+                if(child && [child count]>0){
+                    //supplement count
+                    //NSString *error2 =
+                    mStr = [[NSMutableString alloc]initWithString:ACCSEE_LOGIN_RETRY_TOO_MANY];
+                    [mStr appendString:@"|"];
+                    [mStr appendString:error1Trimed];
+                    NSString *error2 = [[child objectAtIndex:0]text];
+                    NSString *error2Trimed = [error2 stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+                    [mStr appendString:error2Trimed];
+                }else{
+                    //Wrong user/password
+                    
+                    mStr = [[NSMutableString alloc]initWithString:ACCSEE_LOGIN_AUTH_FAILED];
+                    [mStr appendString:@"|"];
+                    //Split error1Trimed
+                    NSArray *strArr = [error1Trimed componentsSeparatedByString:@"."];
+                    [mStr appendString:strArr[0]];
+                    [mStr appendString:@"."];
+
+                    NSArray *childs = [[elements objectAtIndex:0] children];
+                    
+                    NSString *error2 = [[childs objectAtIndex:5] content];
+                    NSString *error2Trimed = [error2 stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+                    [mStr appendString:error2Trimed];
+//@"您输入了一个无效的用户名或密码.请点击后退按钮, 输入正确的信息并重试.不要忘记密码是区分大小写的.忘记了您的密码? "
+                }
+                
+                sToken = mStr;
+            }
+        }else{
+            sToken = ACCSEE_LOGIN_FAILED;
+        }
+        
+        
+        
+        
+        
         BOOL loginSuccess = NO;
         if(!elements || [elements count] ==0){
             loginSuccess = YES;
@@ -304,10 +357,10 @@
             }
             NSLog(@"Token [%@]",sToken);
         }else{
-            sToken = ACCSEE_LOGIN_FAILED;
+            // do nothing
         }
     }
-    return sToken;
+    return sToken?sToken:@"";
 }
 - (NSArray *) parseHTMLDataForHistory:(NSData *) data
 {

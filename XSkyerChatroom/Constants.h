@@ -21,5 +21,6 @@ extern NSString * const HTML_REQUEST_TYPE_REFRESH;
 
 extern NSString * const ACCSEE_LOGIN_FAILED;
 extern NSString * const ACCSEE_LOGIN_CORRUPT;
-
+extern NSString * const ACCSEE_LOGIN_RETRY_TOO_MANY;
+extern NSString * const ACCSEE_LOGIN_AUTH_FAILED;
 @end

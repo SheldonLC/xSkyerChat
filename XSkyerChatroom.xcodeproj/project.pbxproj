@@ -15,6 +15,7 @@
 		4D6E30DD1A088F76007698FC /* PullTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E30D91A088F76007698FC /* PullTableView.m */; };
 		4D6E30E01A0892AD007698FC /* ChatboxPopOverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E30DF1A0892AD007698FC /* ChatboxPopOverController.m */; };
 		4D6E30E31A08BDDC007698FC /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E30E21A08BDDC007698FC /* LoginViewController.m */; };
+		4D7076521A0A1C9800A95251 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D7076511A0A1C9800A95251 /* SettingViewController.m */; };
 		4DB69A011A00BD7900B493D9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A001A00BD7900B493D9 /* main.m */; };
 		4DB69A041A00BD7900B493D9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A031A00BD7900B493D9 /* AppDelegate.m */; };
 		4DB69A0A1A00BD7900B493D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4DB69A081A00BD7900B493D9 /* Main.storyboard */; };
@@ -64,6 +65,8 @@
 		4D6E30DF1A0892AD007698FC /* ChatboxPopOverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatboxPopOverController.m; sourceTree = "<group>"; };
 		4D6E30E11A08BDDC007698FC /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		4D6E30E21A08BDDC007698FC /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		4D7076501A0A1C9800A95251 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		4D7076511A0A1C9800A95251 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		4DB699FB1A00BD7900B493D9 /* XSkyerChatroom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XSkyerChatroom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DB699FF1A00BD7900B493D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4DB69A001A00BD7900B493D9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -169,6 +172,8 @@
 				4DB69A2F1A00BE1E00B493D9 /* Hpple */,
 				4D59CC071A03D172002B4AE9 /* ChatTableViewCell.h */,
 				4D59CC081A03D172002B4AE9 /* ChatTableViewCell.m */,
+				4D7076501A0A1C9800A95251 /* SettingViewController.h */,
+				4D7076511A0A1C9800A95251 /* SettingViewController.m */,
 				4DB69A241A00BDB700B493D9 /* TableViewController.h */,
 				4DB69A251A00BDB700B493D9 /* TableViewController.m */,
 				4D6E30DE1A0892AD007698FC /* ChatboxPopOverController.h */,
@@ -372,6 +377,7 @@
 				4DB69A421A00C0FD00B493D9 /* ParseChat.m in Sources */,
 				4DB69A3F1A00C0DA00B493D9 /* AccessControl.m in Sources */,
 				4DB69A261A00BDB700B493D9 /* TableViewController.m in Sources */,
+				4D7076521A0A1C9800A95251 /* SettingViewController.m in Sources */,
 				4D6E30DA1A088F76007698FC /* EGORefreshTableHeaderView.m in Sources */,
 				4DB69A011A00BD7900B493D9 /* main.m in Sources */,
 				4D6E30E31A08BDDC007698FC /* LoginViewController.m in Sources */,
@@ -519,7 +525,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				"OTHER_LDFLAGS[arch=*]" = /usr/lib/libxml2.dylib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -537,7 +543,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				"OTHER_LDFLAGS[arch=*]" = /usr/lib/libxml2.dylib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
