@@ -15,7 +15,6 @@
 		4D6E30DD1A088F76007698FC /* PullTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E30D91A088F76007698FC /* PullTableView.m */; };
 		4D6E30E01A0892AD007698FC /* ChatboxPopOverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E30DF1A0892AD007698FC /* ChatboxPopOverController.m */; };
 		4D6E30E31A08BDDC007698FC /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E30E21A08BDDC007698FC /* LoginViewController.m */; };
-		4D7076521A0A1C9800A95251 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D7076511A0A1C9800A95251 /* SettingViewController.m */; };
 		4DB69A011A00BD7900B493D9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A001A00BD7900B493D9 /* main.m */; };
 		4DB69A041A00BD7900B493D9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A031A00BD7900B493D9 /* AppDelegate.m */; };
 		4DB69A0A1A00BD7900B493D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4DB69A081A00BD7900B493D9 /* Main.storyboard */; };
@@ -36,6 +35,7 @@
 		4DCB409D1A05297500ED80C6 /* ChatBoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DCB409C1A05297500ED80C6 /* ChatBoxView.m */; };
 		4DCB40A01A05299F00ED80C6 /* ToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DCB409F1A05299F00ED80C6 /* ToolbarView.m */; };
 		4DCB40A31A05C39200ED80C6 /* PostParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DCB40A21A05C39200ED80C6 /* PostParameter.m */; };
+		4DCC0C4E1A0B0613004724A8 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DCC0C4D1A0B0613004724A8 /* SettingViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,10 +49,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4D59CC071A03D172002B4AE9 /* ChatTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChatTableViewCell.h; path = ../ChatTableViewCell.h; sourceTree = "<group>"; };
-		4D59CC081A03D172002B4AE9 /* ChatTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChatTableViewCell.m; path = ../ChatTableViewCell.m; sourceTree = "<group>"; };
-		4D59CC0C1A0479BB002B4AE9 /* ChatView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatView.h; sourceTree = "<group>"; };
-		4D59CC0D1A0479BB002B4AE9 /* ChatView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatView.m; sourceTree = "<group>"; };
+		4D59CC071A03D172002B4AE9 /* ChatTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = ChatTableViewCell.h; path = ../ChatTableViewCell.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		4D59CC081A03D172002B4AE9 /* ChatTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = ChatTableViewCell.m; path = ../ChatTableViewCell.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		4D59CC0C1A0479BB002B4AE9 /* ChatView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ChatView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		4D59CC0D1A0479BB002B4AE9 /* ChatView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ChatView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		4D6E30D21A088F76007698FC /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		4D6E30D31A088F76007698FC /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		4D6E30D41A088F76007698FC /* LoadMoreTableFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadMoreTableFooterView.h; sourceTree = "<group>"; };
@@ -61,25 +61,23 @@
 		4D6E30D71A088F76007698FC /* MessageInterceptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageInterceptor.m; sourceTree = "<group>"; };
 		4D6E30D81A088F76007698FC /* PullTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullTableView.h; sourceTree = "<group>"; };
 		4D6E30D91A088F76007698FC /* PullTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullTableView.m; sourceTree = "<group>"; };
-		4D6E30DE1A0892AD007698FC /* ChatboxPopOverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatboxPopOverController.h; sourceTree = "<group>"; };
-		4D6E30DF1A0892AD007698FC /* ChatboxPopOverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatboxPopOverController.m; sourceTree = "<group>"; };
-		4D6E30E11A08BDDC007698FC /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		4D6E30DE1A0892AD007698FC /* ChatboxPopOverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ChatboxPopOverController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		4D6E30DF1A0892AD007698FC /* ChatboxPopOverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ChatboxPopOverController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		4D6E30E11A08BDDC007698FC /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = LoginViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		4D6E30E21A08BDDC007698FC /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
-		4D7076501A0A1C9800A95251 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
-		4D7076511A0A1C9800A95251 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		4DB699FB1A00BD7900B493D9 /* XSkyerChatroom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XSkyerChatroom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DB699FF1A00BD7900B493D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4DB69A001A00BD7900B493D9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		4DB69A021A00BD7900B493D9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		4DB69A031A00BD7900B493D9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		4DB69A001A00BD7900B493D9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		4DB69A021A00BD7900B493D9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AppDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		4DB69A031A00BD7900B493D9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		4DB69A091A00BD7900B493D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4DB69A0B1A00BD7900B493D9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4DB69A0E1A00BD7900B493D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		4DB69A141A00BD7900B493D9 /* XSkyerChatroomTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XSkyerChatroomTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DB69A191A00BD7900B493D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4DB69A1A1A00BD7900B493D9 /* XSkyerChatroomTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XSkyerChatroomTests.m; sourceTree = "<group>"; };
-		4DB69A241A00BDB700B493D9 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
-		4DB69A251A00BDB700B493D9 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
+		4DB69A1A1A00BD7900B493D9 /* XSkyerChatroomTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = XSkyerChatroomTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		4DB69A241A00BDB700B493D9 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TableViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		4DB69A251A00BDB700B493D9 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		4DB69A271A00BDF700B493D9 /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
 		4DB69A281A00BDF700B493D9 /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
 		4DB69A291A00BDF700B493D9 /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
@@ -87,20 +85,22 @@
 		4DB69A311A00BE5700B493D9 /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathQuery.h; sourceTree = "<group>"; };
 		4DB69A321A00BE5700B493D9 /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
 		4DB69A341A00BE6E00B493D9 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
-		4DB69A361A00BF9700B493D9 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		4DB69A371A00BF9700B493D9 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
-		4DB69A3A1A00C09700B493D9 /* ChatData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatData.h; sourceTree = "<group>"; };
-		4DB69A3B1A00C09700B493D9 /* ChatData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatData.m; sourceTree = "<group>"; };
+		4DB69A361A00BF9700B493D9 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Constants.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		4DB69A371A00BF9700B493D9 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Constants.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		4DB69A3A1A00C09700B493D9 /* ChatData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ChatData.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		4DB69A3B1A00C09700B493D9 /* ChatData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ChatData.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		4DB69A3D1A00C0DA00B493D9 /* AccessControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccessControl.h; sourceTree = "<group>"; };
-		4DB69A3E1A00C0DA00B493D9 /* AccessControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccessControl.m; sourceTree = "<group>"; };
-		4DB69A401A00C0FD00B493D9 /* ParseChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseChat.h; sourceTree = "<group>"; };
-		4DB69A411A00C0FD00B493D9 /* ParseChat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseChat.m; sourceTree = "<group>"; };
-		4DCB409B1A05297500ED80C6 /* ChatBoxView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatBoxView.h; sourceTree = "<group>"; };
-		4DCB409C1A05297500ED80C6 /* ChatBoxView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatBoxView.m; sourceTree = "<group>"; };
-		4DCB409E1A05299F00ED80C6 /* ToolbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToolbarView.h; sourceTree = "<group>"; };
-		4DCB409F1A05299F00ED80C6 /* ToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToolbarView.m; sourceTree = "<group>"; };
-		4DCB40A11A05C39200ED80C6 /* PostParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostParameter.h; sourceTree = "<group>"; };
-		4DCB40A21A05C39200ED80C6 /* PostParameter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostParameter.m; sourceTree = "<group>"; };
+		4DB69A3E1A00C0DA00B493D9 /* AccessControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AccessControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		4DB69A401A00C0FD00B493D9 /* ParseChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ParseChat.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		4DB69A411A00C0FD00B493D9 /* ParseChat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ParseChat.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		4DCB409B1A05297500ED80C6 /* ChatBoxView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ChatBoxView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		4DCB409C1A05297500ED80C6 /* ChatBoxView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ChatBoxView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		4DCB409E1A05299F00ED80C6 /* ToolbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ToolbarView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		4DCB409F1A05299F00ED80C6 /* ToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ToolbarView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		4DCB40A11A05C39200ED80C6 /* PostParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PostParameter.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		4DCB40A21A05C39200ED80C6 /* PostParameter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PostParameter.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		4DCC0C4C1A0B0613004724A8 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		4DCC0C4D1A0B0613004724A8 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,11 +172,11 @@
 				4DB69A2F1A00BE1E00B493D9 /* Hpple */,
 				4D59CC071A03D172002B4AE9 /* ChatTableViewCell.h */,
 				4D59CC081A03D172002B4AE9 /* ChatTableViewCell.m */,
-				4D7076501A0A1C9800A95251 /* SettingViewController.h */,
-				4D7076511A0A1C9800A95251 /* SettingViewController.m */,
 				4DB69A241A00BDB700B493D9 /* TableViewController.h */,
 				4DB69A251A00BDB700B493D9 /* TableViewController.m */,
 				4D6E30DE1A0892AD007698FC /* ChatboxPopOverController.h */,
+				4DCC0C4C1A0B0613004724A8 /* SettingViewController.h */,
+				4DCC0C4D1A0B0613004724A8 /* SettingViewController.m */,
 				4D6E30DF1A0892AD007698FC /* ChatboxPopOverController.m */,
 				4D6E30E11A08BDDC007698FC /* LoginViewController.h */,
 				4D6E30E21A08BDDC007698FC /* LoginViewController.m */,
@@ -377,7 +377,7 @@
 				4DB69A421A00C0FD00B493D9 /* ParseChat.m in Sources */,
 				4DB69A3F1A00C0DA00B493D9 /* AccessControl.m in Sources */,
 				4DB69A261A00BDB700B493D9 /* TableViewController.m in Sources */,
-				4D7076521A0A1C9800A95251 /* SettingViewController.m in Sources */,
+				4DCC0C4E1A0B0613004724A8 /* SettingViewController.m in Sources */,
 				4D6E30DA1A088F76007698FC /* EGORefreshTableHeaderView.m in Sources */,
 				4DB69A011A00BD7900B493D9 /* main.m in Sources */,
 				4D6E30E31A08BDDC007698FC /* LoginViewController.m in Sources */,

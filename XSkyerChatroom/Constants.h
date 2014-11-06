@@ -16,7 +16,10 @@ extern NSString * const HTML_REQUEST_TARGET_LOGIN;
 
 
 extern NSString * const HTML_REQUEST_TYPE_LOGIN;
+extern NSString * const HTML_REQUEST_TYPE_LOGOUT;
 extern NSString * const HTML_REQUEST_TYPE_CHAT;
+extern NSString * const HTML_REQUEST_TYPE_EDIT;
+extern NSString * const HTML_REQUEST_TYPE_DELETE;
 extern NSString * const HTML_REQUEST_TYPE_REFRESH;
 
 extern NSString * const ACCSEE_LOGIN_FAILED;

@@ -3,10 +3,11 @@
 //  XSkyerChatroom
 //
 //  Created by Yin Bo on 14/10/29.
-//  Copyright (c) 2014年 SheldonLC. All rights reserved.
+//  Copyright (c) 2014年 <Pantasia Indie>. All rights reserved.
 //
 
 #import "TableViewController.h"
+#import "SettingViewController.h"
 
 
 @interface TableViewController ()
@@ -27,6 +28,7 @@
 @property  (nonatomic) BOOL isChatShowed;
 
 @property (strong,nonatomic) NSString  *chatContents;
+@property (strong,nonatomic) NSString *chosenChatID;
 @end
 
 
@@ -48,14 +50,38 @@
     [self login];
 }
 
+- (void) logout{
+    NSURL *url1 = [NSURL URLWithString:@"http://www.xbox-skyer.com/login.php"];
+    NSMutableURLRequest *requestLogout= [[NSMutableURLRequest alloc]initWithURL:url1 cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60];
+    [requestLogout setHTTPMethod:@"POST"];//设置请求方式为POST，默认为GET
+    NSString *str1 = [self.param generateLogoutWithToken:self.access.token];//设置参数
+    NSData *data1 = [str1 dataUsingEncoding:NSUTF8StringEncoding];
+    [requestLogout setHTTPBody:data1];
+     [NSURLConnection sendSynchronousRequest:requestLogout returningResponse:nil error:nil];
+
+    //Logout need to clear the user/pwd stored in keychain
+    [self.dataTask resume];
+    self.access.hasLogin = NO;
+    self.access.isSessionTimeout = NO;
+    self.access.token = nil;
+    [self.thisSession invalidateAndCancel];
+    self.thisSession = nil;
+    self.chats=nil;
+    requestLogout = nil;
+    data1 = nil;
+    requestLogout = nil;
     
+    [self performSegueWithIdentifier:@"LogoutSegue" sender:self];
+    
+    
+}
+
 - (void) login {
     if(self.access){
         NSURL *url1 = [NSURL URLWithString:@"http://www.xbox-skyer.com/login.php"];
         NSMutableURLRequest *requestLogin = [[NSMutableURLRequest alloc]initWithURL:url1 cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60];
         [requestLogin setHTTPMethod:@"POST"];//设置请求方式为POST，默认为GET
-        NSString *str1 = [NSString stringWithFormat:@"do=login&vb_login_username=%@&vb_login_password=%@&cookieuser=1",self.access.userName,self.access.password];//设置参数
-        NSData *data1 = [str1 dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *str1 = [self.param generateLoginWithUser:self.access.userName withPassword:self.access.password];        NSData *data1 = [str1 dataUsingEncoding:NSUTF8StringEncoding];
         [requestLogin setHTTPBody:data1];
         NSData *received1 = [NSURLConnection sendSynchronousRequest:requestLogin returningResponse:nil error:nil];
         NSString *strResult1 = [[NSString alloc]initWithData:received1 encoding:NSUTF8StringEncoding];
@@ -115,7 +141,7 @@
 
 - (NSArray *)parseData
 {
-    NSArray *result = nil;
+    NSArray *result = [[NSArray alloc]init];
     if ([self.target isEqualToString:HTML_REQUEST_TARGET_CURRENT]) {
         result = [self.parse parseXMLDataForCurrentChat:self.data];
         
@@ -154,7 +180,7 @@
         [url appendString:@"&styleid=47"];
     }else if([target isEqualToString:HTML_REQUEST_TARGET_CURRENT]){
         url = [[NSMutableString alloc] initWithString:@"http://www.xbox-skyer.com/mgc_cb_evo_ajax.php"];
-    }else if([target isEqualToString:HTML_REQUEST_TYPE_LOGIN]){
+    }else if([target isEqualToString:HTML_REQUEST_TARGET_LOGIN]){
         url = [[NSMutableString alloc] initWithString:@"http://www.xbox-skyer.com/login.php"];
     }
 
@@ -259,10 +285,10 @@
      Code to actually refresh goes here.
      
      */
-    [self startRequestDataFrom:HTML_REQUEST_TARGET_HISTORY forPage:[NSString stringWithFormat:@"%lu",self.page ] forType:HTML_REQUEST_TYPE_REFRESH];
+    [self startRequestDataFrom:HTML_REQUEST_TARGET_HISTORY forPage:[NSString stringWithFormat:@"%lu",(long)self.page ] forType:HTML_REQUEST_TYPE_REFRESH];
 
     if (!self.tempData || [self.tempData length] ==0) {
-        [self startRequestDataFrom:HTML_REQUEST_TARGET_HISTORY forPage:[NSString stringWithFormat:@"%lu",self.page ] forType:HTML_REQUEST_TYPE_REFRESH];
+        [self startRequestDataFrom:HTML_REQUEST_TARGET_HISTORY forPage:[NSString stringWithFormat:@"%lu",(long)self.page ] forType:HTML_REQUEST_TYPE_REFRESH];
 
     }
     self.pullTableView.pullLastRefreshDate = [NSDate date];
@@ -377,10 +403,6 @@
     self.customView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     
     CGRect viewFrame = self.view.frame;
-    CGRect viewBound= self.view.bounds;
-    
-    
-    CGFloat height =  CGRectGetHeight(viewFrame);
     [self.customView setFrame:CGRectMake(0, CGRectGetHeight(viewFrame)-50-44, CGRectGetWidth(viewFrame), 50)];
 
 }
@@ -572,6 +594,7 @@
     if(!self.chats || [self.chats count]==0){
         //Append directly when initialize
         [self.chats addObjectsFromArray:[self parseData]];
+    
     }else{
         //Compare the chatid, append the newly added chats
         ChatData *latestChat = [self.chats lastObject];
@@ -670,12 +693,31 @@
         NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
         [request setHTTPBody:data];
         
+    }else if([type isEqualToString:HTML_REQUEST_TYPE_LOGOUT]){
+        
+        [request setHTTPMethod:@"POST"];
+        NSString *str = [self.param generateLogoutWithToken:self.access.token];//Set parameter
+        NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+        [request setHTTPBody:data];
+        
     }else if([type isEqualToString:HTML_REQUEST_TYPE_CHAT]){
         [request setHTTPMethod:@"POST"];
         NSString *str = [self.param generateChatWithToken:self.access.token withChat:self.chatContents];//Set parameter
         NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
         [request setHTTPBody:data];
 
+    }else if([type isEqualToString:HTML_REQUEST_TYPE_EDIT]){
+        [request setHTTPMethod:@"POST"];
+        NSString *str = [self.param generateEditWithToken: self.access.token withChat:self.chatContents forChatID: self.chosenChatID];//Set parameter
+        NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+        [request setHTTPBody:data];
+        
+    }else if([type isEqualToString:HTML_REQUEST_TYPE_DELETE]){
+        [request setHTTPMethod:@"POST"];
+        NSString *str = [self.param generateDeleteWithToken:self.access.token forChatID:self.chosenChatID];//Set parameter
+        NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+        [request setHTTPBody:data];
+        
     }
     return request;
 }
@@ -684,6 +726,8 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    
+    [self logout];
 }
 
 #pragma mark - Table view data source
@@ -783,14 +827,20 @@
 }
 */
 
-/*
+
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
+ //n a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    if( [[segue identifier] isEqualToString:@"ShowSet"] ) {
+        SettingViewController * setView = segue.destinationViewController;
+        
+        setView.access = self.access;
+    }
 }
-*/
+
 
 @end

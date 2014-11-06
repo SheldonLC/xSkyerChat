@@ -12,10 +12,10 @@
 
 
 - (NSString *) generateChatWithToken:(NSString *) sToken withChat: (NSString *) chat;
-
-
+- (NSString *) generateEditWithToken:(NSString *)sToken withChat:(NSString *)chat forChatID: (NSString *) chatID;
+- (NSString *) generateDeleteWithToken:(NSString *)sToken forChatID: (NSString *) chatID;
+- (NSString *) generateLogoutWithToken:(NSString *)sToken;
 - (NSString *) generateLoginWithUser:(NSString *) user withPassword: (NSString *) password;
-
 - (NSString *) generateRefreshWithToken:(NSString *) sToken;
 
 

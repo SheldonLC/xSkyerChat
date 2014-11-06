@@ -14,11 +14,13 @@
 @property (strong,nonatomic) NSString *dateString;
 @property (strong,nonatomic) NSString *chatId;
 @property (strong,nonatomic) NSString *content;
-@property (nonatomic,getter=isFromSelf) BOOL fromSelf;
 
 - (BOOL) matchedWith : (ChatData *) anotherChat;
 
 - (BOOL) newerThan: (ChatData *) anotherChat;
 
 - (BOOL) olderThan: (ChatData *) anotherChat;
+
+
+- (BOOL) ownedByUser : (NSString *) user;
 @end

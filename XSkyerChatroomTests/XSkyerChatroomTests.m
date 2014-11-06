@@ -3,7 +3,7 @@
 //  XSkyerChatroomTests
 //
 //  Created by Yin Bo on 14/10/29.
-//  Copyright (c) 2014年 SheldonLC. All rights reserved.
+//  Copyright (c) 2014年 <Pantasia Indie>. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -31,7 +31,7 @@
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url2 cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60];
     [request setHTTPMethod:@"POST"];//设置请求方式为POST，默认为GET
     
-    NSString *str = @"securitytoken=1414885914-45462ba936d9b1fbe44d0fdbe2aa26715039e7d4&do=ajax_chat&channel_id=0&chat_name=SheldonLC&b=0&i=0&u=0&font=Arial&color=#000000&size=3&chat=测试：狗康的每日生活，游戏，发帖，骂老刘";//设置参数
+    NSString *str = @"securitytoken=1414885914-45462ba936d9b1fbe44d0fdbe2aa26715039e7d4&do=ajax_chat&channel_id=0&chat_name=<Pantasia Indie>&b=0&i=0&u=0&font=Arial&color=#000000&size=3&chat=测试：狗康的每日生活，游戏，发帖，骂老刘";//设置参数
     
     NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
     
@@ -49,7 +49,7 @@
     NSURL *url1 = [NSURL URLWithString:@"http://www.xbox-skyer.com/login.php"];
     NSMutableURLRequest *requestLogin = [[NSMutableURLRequest alloc]initWithURL:url1 cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60];
     [requestLogin setHTTPMethod:@"POST"];//设置请求方式为POST，默认为GET
-    NSString *str1 = @"do=login&vb_login_username=sheldonlc&vb_login_password=yb830922&cookieuser=1";//设置参数
+    NSString *str1 = @"do=login&vb_login_username=<Pantasia Indie>&vb_login_password=yb830922&cookieuser=1";//设置参数
     NSData *data1 = [str1 dataUsingEncoding:NSUTF8StringEncoding];
     [requestLogin setHTTPBody:data1];
     NSData *received1 = [NSURLConnection sendSynchronousRequest:requestLogin returningResponse:nil error:nil];

@@ -3,7 +3,7 @@
 //  XSkyerChatroom
 //
 //  Created by Yin Bo on 14/10/29.
-//  Copyright (c) 2014年 SheldonLC. All rights reserved.
+//  Copyright (c) 2014年 <Pantasia Indie>. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -36,5 +36,6 @@
 @property (strong, nonatomic) IBOutlet PullTableView *pullTableView;
 
 -(void) loginForUser: (NSString *) userName withPassword :(NSString *) password;
+-(void) logout;
 
 @end

@@ -104,7 +104,7 @@
                 chat.dateString = time;
                 chat.content = text;
                 chat.icon = imgSrc;
-                
+                [chat ownedByUser:@"sheldonlc"];
                 [mChats addObject:chat];
             }
             chats = mChats;

@@ -15,6 +15,14 @@
 
 @implementation ChatData
 
+
+- (BOOL) ownedByUser : (NSString *) user{
+    
+    return [[user uppercaseString] isEqualToString:[self.speaker uppercaseString]];
+}
+
+
+
 -(void)setContent:(NSString *)content
 {
     _content = content;

@@ -2,7 +2,7 @@
 //  LoginViewController.m
 //  XSkyerChatroom
 //
-//  Created by Yin Bo on 14/11/4.
+//  Created by çΩΩ on 14/11/4.
 //  Copyright (c) 2014年 SheldonLC. All rights reserved.
 //
 
@@ -29,6 +29,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     //Get the mainview
+    
+    
     self.mainVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
     self.userTxt.delegate = self;
     self.passwordTxt.delegate = self;
@@ -49,7 +51,7 @@
         
         
         //call mainVC's delegate to perform login
-        //[weakSelf.mainVC loginForUser:@"SheldonLC" withPassword:@"yb830922"];
+       // [weakSelf.mainVC loginForUser:@"SheldonLC" withPassword:@"yb830922"];
         if (weakSelf.mainVC.access.hasLogin) {
               [weakSelf performSegueWithIdentifier:@"LoginSegue" sender:weakSelf];
                NSLog(@"End");
