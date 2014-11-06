@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4D59CC091A03D172002B4AE9 /* ChatTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D59CC081A03D172002B4AE9 /* ChatTableViewCell.m */; };
-		4D59CC0E1A0479BB002B4AE9 /* ChatView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D59CC0D1A0479BB002B4AE9 /* ChatView.m */; };
 		4D6E30DA1A088F76007698FC /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E30D31A088F76007698FC /* EGORefreshTableHeaderView.m */; };
 		4D6E30DB1A088F76007698FC /* LoadMoreTableFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E30D51A088F76007698FC /* LoadMoreTableFooterView.m */; };
 		4D6E30DC1A088F76007698FC /* MessageInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E30D71A088F76007698FC /* MessageInterceptor.m */; };
@@ -32,10 +31,10 @@
 		4DB69A3C1A00C09700B493D9 /* ChatData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A3B1A00C09700B493D9 /* ChatData.m */; };
 		4DB69A3F1A00C0DA00B493D9 /* AccessControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A3E1A00C0DA00B493D9 /* AccessControl.m */; };
 		4DB69A421A00C0FD00B493D9 /* ParseChat.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A411A00C0FD00B493D9 /* ParseChat.m */; };
-		4DCB409D1A05297500ED80C6 /* ChatBoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DCB409C1A05297500ED80C6 /* ChatBoxView.m */; };
-		4DCB40A01A05299F00ED80C6 /* ToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DCB409F1A05299F00ED80C6 /* ToolbarView.m */; };
 		4DCB40A31A05C39200ED80C6 /* PostParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DCB40A21A05C39200ED80C6 /* PostParameter.m */; };
 		4DCC0C4E1A0B0613004724A8 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DCC0C4D1A0B0613004724A8 /* SettingViewController.m */; };
+		4DCC0C521A0B48D5004724A8 /* ChatView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DCC0C511A0B48D5004724A8 /* ChatView.m */; };
+		4DCC0C551A0B4A5E004724A8 /* Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DCC0C541A0B4A5E004724A8 /* Theme.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,8 +50,6 @@
 /* Begin PBXFileReference section */
 		4D59CC071A03D172002B4AE9 /* ChatTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = ChatTableViewCell.h; path = ../ChatTableViewCell.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		4D59CC081A03D172002B4AE9 /* ChatTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = ChatTableViewCell.m; path = ../ChatTableViewCell.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		4D59CC0C1A0479BB002B4AE9 /* ChatView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ChatView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		4D59CC0D1A0479BB002B4AE9 /* ChatView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ChatView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		4D6E30D21A088F76007698FC /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		4D6E30D31A088F76007698FC /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		4D6E30D41A088F76007698FC /* LoadMoreTableFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadMoreTableFooterView.h; sourceTree = "<group>"; };
@@ -93,14 +90,14 @@
 		4DB69A3E1A00C0DA00B493D9 /* AccessControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AccessControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		4DB69A401A00C0FD00B493D9 /* ParseChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ParseChat.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		4DB69A411A00C0FD00B493D9 /* ParseChat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ParseChat.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		4DCB409B1A05297500ED80C6 /* ChatBoxView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ChatBoxView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		4DCB409C1A05297500ED80C6 /* ChatBoxView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ChatBoxView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		4DCB409E1A05299F00ED80C6 /* ToolbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ToolbarView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		4DCB409F1A05299F00ED80C6 /* ToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ToolbarView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		4DCB40A11A05C39200ED80C6 /* PostParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PostParameter.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		4DCB40A21A05C39200ED80C6 /* PostParameter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PostParameter.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		4DCC0C4C1A0B0613004724A8 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		4DCC0C4D1A0B0613004724A8 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		4DCC0C501A0B48D5004724A8 /* ChatView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatView.h; sourceTree = "<group>"; };
+		4DCC0C511A0B48D5004724A8 /* ChatView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatView.m; sourceTree = "<group>"; };
+		4DCC0C531A0B4A5E004724A8 /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Theme.h; sourceTree = "<group>"; };
+		4DCC0C541A0B4A5E004724A8 /* Theme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Theme.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,11 +164,9 @@
 		4DB699FD1A00BD7900B493D9 /* XSkyerChatroom */ = {
 			isa = PBXGroup;
 			children = (
-				4DCB409A1A05271A00ED80C6 /* CustomViews */,
 				4DB69A391A00C07D00B493D9 /* Model */,
 				4DB69A2F1A00BE1E00B493D9 /* Hpple */,
-				4D59CC071A03D172002B4AE9 /* ChatTableViewCell.h */,
-				4D59CC081A03D172002B4AE9 /* ChatTableViewCell.m */,
+				4DCC0C4F1A0B48AF004724A8 /* Custom */,
 				4DB69A241A00BDB700B493D9 /* TableViewController.h */,
 				4DB69A251A00BDB700B493D9 /* TableViewController.m */,
 				4D6E30DE1A0892AD007698FC /* ChatboxPopOverController.h */,
@@ -198,6 +193,8 @@
 				4DB69A001A00BD7900B493D9 /* main.m */,
 				4DB69A361A00BF9700B493D9 /* Constants.h */,
 				4DB69A371A00BF9700B493D9 /* Constants.m */,
+				4DCC0C531A0B4A5E004724A8 /* Theme.h */,
+				4DCC0C541A0B4A5E004724A8 /* Theme.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -255,17 +252,15 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
-		4DCB409A1A05271A00ED80C6 /* CustomViews */ = {
+		4DCC0C4F1A0B48AF004724A8 /* Custom */ = {
 			isa = PBXGroup;
 			children = (
-				4D59CC0C1A0479BB002B4AE9 /* ChatView.h */,
-				4D59CC0D1A0479BB002B4AE9 /* ChatView.m */,
-				4DCB409B1A05297500ED80C6 /* ChatBoxView.h */,
-				4DCB409C1A05297500ED80C6 /* ChatBoxView.m */,
-				4DCB409E1A05299F00ED80C6 /* ToolbarView.h */,
-				4DCB409F1A05299F00ED80C6 /* ToolbarView.m */,
+				4D59CC071A03D172002B4AE9 /* ChatTableViewCell.h */,
+				4D59CC081A03D172002B4AE9 /* ChatTableViewCell.m */,
+				4DCC0C501A0B48D5004724A8 /* ChatView.h */,
+				4DCC0C511A0B48D5004724A8 /* ChatView.m */,
 			);
-			name = CustomViews;
+			name = Custom;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -368,16 +363,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4D59CC0E1A0479BB002B4AE9 /* ChatView.m in Sources */,
+				4DCC0C551A0B4A5E004724A8 /* Theme.m in Sources */,
 				4D6E30E01A0892AD007698FC /* ChatboxPopOverController.m in Sources */,
 				4D6E30DC1A088F76007698FC /* MessageInterceptor.m in Sources */,
-				4DCB409D1A05297500ED80C6 /* ChatBoxView.m in Sources */,
 				4D59CC091A03D172002B4AE9 /* ChatTableViewCell.m in Sources */,
 				4DB69A041A00BD7900B493D9 /* AppDelegate.m in Sources */,
 				4DB69A421A00C0FD00B493D9 /* ParseChat.m in Sources */,
 				4DB69A3F1A00C0DA00B493D9 /* AccessControl.m in Sources */,
 				4DB69A261A00BDB700B493D9 /* TableViewController.m in Sources */,
 				4DCC0C4E1A0B0613004724A8 /* SettingViewController.m in Sources */,
+				4DCC0C521A0B48D5004724A8 /* ChatView.m in Sources */,
 				4D6E30DA1A088F76007698FC /* EGORefreshTableHeaderView.m in Sources */,
 				4DB69A011A00BD7900B493D9 /* main.m in Sources */,
 				4D6E30E31A08BDDC007698FC /* LoginViewController.m in Sources */,
@@ -387,7 +382,6 @@
 				4D6E30DB1A088F76007698FC /* LoadMoreTableFooterView.m in Sources */,
 				4DB69A2D1A00BDF700B493D9 /* TFHppleElement.m in Sources */,
 				4DCB40A31A05C39200ED80C6 /* PostParameter.m in Sources */,
-				4DCB40A01A05299F00ED80C6 /* ToolbarView.m in Sources */,
 				4D6E30DD1A088F76007698FC /* PullTableView.m in Sources */,
 				4DB69A3C1A00C09700B493D9 /* ChatData.m in Sources */,
 			);

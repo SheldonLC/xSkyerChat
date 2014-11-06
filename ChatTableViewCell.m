@@ -8,17 +8,16 @@
 
 #import "ChatTableViewCell.h"
 
+@interface ChatTableViewCell ()
+
+@property (weak, nonatomic) IBOutlet ChatView *chatView;
+
+
+@end
 @implementation ChatTableViewCell
 
 
-- (void)awakeFromNib {
-    // Initialization code
+-(void)setChatViewWarper: (ChatData *) chat withAccess: (AccessControl *) access forTheme : (Theme *) theme{
+    [self.chatView setChatViewWraper:chat WithAccess:access forTheme:theme];
 }
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
 @end

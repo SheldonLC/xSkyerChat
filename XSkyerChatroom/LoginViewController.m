@@ -51,7 +51,7 @@
         
         
         //call mainVC's delegate to perform login
-       // [weakSelf.mainVC loginForUser:@"SheldonLC" withPassword:@"yb830922"];
+        [weakSelf.mainVC loginForUser:@"SheldonLC" withPassword:@"yb830922"];
         if (weakSelf.mainVC.access.hasLogin) {
               [weakSelf performSegueWithIdentifier:@"LoginSegue" sender:weakSelf];
                NSLog(@"End");

@@ -29,4 +29,10 @@ NSString * const ACCSEE_LOGIN_RETRY_TOO_MANY = @"RETRY_MANY";
 NSString * const ACCSEE_LOGIN_AUTH_FAILED = @"AUTH_FAILED";
 
 
+//Theme mode
+NSString * const THEME_NIGHT_MODE = @"NIGHT";
+NSString * const THEME_DAFAULT_MODE = @"DEFAULT_MODE";
+
+
+
 @end

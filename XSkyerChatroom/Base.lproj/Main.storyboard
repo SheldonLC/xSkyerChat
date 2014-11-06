@@ -362,11 +362,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="chat" id="Eeb-f5-e6H">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="chat" id="Eeb-f5-e6H" customClass="ChatTableViewCell">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Eeb-f5-e6H" id="QFb-Wm-Mbo">
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fbY-md-1Xg" customClass="ChatView">
+                                            <rect key="frame" x="47" y="0.0" width="600" height="43.5"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="chatView" destination="fbY-md-1Xg" id="zhm-14-98h"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -442,6 +451,6 @@
         <image name="powerIcon" width="216" height="209"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="fhD-l3-SzH"/>
+        <segue reference="h9j-0d-VTK"/>
     </inferredMetricsTieBreakers>
 </document>

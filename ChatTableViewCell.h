@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ChatData.h"
+#import "ChatView.h"
 
 @interface ChatTableViewCell : UITableViewCell
 
-
+-(void)setChatViewWarper: (ChatData *) chat withAccess: (AccessControl *) access forTheme : (Theme *) theme;
 @end

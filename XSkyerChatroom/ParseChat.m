@@ -101,7 +101,7 @@
                 //Set value here
                 chat.chatId = chatId;
                 chat.speaker = speaker;
-                chat.dateString = time;
+                chat.dateString = [NSString stringWithFormat:@"%@",time];
                 chat.content = text;
                 chat.icon = imgSrc;
                 [chat ownedByUser:@"sheldonlc"];
@@ -462,14 +462,14 @@
                 NSArray *chatArr = [chatS componentsSeparatedByString:@"_"];
                 
                 
-                
+
                 //setup ChatData
                 ChatData *chat = [[ChatData alloc]init];
                 
                 //Set value here
                 chat.chatId = chatArr[1];
                 chat.speaker = [array objectAtIndex:0];
-                chat.dateString = [NSString stringWithFormat:@"%@ %@",[array objectAtIndex:1],[array objectAtIndex:2]];
+                chat.dateString =[array objectAtIndex:2];
                 chat.content = text;
                 chat.icon = imgSrc;
                 

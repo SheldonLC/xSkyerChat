@@ -26,4 +26,9 @@ extern NSString * const ACCSEE_LOGIN_FAILED;
 extern NSString * const ACCSEE_LOGIN_CORRUPT;
 extern NSString * const ACCSEE_LOGIN_RETRY_TOO_MANY;
 extern NSString * const ACCSEE_LOGIN_AUTH_FAILED;
+
+
+extern NSString * const THEME_NIGHT_MODE;
+extern NSString * const THEME_DAFAULT_MODE;
+
 @end

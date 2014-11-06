@@ -15,6 +15,7 @@
 
 @implementation ChatData
 
+@synthesize content;
 
 - (BOOL) ownedByUser : (NSString *) user{
     
@@ -23,9 +24,16 @@
 
 
 
--(void)setContent:(NSString *)content
+-(void)setContent:(NSString *)icontent
 {
-    _content = content;
+    content = icontent;
+}
+
+- (NSString *)content{
+    if(!content || [content isEqualToString:@""]){
+        return @"[emoji]";
+    }
+    return content;
 }
 
 - (BOOL)determineIfFromMeBy : (NSString *) currentUser{

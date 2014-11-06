@@ -8,8 +8,8 @@
 
 #import "TableViewController.h"
 #import "SettingViewController.h"
-
-
+#import "ChatTableViewCell.h"
+#import "Theme.h"
 @interface TableViewController ()
 
 
@@ -29,6 +29,8 @@
 
 @property (strong,nonatomic) NSString  *chatContents;
 @property (strong,nonatomic) NSString *chosenChatID;
+
+@property  (strong,nonatomic) Theme *theme;
 @end
 
 
@@ -230,7 +232,15 @@
     
     self.isChatShowed = NO;
     self.page = 2;
+    
+    //Set the default Theme
+    
+    [self generateTheme];
 
+}
+
+- (void) generateTheme{
+    self.theme = [[Theme alloc]init];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -582,7 +592,6 @@
         [weakSelf.tempData setLength:0];
         weakSelf.data = nil;
 
-        //[self.chats addObjectsFromArray:];
         [weakSelf reloadView];
         
     }];
@@ -773,17 +782,18 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier = @"chat";
-    UITableViewCell *cell = [tableView  dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-    if(!cell){
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        
-        cell.backgroundColor = [UIColor colorWithRed:0.859f green:0.886f blue:0.929f alpha:1.0f];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
+    ChatTableViewCell *cell = (ChatTableViewCell*)[tableView  dequeueReusableCellWithIdentifier:identifier];
     
-    ChatData *chat = [self.chats objectAtIndex:indexPath.row];
+    NSLog(@"%ld",indexPath.row );
 
-    cell.textLabel.text = chat.content;    //[cell.contentView addSubview:chatView];
+    if(indexPath.row==48){
+        NSLog(@"%ld",indexPath.row );
+
+    }
+    ChatData *chat = [self.chats objectAtIndex:indexPath.row];
+    NSLog(@"%@",chat.content);
+    [cell setChatViewWarper:chat withAccess:self.access forTheme:self.theme];
+    
     return cell;
 }
 
