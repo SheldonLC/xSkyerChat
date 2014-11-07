@@ -17,6 +17,9 @@
 - (NSString *) generateLogoutWithToken:(NSString *)sToken;
 - (NSString *) generateLoginWithUser:(NSString *) user withPassword: (NSString *) password;
 - (NSString *) generateRefreshWithToken:(NSString *) sToken;
+- (NSString *) generateGetBlockedListWithToken:(NSString *) sToken;
+- (NSString *) generateAddBlockedUserWithToken:(NSString *) sToken forUserId: (NSString *) userID ;
+- (NSString *) generateRemoveBlockedUserWithToken:(NSString *) sToken forUserId: (NSString *) userID ;
 
 
 @end

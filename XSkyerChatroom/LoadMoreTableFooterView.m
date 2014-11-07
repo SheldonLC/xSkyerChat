@@ -90,7 +90,7 @@
     CGFloat scrollAreaContenHeight = scrollView.contentSize.height;
     
     CGFloat visibleTableHeight = MIN(scrollView.bounds.size.height, scrollAreaContenHeight);
-    CGFloat scrolledDistance = scrollView.contentOffset.y + visibleTableHeight; // If scrolled all the way down this should add upp to the content heigh.
+    CGFloat scrolledDistance = scrollView.contentOffset.y + visibleTableHeight+44; // If scrolled all the way down this should add upp to the content heigh.
     
     CGFloat normalizedOffset = scrollAreaContenHeight -scrolledDistance;
     
@@ -179,6 +179,14 @@
         scrollView.contentInset = currentInsets;
 		
 	} else if (scrollView.isDragging) {
+        NSLog(@"*********************" );
+        NSLog(@"scrollView.contentOffset.y = %f",scrollView.contentOffset.y );
+        NSLog(@"bottomOffset = %f",bottomOffset );
+        NSLog(@"%d",_state );
+
+
+
+        
 		if (_state == EGOOPullPulling && bottomOffset > -PULL_TRIGGER_HEIGHT && bottomOffset < 0.0f && !isLoading) {
 			[self setState:EGOOPullNormal];
 		} else if (_state == EGOOPullNormal && bottomOffset < -PULL_TRIGGER_HEIGHT && !isLoading) {

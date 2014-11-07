@@ -14,6 +14,7 @@
 @interface ParseChat : NSObject
 
 - (NSArray *) parseHTMLDataForHistory:(NSData *) data;
+- (NSArray *) parseHTMLDataForBlockedUsers:(NSData *) data;
 - (NSArray *) parseXMLDataForCurrentChat:(NSData *) data;
 - (NSString *) parseHTMLDataForAccess:(NSData *) data;
 

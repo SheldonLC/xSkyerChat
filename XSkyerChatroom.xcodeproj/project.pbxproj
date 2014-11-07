@@ -35,6 +35,8 @@
 		4DCC0C4E1A0B0613004724A8 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DCC0C4D1A0B0613004724A8 /* SettingViewController.m */; };
 		4DCC0C521A0B48D5004724A8 /* ChatView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DCC0C511A0B48D5004724A8 /* ChatView.m */; };
 		4DCC0C551A0B4A5E004724A8 /* Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DCC0C541A0B4A5E004724A8 /* Theme.m */; };
+		4DCC0C6E1A0C6A84004724A8 /* BlackListViewControllerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DCC0C6D1A0C6A84004724A8 /* BlackListViewControllerTableViewController.m */; };
+		4DCC0C711A0C6AC1004724A8 /* BlockedUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DCC0C701A0C6AC1004724A8 /* BlockedUser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +100,10 @@
 		4DCC0C511A0B48D5004724A8 /* ChatView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatView.m; sourceTree = "<group>"; };
 		4DCC0C531A0B4A5E004724A8 /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Theme.h; sourceTree = "<group>"; };
 		4DCC0C541A0B4A5E004724A8 /* Theme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Theme.m; sourceTree = "<group>"; };
+		4DCC0C6C1A0C6A84004724A8 /* BlackListViewControllerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackListViewControllerTableViewController.h; sourceTree = "<group>"; };
+		4DCC0C6D1A0C6A84004724A8 /* BlackListViewControllerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlackListViewControllerTableViewController.m; sourceTree = "<group>"; };
+		4DCC0C6F1A0C6AC1004724A8 /* BlockedUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockedUser.h; sourceTree = "<group>"; };
+		4DCC0C701A0C6AC1004724A8 /* BlockedUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlockedUser.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +181,8 @@
 				4D6E30DF1A0892AD007698FC /* ChatboxPopOverController.m */,
 				4D6E30E11A08BDDC007698FC /* LoginViewController.h */,
 				4D6E30E21A08BDDC007698FC /* LoginViewController.m */,
+				4DCC0C6C1A0C6A84004724A8 /* BlackListViewControllerTableViewController.h */,
+				4DCC0C6D1A0C6A84004724A8 /* BlackListViewControllerTableViewController.m */,
 				4DB69A0B1A00BD7900B493D9 /* Images.xcassets */,
 				4DB69A081A00BD7900B493D9 /* Main.storyboard */,
 				4DB69A0D1A00BD7900B493D9 /* LaunchScreen.xib */,
@@ -248,6 +256,8 @@
 				4DB69A411A00C0FD00B493D9 /* ParseChat.m */,
 				4DCB40A11A05C39200ED80C6 /* PostParameter.h */,
 				4DCB40A21A05C39200ED80C6 /* PostParameter.m */,
+				4DCC0C6F1A0C6AC1004724A8 /* BlockedUser.h */,
+				4DCC0C701A0C6AC1004724A8 /* BlockedUser.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -372,6 +382,7 @@
 				4DB69A3F1A00C0DA00B493D9 /* AccessControl.m in Sources */,
 				4DB69A261A00BDB700B493D9 /* TableViewController.m in Sources */,
 				4DCC0C4E1A0B0613004724A8 /* SettingViewController.m in Sources */,
+				4DCC0C711A0C6AC1004724A8 /* BlockedUser.m in Sources */,
 				4DCC0C521A0B48D5004724A8 /* ChatView.m in Sources */,
 				4D6E30DA1A088F76007698FC /* EGORefreshTableHeaderView.m in Sources */,
 				4DB69A011A00BD7900B493D9 /* main.m in Sources */,
@@ -383,6 +394,7 @@
 				4DB69A2D1A00BDF700B493D9 /* TFHppleElement.m in Sources */,
 				4DCB40A31A05C39200ED80C6 /* PostParameter.m in Sources */,
 				4D6E30DD1A088F76007698FC /* PullTableView.m in Sources */,
+				4DCC0C6E1A0C6A84004724A8 /* BlackListViewControllerTableViewController.m in Sources */,
 				4DB69A3C1A00C09700B493D9 /* ChatData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -237,6 +237,7 @@
         scrollView.contentInset = currentInsets;
 		
 	} else if (scrollView.isDragging) {
+
 		if (_state == EGOOPullPulling && scrollView.contentOffset.y > -PULL_TRIGGER_HEIGHT && scrollView.contentOffset.y < 0.0f && !isLoading) {
 			[self setState:EGOOPullNormal];
 		} else if (_state == EGOOPullNormal && scrollView.contentOffset.y < -PULL_TRIGGER_HEIGHT && !isLoading) {
@@ -298,7 +299,7 @@
 
 - (void)egoRefreshScrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    [self refreshLastUpdatedDate];
+    //[self refreshLastUpdatedDate];
 }
 
 

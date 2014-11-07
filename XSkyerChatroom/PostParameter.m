@@ -40,4 +40,20 @@
     return [NSString stringWithFormat:@"do=logout&logouthash=%@",sToken];
 }
 
+
+
+- (NSString *) generateGetBlockedListWithToken:(NSString *) sToken{
+    
+    return [NSString stringWithFormat:@"do=ignorelist&styleid=47&securitytoken=%@",sToken];
+    
+}
+- (NSString *) generateAddBlockedUserWithToken:(NSString *) sToken forUserId: (NSString *) userID{
+    return [NSString stringWithFormat:@"do=doaddlist&userlist=ignore&userid=%@&securitytoken=%@",userID,sToken];
+
+}
+- (NSString *) generateRemoveBlockedUserWithToken:(NSString *) sToken forUserId: (NSString *) userID {
+    return [NSString stringWithFormat:@"do=doremovelist&userlist=ignore&userid=%@&securitytoken=%@",userID,sToken];
+
+}
+
 @end

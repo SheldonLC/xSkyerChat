@@ -18,6 +18,6 @@
 
 
 -(void)setChatViewWarper: (ChatData *) chat withAccess: (AccessControl *) access forTheme : (Theme *) theme{
-    [self.chatView setChatViewWraper:chat WithAccess:access forTheme:theme];
+   // [self.chatView setChatViewWraper:chat WithAccess:access forTheme:theme];
 }
 @end

@@ -10,6 +10,7 @@
 #import "SettingViewController.h"
 #import "ChatTableViewCell.h"
 #import "Theme.h"
+#import "BlockedUser.h"
 @interface TableViewController ()
 
 
@@ -31,6 +32,12 @@
 @property (strong,nonatomic) NSString *chosenChatID;
 
 @property  (strong,nonatomic) Theme *theme;
+
+@property   (nonatomic) CGSize textSize;
+
+@property   (nonatomic,strong) NSMutableArray *blockedUsers;
+@property   (nonatomic) BOOL isBlockedUserRefreshed;
+
 @end
 
 
@@ -62,7 +69,7 @@
      [NSURLConnection sendSynchronousRequest:requestLogout returningResponse:nil error:nil];
 
     //Logout need to clear the user/pwd stored in keychain
-    [self.dataTask resume];
+    self.dataTask = nil;
     self.access.hasLogin = NO;
     self.access.isSessionTimeout = NO;
     self.access.token = nil;
@@ -149,11 +156,14 @@
         
     }else if([self.target isEqualToString:HTML_REQUEST_TARGET_HISTORY]){
         result = [self.parse parseHTMLDataForHistory:self.data];
+    }else if([self.target isEqualToString:HTML_REQUEST_TARGET_PROFILE]){
+        result = [self.parse parseHTMLDataForBlockedUsers:self.data];
     }
     
     return result;
 
 }
+
 #pragma mark - Generate the data
 - (ParseChat *)parse
 {
@@ -165,14 +175,117 @@
 -(NSMutableArray *)chats{
     if(!_chats){
         _chats = [[NSMutableArray alloc]initWithCapacity:50];
+    }else if([_chats count]>0
+             && self.blockedUsers
+             && [self.blockedUsers count]>0
+             && self.isBlockedUserRefreshed){
+
+        NSMutableArray *tempArr = [[NSMutableArray alloc]initWithCapacity:[_chats count]];
+        
+        for (ChatData *chat in _chats) {
+            BOOL blocked = NO;
+            for (BlockedUser *blcoked in self.blockedUsers) {
+                if([blcoked.userID isEqualToString:chat.userId]){
+                    //Blocked
+                    blocked = YES;
+                    break;
+                }
+                
+            }
+            if(!blocked){
+                [tempArr addObject: chat];
+            }
+        }
+        _chats = nil;
+        _chats = tempArr;
+        tempArr = nil;
+        self.isBlockedUserRefreshed = NO;
+
+        
     }
     return _chats;
 }
 
 
 
-#pragma mark - View Init
-     
+
+//Shall rerite for delegate
+- (NSMutableURLRequest *) requestWithURL:(NSURL *)URL forType:(NSString *) type
+{
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.thisUrl];
+    if([type isEqualToString:HTML_REQUEST_TYPE_REFRESH]){
+        if([self.target isEqualToString:HTML_REQUEST_TARGET_CURRENT]){
+            //To get curreny chat, use post
+            [request setHTTPMethod:@"POST"];
+            
+            NSString *str = [self.param  generateRefreshWithToken: self.access.token];//Set parameter
+            NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+            [request setHTTPBody:data];
+        }else if([self.target isEqualToString:HTML_REQUEST_TARGET_HISTORY]){
+            //do nothing
+        }
+    }else if([type isEqualToString:HTML_REQUEST_TYPE_LOGIN]){
+        
+        [request setHTTPMethod:@"POST"];
+        NSString *str = [self.param generateLoginWithUser:self.access.userName withPassword:self.access.password];//Set parameter
+        NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+        [request setHTTPBody:data];
+        
+    }else if([type isEqualToString:HTML_REQUEST_TYPE_LOGOUT]){
+        
+        [request setHTTPMethod:@"POST"];
+        NSString *str = [self.param generateLogoutWithToken:self.access.token];//Set parameter
+        NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+        [request setHTTPBody:data];
+        
+    }else if([type isEqualToString:HTML_REQUEST_TYPE_CHAT]){
+        [request setHTTPMethod:@"POST"];
+        NSString *str = [self.param generateChatWithToken:self.access.token withChat:self.chatContents];//Set parameter
+        NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+        [request setHTTPBody:data];
+        
+    }else if([type isEqualToString:HTML_REQUEST_TYPE_EDIT]){
+        [request setHTTPMethod:@"POST"];
+        NSString *str = [self.param generateEditWithToken: self.access.token withChat:self.chatContents forChatID: self.chosenChatID];//Set parameter
+        NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+        [request setHTTPBody:data];
+        
+    }else if([type isEqualToString:HTML_REQUEST_TYPE_DELETE]){
+        [request setHTTPMethod:@"POST"];
+        NSString *str = [self.param generateDeleteWithToken:self.access.token forChatID:self.chosenChatID];//Set parameter
+        NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+        [request setHTTPBody:data];
+        
+    }else if([type isEqualToString:HTML_REQUEST_TYPE_BLOCKED_GET]){
+        [request setHTTPMethod:@"POST"];
+        NSString *str = [self.param generateGetBlockedListWithToken:self.access.token];//Set parameter
+        NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+        [request setHTTPBody:data];
+    }
+    return request;
+}
+
+//Overload, for Blacklist operation only
+- (NSMutableURLRequest *) requestWithURL:(NSURL *)URL forType:(NSString *) type withUserId: (NSString *) userId
+{
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.thisUrl];
+    if([type isEqualToString:HTML_REQUEST_TYPE_BLOCKED_ADD]){
+        [request setHTTPMethod:@"POST"];
+        NSString *str = [self.param generateAddBlockedUserWithToken:self.access.token forUserId:userId];//Set parameter
+        NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+        [request setHTTPBody:data];
+    }else if([type isEqualToString:HTML_REQUEST_TYPE_BLOCKED_DELETE]){
+        [request setHTTPMethod:@"POST"];
+        NSString *str = [self.param generateRemoveBlockedUserWithToken:self.access.token forUserId:userId];//Set parameter
+        NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+        [request setHTTPBody:data];
+    }
+    
+    return request;
+}
+
+
+
 -(void) setURLwith: (NSString *) target forPage :(NSString *) page
 {
     NSMutableString *url = nil;
@@ -184,8 +297,10 @@
         url = [[NSMutableString alloc] initWithString:@"http://www.xbox-skyer.com/mgc_cb_evo_ajax.php"];
     }else if([target isEqualToString:HTML_REQUEST_TARGET_LOGIN]){
         url = [[NSMutableString alloc] initWithString:@"http://www.xbox-skyer.com/login.php"];
-    }
+    }else if([target isEqualToString:HTML_REQUEST_TARGET_PROFILE]){
+        url = [[NSMutableString alloc] initWithString:@"http://www.xbox-skyer.com/profile.php"];
 
+    }
     
     self.thisUrl = [[NSURL alloc] initWithString:url];
     self.target = target;
@@ -195,7 +310,7 @@
 -(void) setURLwith: (NSString *) target {
     [self setURLwith:target forPage:@"1"];
 }
-
+#pragma mark - View Init
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Observe keyboard hide and show notifications to resize the text view appropriately.
@@ -209,7 +324,7 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.pullTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.pullTableView.backgroundColor = [UIColor colorWithRed:0.859f green:0.886f blue:0.929f alpha:1.0f];
+    self.pullTableView.backgroundColor = [UIColor whiteColor];
 
 
     //init the setup for pop over controller
@@ -236,6 +351,14 @@
     //Set the default Theme
     
     [self generateTheme];
+    
+    //init the blocked user list
+
+}
+
+- (void) initBlockedUserList{
+    [self startRequestDataForBlockedUsersFrom];
+    
 
 }
 
@@ -245,6 +368,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [self initBlockedUserList];
+
     
     [super viewWillAppear:animated];
     
@@ -413,7 +538,7 @@
     self.customView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     
     CGRect viewFrame = self.view.frame;
-    [self.customView setFrame:CGRectMake(0, CGRectGetHeight(viewFrame)-50-44, CGRectGetWidth(viewFrame), 50)];
+    [self.customView setFrame:CGRectMake(0, CGRectGetHeight(viewFrame)-50-44-10, CGRectGetWidth(viewFrame), 50)];
 
 }
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
@@ -521,32 +646,6 @@
 
 
 
-- (void) appearAtBottom{
-    CGFloat contentHeight = self.pullTableView.contentSize.height;
-    CGFloat frameHeight = self.pullTableView.frame.size.height;
-    
-    if (contentHeight > frameHeight)
-    {
-        CGPoint offset = CGPointMake(0, contentHeight - frameHeight+44);
-        [self.pullTableView setContentOffset:offset animated:NO];
-    }
-    
-    
-}
-
-- (void) appearAtTop{
-    CGFloat contentHeight = self.pullTableView.contentSize.height;
-    CGFloat frameHeight = self.pullTableView.frame.size.height;
-    
-    if (contentHeight > frameHeight)
-    {
-        CGPoint offset = CGPointMake(0,-60);
-        [self.pullTableView setContentOffset:offset animated:NO];
-    }
-    
-    
-}
-
 
 
 
@@ -577,7 +676,7 @@
     __weak TableViewController *weakSelf = self;
 
     self.dataTask = [self.thisSession dataTaskWithRequest:[self requestWithURL:self.thisUrl forType:type] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        //NSLog(@"%lld", response.expectedContentLength);
+        NSLog(@"response.expectedContentLength %lld", response.expectedContentLength);
          weakSelf.tempData = [[NSMutableData alloc]init];
         [data enumerateByteRangesUsingBlock:^(const void *bytes, NSRange byteRange, BOOL *stop) {
             
@@ -588,7 +687,10 @@
             [weakSelf insertCells:[weakSelf parseData]];
         }else if([target isEqualToString:HTML_REQUEST_TARGET_CURRENT]){
             [weakSelf appendCells:[weakSelf parseData]];
+        }else if([target isEqualToString:HTML_REQUEST_TARGET_PROFILE]){
+            [weakSelf refreshBlockedUserList:[weakSelf parseData]];
         }
+        
         [weakSelf.tempData setLength:0];
         weakSelf.data = nil;
 
@@ -598,11 +700,76 @@
     [self.dataTask resume];
 }
 
+- (void) startRequestDataForBlockedUsersFrom{
+    NSURL *url2 = [NSURL URLWithString:@"http://www.xbox-skyer.com/profile.php"];
+    NSMutableURLRequest *requestLogin2 = [[NSMutableURLRequest alloc]initWithURL:url2 cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60];
+    [requestLogin2 setHTTPMethod:@"POST"];//设置请求方式为POST，默认为GET
+    NSString *str2 = [NSString stringWithFormat: @"do=ignorelist&styleid=47&securitytoken=%@",self.access.token];
+    NSData *data2 = [str2 dataUsingEncoding:NSUTF8StringEncoding];
+    [requestLogin2 setHTTPBody:data2];
+    NSData *received2 = [NSURLConnection sendSynchronousRequest:requestLogin2 returningResponse:nil error:nil];
+    [self refreshBlockedUserList:[ self.parse parseHTMLDataForBlockedUsers:received2]];
+
+    }
+
+- (void) refreshBlockedUserList:(NSArray *) blockedUsers{
+    if(!self.blockedUsers || [self.blockedUsers count] ==0){
+        self.blockedUsers = [NSMutableArray arrayWithArray: blockedUsers];
+    }else if(!blockedUsers || [blockedUsers count]== 0){
+        self.blockedUsers = nil;
+        self.blockedUsers = [[NSMutableArray alloc]init];
+    }else{
+        NSMutableArray *tempArr = [[NSMutableArray alloc]init];
+        //Find removed
+        for (BlockedUser *currentBlockedUser in self.blockedUsers) {
+            
+            BOOL exists = NO;
+            for ( BlockedUser *newBlockedUser in blockedUsers) {
+                if ([newBlockedUser isEqual:currentBlockedUser]) {
+                    //Do nothing, found a match
+                    exists = YES;
+                    break;
+                }else{
+                    
+                }
+            }
+            
+            if (exists) {
+                [tempArr addObject:currentBlockedUser];
+            }
+        }
+
+        //Find new
+        for (BlockedUser *newBlockedUser in blockedUsers) {
+
+            BOOL exists = NO;
+            for ( BlockedUser *currentBlockedUser in self.blockedUsers) {
+                if ([newBlockedUser isEqual:currentBlockedUser]) {
+                    //Do nothing, found a match
+                    exists = YES;
+                    break;
+                }else{
+                    
+                }
+            }
+            
+            if (!exists) {
+                [tempArr addObject:newBlockedUser];
+            }
+        }
+        
+        self.blockedUsers = nil;
+        self.blockedUsers = tempArr;
+    }
+    self.isBlockedUserRefreshed = YES;
+}
+
 
 - (void) appendCells:(NSArray *) result{
+    
     if(!self.chats || [self.chats count]==0){
         //Append directly when initialize
-        [self.chats addObjectsFromArray:[self parseData]];
+        [self.chats addObjectsFromArray:result];
     
     }else{
         //Compare the chatid, append the newly added chats
@@ -680,58 +847,6 @@
     [self startRequestDataFrom:HTML_REQUEST_TARGET_CURRENT forType:HTML_REQUEST_TYPE_REFRESH];
 }
 
-//Shall rerite for delegate
-- (NSMutableURLRequest *) requestWithURL:(NSURL *)URL forType:(NSString *) type
-{
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.thisUrl];
-    if([type isEqualToString:HTML_REQUEST_TYPE_REFRESH]){
-        if([self.target isEqualToString:HTML_REQUEST_TARGET_CURRENT]){
-            //To get curreny chat, use post
-            [request setHTTPMethod:@"POST"];
-            
-            NSString *str = [self.param  generateRefreshWithToken: self.access.token];//Set parameter
-            NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
-            [request setHTTPBody:data];
-        }else if([self.target isEqualToString:HTML_REQUEST_TARGET_HISTORY]){
-            //do nothing
-        }
-    }else if([type isEqualToString:HTML_REQUEST_TYPE_LOGIN]){
-        
-        [request setHTTPMethod:@"POST"];
-        NSString *str = [self.param generateLoginWithUser:self.access.userName withPassword:self.access.password];//Set parameter
-        NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
-        [request setHTTPBody:data];
-        
-    }else if([type isEqualToString:HTML_REQUEST_TYPE_LOGOUT]){
-        
-        [request setHTTPMethod:@"POST"];
-        NSString *str = [self.param generateLogoutWithToken:self.access.token];//Set parameter
-        NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
-        [request setHTTPBody:data];
-        
-    }else if([type isEqualToString:HTML_REQUEST_TYPE_CHAT]){
-        [request setHTTPMethod:@"POST"];
-        NSString *str = [self.param generateChatWithToken:self.access.token withChat:self.chatContents];//Set parameter
-        NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
-        [request setHTTPBody:data];
-
-    }else if([type isEqualToString:HTML_REQUEST_TYPE_EDIT]){
-        [request setHTTPMethod:@"POST"];
-        NSString *str = [self.param generateEditWithToken: self.access.token withChat:self.chatContents forChatID: self.chosenChatID];//Set parameter
-        NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
-        [request setHTTPBody:data];
-        
-    }else if([type isEqualToString:HTML_REQUEST_TYPE_DELETE]){
-        [request setHTTPMethod:@"POST"];
-        NSString *str = [self.param generateDeleteWithToken:self.access.token forChatID:self.chosenChatID];//Set parameter
-        NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
-        [request setHTTPBody:data];
-        
-    }
-    return request;
-}
-
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -756,10 +871,10 @@
                                       attributes:attributes
                                          context:nil];
     
+    textRect.size  = CGSizeMake(textRect.size.width, textRect.size.height);
     //Contains both width & height ... Needed: The height
     return textRect.size;
 }
-
 
 
 #pragma mark Table view methods
@@ -780,28 +895,77 @@
     }
     
 }
+
+#define FONT_SIZE 13.0f
+#define CELL_CONTENT_WIDTH 320.0f
+#define CELL_CONTENT_MARGIN 10.0f
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier = @"chat";
-    ChatTableViewCell *cell = (ChatTableViewCell*)[tableView  dequeueReusableCellWithIdentifier:identifier];
-    
-    NSLog(@"%ld",indexPath.row );
-
-    if(indexPath.row==48){
-        NSLog(@"%ld",indexPath.row );
-
+    UITableViewCell *cell = (UITableViewCell*)[tableView  dequeueReusableCellWithIdentifier:identifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc]
+                initWithStyle:UITableViewCellStyleDefault
+                reuseIdentifier:identifier];
     }
+
+    //self.textSize = textSize;
     ChatData *chat = [self.chats objectAtIndex:indexPath.row];
-    NSLog(@"%@",chat.content);
-    [cell setChatViewWarper:chat withAccess:self.access forTheme:self.theme];
     
+    NSString *speaker = [NSString stringWithFormat:@"%@",chat.speaker];
+    cell.textLabel.text = speaker;
+    cell.detailTextLabel.text = chat.content;
+
+
+    //self.pullTableView.contentSize.height+textSize.height;
     return cell;
 }
 
-- (NSString *) generateCell:(ChatData *) chat
+
+-(CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath
+
 {
-    return [NSString stringWithFormat:@"%@ %@ : %@",chat.dateString,chat.speaker,chat.content];
+    ChatData *chat = [self.chats objectAtIndex:indexPath.row];
+    
+    CGSize size = CGSizeMake(CELL_CONTENT_WIDTH - (CELL_CONTENT_MARGIN * 2)-30, MAXFLOAT);
+    
+    CGSize textSize = [self frameForText:chat.content sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+
+    self.pullTableView.contentSize = CGSizeMake(self.pullTableView.contentSize.width, textSize.height+self.pullTableView.contentSize.height);
+    //[self tableView:tableView cellForRowAtIndexPath:indexPath];
+    return textSize .height+20;
     
 }
+
+- (void) appearAtBottom{
+    
+    
+    CGFloat contentHeight = self.pullTableView.contentSize.height;
+    CGFloat frameHeight = self.pullTableView.frame.size.height;
+    
+    if (contentHeight > frameHeight)
+    {
+        CGPoint offset = CGPointMake(0, contentHeight - frameHeight+44);
+        [self.pullTableView setContentOffset:offset animated:NO];
+    }
+    
+    
+}
+
+- (void) appearAtTop{
+    CGFloat contentHeight = self.pullTableView.contentSize.height;
+    CGFloat frameHeight = self.pullTableView.frame.size.height;
+    
+    if (contentHeight > frameHeight)
+    {
+        CGPoint offset = CGPointMake(0,-60);
+        [self.pullTableView setContentOffset:offset animated:NO];
+    }
+    
+    
+}
+
 
 /*
 // Override to support conditional editing of the table view.
@@ -849,7 +1013,9 @@
         SettingViewController * setView = segue.destinationViewController;
         
         setView.access = self.access;
+        setView.blockedUsers = self.blockedUsers;
     }
+    
 }
 
 

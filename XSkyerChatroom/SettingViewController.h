@@ -13,4 +13,8 @@
 @interface SettingViewController : UIViewController
 @property (strong,nonatomic) AccessControl *access;
 @property (strong,nonatomic) TableViewController   *mainVC;
+@property   (nonatomic,strong) NSMutableArray *blockedUsers;
+
+
+
 @end

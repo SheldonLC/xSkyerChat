@@ -13,6 +13,7 @@
 extern NSString * const HTML_REQUEST_TARGET_CURRENT;
 extern NSString * const HTML_REQUEST_TARGET_HISTORY;
 extern NSString * const HTML_REQUEST_TARGET_LOGIN;
+extern NSString * const HTML_REQUEST_TARGET_PROFILE;
 
 
 extern NSString * const HTML_REQUEST_TYPE_LOGIN;
@@ -21,6 +22,11 @@ extern NSString * const HTML_REQUEST_TYPE_CHAT;
 extern NSString * const HTML_REQUEST_TYPE_EDIT;
 extern NSString * const HTML_REQUEST_TYPE_DELETE;
 extern NSString * const HTML_REQUEST_TYPE_REFRESH;
+extern NSString * const HTML_REQUEST_TYPE_BLOCKED_GET;
+extern NSString * const HTML_REQUEST_TYPE_BLOCKED_DELETE;
+extern NSString * const HTML_REQUEST_TYPE_BLOCKED_ADD;
+
+
 
 extern NSString * const ACCSEE_LOGIN_FAILED;
 extern NSString * const ACCSEE_LOGIN_CORRUPT;

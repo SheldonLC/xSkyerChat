@@ -14,6 +14,7 @@
 @property (strong,nonatomic) NSString *dateString;
 @property (strong,nonatomic) NSString *chatId;
 @property (strong,nonatomic) NSString *content;
+@property (strong,nonatomic) NSString *userId;
 
 - (BOOL) matchedWith : (ChatData *) anotherChat;
 

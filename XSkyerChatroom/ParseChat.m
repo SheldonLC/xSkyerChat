@@ -7,10 +7,12 @@
 //
 
 #import "ParseChat.h"
+#import "BlockedUser.h"
 
 @interface ParseChat ()
 
 @property (strong,nonatomic) NSArray *chats;//chats extracted
+@property  (strong,nonatomic) NSMutableArray   *blockedUsers;
 //@property (strong,nonatomic) NSURLConnection *theConnection;
 @property (strong,nonatomic) NSData *data;
 @end
@@ -38,6 +40,7 @@
             NSMutableArray *mChats = [[NSMutableArray alloc] initWithCapacity:[elements count]];
             
             NSMutableString *speaker = nil;
+            NSString *userId = nil;
             NSMutableString *time = nil;
 
             NSMutableString *text = nil;
@@ -58,6 +61,7 @@
                         [text deleteCharactersInRange: substr2] ;// 字符串删除
                     }
                 }
+                
                 //NSLog(@"%@",text);
                 
                 TFHppleElement *colDateElement = [chatElement firstChildWithTagName:@"col_date"];
@@ -85,6 +89,8 @@
                         [speaker deleteCharactersInRange: substr1] ;// 字符串删除
                     }
                 }
+                
+                userId = [self getUserIDBy:colUNameElement];
                 //NSLog(@"%@",speaker);
                 imgSrc = [[NSMutableString alloc] initWithString:@"http://www.xbox-skyer.com/"];
                 [imgSrc appendString:[self getImgSrcBy:colUNameElement]];
@@ -100,6 +106,7 @@
                 
                 //Set value here
                 chat.chatId = chatId;
+                chat.userId = userId;
                 chat.speaker = speaker;
                 chat.dateString = [NSString stringWithFormat:@"%@",time];
                 chat.content = text;
@@ -150,6 +157,22 @@
 
     return childContent;
 }
+
+- (NSString *) getUserIDBy:(TFHppleElement *)colElement
+{
+    NSArray *colChild =colElement.children;
+    NSString *content = [[colChild objectAtIndex:0] content];
+    NSData* htmlData = [content dataUsingEncoding:NSUTF8StringEncoding];
+    
+    TFHpple *xpathParserSub = [[TFHpple alloc] initWithHTMLData:htmlData];
+    NSArray *elements = [xpathParserSub searchWithXPathQuery:@"//span//a"];
+    NSString *userHref = [[elements objectAtIndex:0]  objectForKey:@"href"];
+    NSArray *userArr = [userHref componentsSeparatedByString:@"="];
+    
+    return userArr[1];
+}
+
+
 
 
 - (NSString *) getTimeBy:(TFHppleElement *)colElement
@@ -362,6 +385,58 @@
     }
     return sToken?sToken:@"";
 }
+
+- (NSArray *) parseHTMLDataForBlockedUsers:(NSData *) data
+{
+    NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"%@",str1);
+    
+    NSMutableArray *users = nil;
+    if (data) {
+        TFHpple *xpathParser = [[TFHpple alloc] initWithHTMLData:data];
+        NSArray *elementsP = [xpathParser searchWithXPathQuery:@"//ul[@id='ignorelist']"];
+        
+        if([elementsP count]!=0){
+            
+            
+            NSArray *elements = [[elementsP objectAtIndex:0] children];
+            
+            if (elements && [elements count] !=0) {
+                //Initialize the ChatData
+                users = [[NSMutableArray alloc]init];
+                NSString *userM = nil;
+                NSString *userID = nil;
+                for (TFHppleElement *userElement in elements) {
+                    if(![userElement isTextNode]){
+                        NSArray *arr = [userElement searchWithXPathQuery:@"//input"];
+                        if(arr && [arr count]>0){
+                            userID = [[arr objectAtIndex:0] objectForKey:@"value"];
+                            //NSLog(@"%@", userID);
+                            
+                            //Get the userName
+                            
+                             NSArray* nameArr =  [userElement searchWithXPathQuery:@"//a"];
+                            if(nameArr && [nameArr count]>0){
+                                userM = [[nameArr objectAtIndex:0] text];
+                                //NSLog(@"%@", userM);
+
+                            }
+                            //Set obj
+                            BlockedUser *blockedUser = [[BlockedUser alloc] init];
+                            
+                            blockedUser.userM  = userM;
+                            blockedUser.userID = userID;
+                            [users addObject:blockedUser];//Add result to array
+                        }
+                    }
+                }
+
+            }
+        }
+
+    }
+    return users;
+}
 - (NSArray *) parseHTMLDataForHistory:(NSData *) data
 {
 
@@ -384,6 +459,7 @@
 
             NSMutableString *speakerAndTime = nil;
             NSMutableString *text = nil;
+            NSString *userId = nil;
             NSMutableString *imgSrc = nil;
             for (TFHppleElement *span in elements) {
                 //Get the nodes of history chats
@@ -394,6 +470,10 @@
                 NSArray   *aNodeArr = [span searchWithXPathQuery:@"//a"];
                 TFHppleElement *aNode = [aNodeArr objectAtIndex:0];//First and only one
                 speakerAndTime = [[NSMutableString alloc]initWithString:[aNode text]];
+                
+                NSString *userHref = [aNode objectForKey:@"href"];
+                NSArray *userArr = [userHref componentsSeparatedByString:@"="];
+                userId = userArr[1];
                 
                 //get img node to get the img url
                 NSArray   *imgNodeArr = [aNode searchWithXPathQuery:@"//img"];
@@ -468,6 +548,7 @@
                 
                 //Set value here
                 chat.chatId = chatArr[1];
+                chat.userId = userId;
                 chat.speaker = [array objectAtIndex:0];
                 chat.dateString =[array objectAtIndex:2];
                 chat.content = text;
