@@ -10,14 +10,13 @@
 
 @interface ChatTableViewCell ()
 
-@property (weak, nonatomic) IBOutlet ChatView *chatView;
 
 
 @end
 @implementation ChatTableViewCell
 
 
--(void)setChatViewWarper: (ChatData *) chat withAccess: (AccessControl *) access forTheme : (Theme *) theme{
-   // [self.chatView setChatViewWraper:chat WithAccess:access forTheme:theme];
+-(BOOL)canBecomeFirstResponder{
+    return YES;
 }
 @end

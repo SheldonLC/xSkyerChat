@@ -23,8 +23,8 @@
 - (NSArray *) parseXMLDataForCurrentChat:(NSData *) data
 {
     NSArray *chats = nil;
-    NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"%@",str1);
+   // NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+   // NSLog(@"%@",str1);
     
     //int index = 0;
 
@@ -258,7 +258,7 @@
 
         [chatContent appendString: @"***"];
     }
-    NSLog(@"%@",chatContent);
+    //NSLog(@"%@",chatContent);
     return chatContent;
 }
 
@@ -289,8 +289,8 @@
 - (NSString *) parseHTMLDataForAccess:(NSData *) data
 {
     
-    NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"%@",str1);
+    //NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    //NSLog(@"%@",str1);
    // <div class="quote">
     //错误的用户名或密码. <b>您已经超出了登录失败限制次数！请等待 15 分钟后重试.</b>请注意密码是区分大小写的.忘记了您的密码? 请<a href=//"http://www.xbox-skyer.com/login.php?do=lostpw">点击这里</a>!
     //</div>
@@ -378,7 +378,7 @@
 
                 sToken = ACCSEE_LOGIN_CORRUPT;
             }
-            NSLog(@"Token [%@]",sToken);
+            ///NSLog(@"Token [%@]",sToken);
         }else{
             // do nothing
         }
@@ -388,8 +388,8 @@
 
 - (NSArray *) parseHTMLDataForBlockedUsers:(NSData *) data
 {
-    NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"%@",str1);
+    //NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    //NSLog(@"%@",str1);
     
     NSMutableArray *users = nil;
     if (data) {
@@ -440,8 +440,8 @@
 - (NSArray *) parseHTMLDataForHistory:(NSData *) data
 {
 
-    NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"%@",str1);
+    //NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    //NSLog(@"%@",str1);
 
     NSArray *chats = nil;
     if (data) {
@@ -527,9 +527,26 @@
                 if (substr2.location != NSNotFound) {
                     [speakerAndTime deleteCharactersInRange: substr2] ;// 字符串删除
                 }
-                
+                //NSLog(@"%@",speakerAndTime);
                 //Split speaker & time
                 NSArray *array = [speakerAndTime  componentsSeparatedByString:@" "];
+                NSMutableString *speaker = [[NSMutableString alloc] init];
+                NSString *date = nil;
+                if ([array count] > 2) {
+                    //
+                    for (int i=0; i< [array count]-2; i++) {
+                        [speaker appendString:array[i]];
+                        if(i == [array count]-3){
+                            break;
+                        }else{
+                            [speaker appendString:@" "];
+                        }
+                    }
+                    date = [array lastObject];
+                }else if( [array count] == 2){
+                    speaker = [array firstObject];
+                    date = [array lastObject];
+                }
                 
                 
                 
@@ -549,8 +566,8 @@
                 //Set value here
                 chat.chatId = chatArr[1];
                 chat.userId = userId;
-                chat.speaker = [array objectAtIndex:0];
-                chat.dateString =[array objectAtIndex:2];
+                chat.speaker = speaker;
+                chat.dateString =date;
                 chat.content = text;
                 chat.icon = imgSrc;
                 

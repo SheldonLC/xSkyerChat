@@ -13,7 +13,6 @@
 @interface BlackListViewControllerTableViewController ()
 
 @property (strong,nonatomic) PostParameter *param;
-
 @end
 
 @implementation BlackListViewControllerTableViewController
@@ -30,22 +29,11 @@
     if (sender.selected == NO) {
         sender.selected = YES;
         [sender setTitle:@"完成" forState:UIControlStateNormal];
-        for (int i = 0; i < [self.blockedUsers count];i++) {
-            UIButton *button = (UIButton *)[self.view viewWithTag:1000 + i];
-            button.hidden = YES;
-            UIView *view = (UIView *)[self.view viewWithTag:2000 + i];
-            view.hidden = YES;
-        }
-        self.editing = YES;
+                self.editing = YES;
     }else{
         sender.selected = NO;
         [sender setTitle:@"编辑" forState:UIControlStateNormal];
-        for (int i = 0; i < [self.blockedUsers count];i++) {
-            UIButton *button = (UIButton *)[self.view viewWithTag:1000 + i];
-            button.hidden = NO;
-            UIView *view = (UIView *)[self.view viewWithTag:2000 + i];
-            view.hidden = NO;
-        }
+        
         self.editing = NO;
     }
 }
@@ -60,8 +48,12 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    //self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.tableView.allowsMultipleSelectionDuringEditing = NO;
+    
+    
+    
+    
 
     
 }
@@ -166,14 +158,6 @@
 
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    if (sender) {
-        
-    }
-}
 
 
 @end

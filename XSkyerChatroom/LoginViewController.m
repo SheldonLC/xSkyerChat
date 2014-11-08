@@ -14,12 +14,12 @@
 @property (strong, nonatomic) IBOutlet UIImageView *icon;
 @property (strong, nonatomic) IBOutlet UITextField *userTxt;
 @property (strong, nonatomic) IBOutlet UITextField *passwordTxt;
-
+@property (strong,nonatomic) NSUserDefaults *accountDefaults;
 @property (nonatomic,strong) TableViewController *mainVC;
 @end
 
 @implementation LoginViewController
-
+@synthesize accountDefaults;
 
 #pragma mark init
 - (void)viewDidLoad {
@@ -36,8 +36,7 @@
     self.passwordTxt.delegate = self;
 
     //Get the stored password(if any)
-    
-    
+    accountDefaults = [NSUserDefaults standardUserDefaults];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -54,10 +53,10 @@
         [weakSelf.mainVC loginForUser:@"SheldonLC" withPassword:@"yb830922"];
         if (weakSelf.mainVC.access.hasLogin) {
               [weakSelf performSegueWithIdentifier:@"LoginSegue" sender:weakSelf];
-               NSLog(@"End");
+               //NSLog(@"End");
             
         }else{
-            NSLog(@"Require Login!");
+            //NSLog(@"Require Login!");
 
             [UIView animateWithDuration:0 animations:^{
                 [weakSelf.userTxt setAlpha:1.0];
@@ -188,14 +187,14 @@
                 [self.icon setAlpha:1.0];
             } completion:^(BOOL finished) {
                 [weakSelf performSegueWithIdentifier:@"LoginSegue" sender:weakSelf];
-                NSLog(@"Login successfully!");
+                //NSLog(@"Login successfully!");
             }];
         }];
         
         return YES;
     }else{
         
-        NSLog(@"Login Failed!");
+        //NSLog(@"Login Failed!");
         return NO;
     }
     

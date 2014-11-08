@@ -56,4 +56,13 @@
 
 }
 
+
+- (NSString *) generatePMToUser:(NSString *) toUser withContent:(NSString *) pmContent withToken: (NSString *) token
+{
+    //http://www.xbox-skyer.com/private.php?do=newpm
+    
+   return   [NSString stringWithFormat:@"recipients=%@&title=[举报]聊天室有不良内容，请帮忙处理&message=%@&securitytoken=%@&do=insertpm&sbutton=提交信息&savecopy=1&signature=1",toUser,pmContent,token];
+ 
+}
+
 @end

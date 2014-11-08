@@ -37,6 +37,8 @@
 
 @property   (nonatomic,strong) NSMutableArray *blockedUsers;
 @property   (nonatomic) BOOL isBlockedUserRefreshed;
+@property  (nonatomic,weak ) ChatTableViewCell *touchedCell;
+
 
 @end
 
@@ -48,7 +50,7 @@
 - (void)setAccess:(AccessControl *)access{
     
     _access = access;
-    NSLog(@"Set Access");
+    //NSLog(@"Set Access");
 }
 
 - (void) loginForUser: (NSString *) userName withPassword :(NSString *) password{
@@ -93,9 +95,9 @@
         NSString *str1 = [self.param generateLoginWithUser:self.access.userName withPassword:self.access.password];        NSData *data1 = [str1 dataUsingEncoding:NSUTF8StringEncoding];
         [requestLogin setHTTPBody:data1];
         NSData *received1 = [NSURLConnection sendSynchronousRequest:requestLogin returningResponse:nil error:nil];
-        NSString *strResult1 = [[NSString alloc]initWithData:received1 encoding:NSUTF8StringEncoding];
+       // NSString *strResult1 = [[NSString alloc]initWithData:received1 encoding:NSUTF8StringEncoding];
 
-        NSLog(@"%@",strResult1);
+        //NSLog(@"%@",strResult1);
 
         NSString *result = [self.parse parseHTMLDataForAccess:received1];
         if([result isEqualToString:ACCSEE_LOGIN_FAILED]){
@@ -175,33 +177,6 @@
 -(NSMutableArray *)chats{
     if(!_chats){
         _chats = [[NSMutableArray alloc]initWithCapacity:50];
-    }else if([_chats count]>0
-             && self.blockedUsers
-             && [self.blockedUsers count]>0
-             && self.isBlockedUserRefreshed){
-
-        NSMutableArray *tempArr = [[NSMutableArray alloc]initWithCapacity:[_chats count]];
-        
-        for (ChatData *chat in _chats) {
-            BOOL blocked = NO;
-            for (BlockedUser *blcoked in self.blockedUsers) {
-                if([blcoked.userID isEqualToString:chat.userId]){
-                    //Blocked
-                    blocked = YES;
-                    break;
-                }
-                
-            }
-            if(!blocked){
-                [tempArr addObject: chat];
-            }
-        }
-        _chats = nil;
-        _chats = tempArr;
-        tempArr = nil;
-        self.isBlockedUserRefreshed = NO;
-
-        
     }
     return _chats;
 }
@@ -261,8 +236,26 @@
         NSString *str = [self.param generateGetBlockedListWithToken:self.access.token];//Set parameter
         NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
         [request setHTTPBody:data];
+    }else if([type isEqualToString:HTML_REQUEST_TYPE_REPORT]){
+        [request setHTTPMethod:@"POST"];
+        //generate the message
+        
+        NSString *str = [self.param generatePMToUser:@"dogcom" withContent:[self generateReportContent] withToken:self.access.token];//Set parameter
+        NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+        [request setHTTPBody:data];
+
     }
     return request;
+}
+
+-(NSString *) generateReportContent{
+    ChatData *chat = self.touchedCell.chat;
+    AccessControl *accessS = self.access;
+    
+    NSString *reportS = [NSString stringWithFormat:@"[Date:%@(如没有日期则为当日）][被举报账户:%@][举报内容:\"%@\"][举报人:%@]",chat.dateString,chat.speaker,chat.content,accessS.userName];
+    
+    return reportS;
+    
 }
 
 //Overload, for Blacklist operation only
@@ -300,6 +293,8 @@
     }else if([target isEqualToString:HTML_REQUEST_TARGET_PROFILE]){
         url = [[NSMutableString alloc] initWithString:@"http://www.xbox-skyer.com/profile.php"];
 
+    }else if([target isEqualToString:HTML_REQUEST_TARGET_PRIVATE]){
+        url = [[NSMutableString alloc] initWithString:@"http://www.xbox-skyer.com/private.php?do=newpm"];
     }
     
     self.thisUrl = [[NSURL alloc] initWithString:url];
@@ -361,7 +356,33 @@
     
 
 }
-
+- (void) filterBlockedChats{
+    if([self.chats count]>0
+       && self.blockedUsers
+       && [self.blockedUsers count]>0){
+        
+        NSMutableArray *tempArr = [[NSMutableArray alloc]initWithCapacity:[ self.chats count]];
+        
+        for (ChatData *chat in self.chats) {
+            BOOL blocked = NO;
+            for (BlockedUser *blcoked in self.blockedUsers) {
+                if([blcoked.userID isEqualToString:chat.userId]){
+                    //Blocked
+                    blocked = YES;
+                    break;
+                }
+                
+            }
+            if(!blocked){
+                [tempArr addObject: chat];
+            }
+        }
+         self.chats = nil;
+         self.chats = tempArr;
+        tempArr = nil;
+        self.isBlockedUserRefreshed = NO;
+    }
+}
 - (void) generateTheme{
     self.theme = [[Theme alloc]init];
 }
@@ -370,20 +391,24 @@
 {
     [self initBlockedUserList];
 
-    
+    self.chats = nil;
     [super viewWillAppear:animated];
     
     //Check if has logged in
     
     if (!self.access || !self.access.hasLogin) {
         //Navigate to Setting page
-        //[self performSegueWithIdentifier:@"Login" sender:self];
+        [self performSegueWithIdentifier:@"LogoutSegue" sender:self];
         return;
     }
     if(!self.pullTableView.pullTableIsLoadingMore) {
         self.pullTableView.pullTableIsLoadingMore = YES;
         [self performSelector:@selector(loadMoreDataToTable) withObject:nil afterDelay:0.0f];
     }
+}
+- (void)viewDidDisappear:(BOOL)animated{
+    self.pullTableView.pullTableIsLoadingMore = NO;
+
 }
 
 - (void)viewDidUnload
@@ -455,6 +480,8 @@
     self.isRefreshed = NO;
     self.isLoaded = YES;
     self.pullTableView.pullTableIsLoadingMore = NO;
+    
+    self.isBlockedUserRefreshed = NO;
 }
 
 
@@ -545,9 +572,10 @@
 {
     if ([text isEqualToString:@"\n"]) {
         [textView resignFirstResponder];
-        NSLog(@"Ready to speak: %@",textView.text);
+        //NSLog(@"Ready to speak: %@",textView.text);
         self.chatContents = textView.text;
         [self sendMessage];
+        self.isChatShowed = NO;
         textView.text = @"";
 
         return NO;
@@ -571,7 +599,7 @@
     keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
     
     CGFloat keyboardTop = 216;
-    NSLog(@"%f",keyboardTop);
+    //NSLog(@"%f",keyboardTop);
     CGRect newTextViewFrame = self.view.bounds;
     newTextViewFrame.size.height = keyboardTop - self.view.bounds.origin.y;
     
@@ -596,17 +624,22 @@
         [self setChatboxView];
         [self.view.superview addSubview:self.customView];
         [self.view.superview bringSubviewToFront: self.customView];
+        
+        __weak TableViewController *weakSelf = self;
 
         [UIView animateWithDuration:0.4 animations:^{
             [self.customView setAlpha:1.0];
-        } completion:^(BOOL finished) {}];
+        } completion:^(BOOL finished) {
+            weakSelf.isChatShowed = YES;
+
+        }];
     
     }else{
         __weak TableViewController *weakSelf = self;
         [UIView animateWithDuration:0.4 animations:^{
             [self.customView setAlpha:0.0];
         } completion:^(BOOL finished) {
-        
+            weakSelf.isChatShowed = NO;
         [weakSelf.customView removeFromSuperview];
         }];
 
@@ -615,7 +648,6 @@
     }
     
     
-    self.isChatShowed = !self.isChatShowed;
     
 
 }
@@ -650,7 +682,8 @@
 
 
 - (void)reloadView{
-    
+    [self filterBlockedChats];
+
     [self.pullTableView reloadData];
     if (self.isRefreshed) {
         [self appearAtTop];
@@ -676,7 +709,7 @@
     __weak TableViewController *weakSelf = self;
 
     self.dataTask = [self.thisSession dataTaskWithRequest:[self requestWithURL:self.thisUrl forType:type] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSLog(@"response.expectedContentLength %lld", response.expectedContentLength);
+        //NSLog(@"response.expectedContentLength %lld", response.expectedContentLength);
          weakSelf.tempData = [[NSMutableData alloc]init];
         [data enumerateByteRangesUsingBlock:^(const void *bytes, NSRange byteRange, BOOL *stop) {
             
@@ -808,6 +841,84 @@
     }
 
 }
+- (void) blockUser: (NSString *) userID : (NSString*) userM{
+    if (userID) {
+        
+        __weak TableViewController *weakSelf = self;
+        [self setURLwith:HTML_REQUEST_TARGET_PROFILE];
+        
+        self.dataTask = [self.thisSession dataTaskWithRequest:[self requestWithURL:self.thisUrl forType:HTML_REQUEST_TYPE_BLOCKED_ADD withUserId:userID] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            
+           // NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+            //NSLog(@"%@",str1);
+            
+            BlockedUser *blockedUser = [[BlockedUser alloc]initWithUserId:userID withUserName:userM];
+            [weakSelf.blockedUsers addObject:blockedUser];
+            weakSelf.isBlockedUserRefreshed = YES;
+            [weakSelf performSelector:@selector(delayMethod) withObject:nil afterDelay:0.6f];
+
+            [weakSelf reloadView];
+        }];
+        [self.dataTask resume];
+        
+        
+    }
+    
+}
+
+- (void) deleteChat{
+    
+    __weak TableViewController *weakSelf = self;
+    
+    [self setURLwith:HTML_REQUEST_TARGET_CURRENT];
+    ChatTableViewCell *cell = self.touchedCell;
+    self.chosenChatID = cell.chat.chatId;
+    self.dataTask = [self.thisSession dataTaskWithRequest:[self requestWithURL:self.thisUrl forType:HTML_REQUEST_TYPE_DELETE] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        //Remove the chat by chat id
+        for (ChatData *chat in self.chats) {
+            if ([[cell.textLabel.text uppercaseString] isEqualToString:[chat.speaker uppercaseString]]) {
+                [self.chats removeObject:chat];
+                break;
+            }
+        }
+        
+        [weakSelf performSelector:@selector(delayMethod) withObject:nil afterDelay:0.6f];
+        
+        [weakSelf reloadView];
+    }];
+    [self.dataTask resume];
+}
+
+- (void) alertWithMessage: (NSString *)msg
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                    message:msg
+                                                   delegate:nil
+                                          cancelButtonTitle:@"确定"
+                                          otherButtonTitles:nil];
+    [alert show];
+}
+
+//Can change to Send PM
+- (void) reportChat{
+    
+    __weak TableViewController *weakSelf = self;
+    
+    [self setURLwith:HTML_REQUEST_TARGET_PRIVATE];
+    self.dataTask = [self.thisSession dataTaskWithRequest:[self requestWithURL:self.thisUrl forType:HTML_REQUEST_TYPE_REPORT] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        [weakSelf performSelector:@selector(delayMethod) withObject:nil afterDelay:0.6f];
+        
+        //Send alert
+        [self alertWithMessage:@"举报已经发送至管理员，管理员核实后将会及时处理，谢谢您为维持一个良好环境的努力"];
+        
+    }];
+    [self.dataTask resume];
+}
+
+
+
 
 - (void) sendMessage{
     [self setURLwith:HTML_REQUEST_TARGET_CURRENT];
@@ -896,16 +1007,14 @@
     
 }
 
-#define FONT_SIZE 13.0f
-#define CELL_CONTENT_WIDTH 320.0f
-#define CELL_CONTENT_MARGIN 10.0f
+
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier = @"chat";
-    UITableViewCell *cell = (UITableViewCell*)[tableView  dequeueReusableCellWithIdentifier:identifier];
+    ChatTableViewCell *cell = (ChatTableViewCell*)[tableView  dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc]
+        cell = [[ChatTableViewCell alloc]
                 initWithStyle:UITableViewCellStyleDefault
                 reuseIdentifier:identifier];
     }
@@ -916,23 +1025,166 @@
     NSString *speaker = [NSString stringWithFormat:@"%@",chat.speaker];
     cell.textLabel.text = speaker;
     cell.detailTextLabel.text = chat.content;
+    cell.chat  = chat;
+    
+    //cell.imageView.image = [UIImage imageNamed:@"Set"];
 
+    //Attach gesture
+    //Tap for Name
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
+    [cell addGestureRecognizer:tap];
+
+
+    
+    //Long Press for content
+    UILongPressGestureRecognizer *longpress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
+
+    [cell addGestureRecognizer:longpress];
 
     //self.pullTableView.contentSize.height+textSize.height;
     return cell;
 }
 
+- (void)tap:(UITapGestureRecognizer *)recognizer {
+    
+   if(recognizer.state == UIGestureRecognizerStateEnded) {
+       if ([self.chatboxVC.chatbox isFirstResponder]) {
+           self.chatboxVC.chatbox.text = @"";
+           [self.chatboxVC.chatbox resignFirstResponder];
+           self.isChatShowed = NO;
+           return;
+       }
+       ChatTableViewCell *cell = (ChatTableViewCell *)recognizer.view;
+       NSString *user = cell.textLabel.text;
+       
+       NSString *copy = [NSString stringWithFormat: @"@%@:",user];
+       //self.chatContents = copy;
+       self.chatboxVC.chatbox.text = copy;
+       
+       [self showChat:cell];
+       [self.chatboxVC.chatbox becomeFirstResponder];
 
+   }
+
+}
+
+
+- (void)longPress:(UILongPressGestureRecognizer *)recognizer {
+    
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+        ChatTableViewCell *cell = (ChatTableViewCell *)recognizer.view;
+        self.touchedCell = cell;
+        NSString *chatUserName = [cell.textLabel.text uppercaseString];
+        NSString *currentUserName = [self.access.userName uppercaseString];
+        
+        [cell becomeFirstResponder];
+        
+        if([chatUserName isEqualToString:currentUserName]){
+
+            UIMenuItem *reply = [[UIMenuItem alloc] initWithTitle:@"回复"action:@selector(reply:)];
+            UIMenuItem *quote = [[UIMenuItem alloc] initWithTitle:@"引用"action:@selector(quote:)];
+            UIMenuItem *block = [[UIMenuItem alloc] initWithTitle:@"屏蔽"action:@selector(block:)];
+            UIMenuItem *remove = [[UIMenuItem alloc] initWithTitle:@"删除"action:@selector(remove:)];
+            UIMenuItem *report = [[UIMenuItem alloc] initWithTitle:@"举报"action:@selector(report:)];
+
+
+            UIMenuController *menu = [UIMenuController sharedMenuController];
+            [menu setMenuItems:[NSArray arrayWithObjects:reply, quote, block,remove,report,nil]];
+            
+        }else {
+            
+            UIMenuItem *reply = [[UIMenuItem alloc] initWithTitle:@"回复"action:@selector(reply:)];
+            UIMenuItem *quote = [[UIMenuItem alloc] initWithTitle:@"引用"action:@selector(quote:)];
+            UIMenuItem *block = [[UIMenuItem alloc] initWithTitle:@"屏蔽"action:@selector(block:)];
+            UIMenuItem *report = [[UIMenuItem alloc] initWithTitle:@"举报"action:@selector(report:)];
+            
+            
+            UIMenuController *menu = [UIMenuController sharedMenuController];
+            [menu setMenuItems:[NSArray arrayWithObjects:reply, quote, block,report,nil]];
+ 
+        }
+        
+        [[UIMenuController sharedMenuController] setTargetRect:cell.frame inView:cell.superview];
+        [[UIMenuController sharedMenuController] setMenuVisible:YES animated:YES];
+    }
+}
+
+
+- (void)reply:(id)sender {
+    //NSLog(@"Cell was replied");
+
+    
+    NSString *copy = [NSString stringWithFormat: @"@%@:",self.touchedCell.textLabel.text];
+    //self.chatContents = copy;
+    self.chatboxVC.chatbox.text = copy;
+    
+    [self showChat:nil];
+    [self.chatboxVC.chatbox becomeFirstResponder];
+
+    
+}
+
+- (void)quote:(id)sender {
+    //NSLog(@"Cell was quoted");
+    
+    
+    
+    NSString *copy = [NSString stringWithFormat: @"\"@%@:%@\"",self.touchedCell.textLabel.text,self.touchedCell.detailTextLabel.text];
+    //self.chatContents = copy;
+    self.chatboxVC.chatbox.text = copy;
+    
+    [self showChat:nil];
+    [self.chatboxVC.chatbox becomeFirstResponder];
+    
+}
+
+- (void)block:(id)sender {
+    //NSLog(@"Cell was blocked");
+    
+    [self blockUser:[self getUserID:self.touchedCell.textLabel.text] :self.touchedCell.textLabel.text];
+}
+
+- (void)report:(id)sender {
+    //NSLog(@"Cell was reported");
+    [self reportChat];
+}
+- (void)remove:(id)sender {
+    //NSLog(@"Cell was removed");
+    [self deleteChat];
+    
+}
+
+
+- (NSString *) getUserID: (NSString *)userName{
+    
+    for (ChatData *chat in self.chats) {
+        if ([[chat.speaker uppercaseString] isEqualToString:[userName uppercaseString]]) {
+            return chat.userId;
+        }
+    }
+    return nil;
+    
+}
+
+- (BOOL)canBecomeFirstResponder{
+    return YES;
+}
+
+#define FONT_SIZE 13.0f
+#define CELL_CONTENT_WIDTH 240.0f
+#define CELL_CONTENT_MARGIN 10.0f
 -(CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath
 
 {
+
+
     ChatData *chat = [self.chats objectAtIndex:indexPath.row];
     
-    CGSize size = CGSizeMake(CELL_CONTENT_WIDTH - (CELL_CONTENT_MARGIN * 2)-30, MAXFLOAT);
+    CGSize size = CGSizeMake(CELL_CONTENT_WIDTH - (CELL_CONTENT_MARGIN * 2), MAXFLOAT);
     
     CGSize textSize = [self frameForText:chat.content sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
 
-    self.pullTableView.contentSize = CGSizeMake(self.pullTableView.contentSize.width, textSize.height+self.pullTableView.contentSize.height);
+    //self.pullTableView.contentSize = CGSizeMake(self.pullTableView.contentSize.width, textSize.height+self.pullTableView.contentSize.height);
     //[self tableView:tableView cellForRowAtIndexPath:indexPath];
     return textSize .height+20;
     

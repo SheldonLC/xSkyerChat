@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
+
 #import "AccessControl.h"
 #import "TableViewController.h"
 
-@interface SettingViewController : UIViewController
+@interface SettingViewController : UIViewController <MFMailComposeViewControllerDelegate>
 @property (strong,nonatomic) AccessControl *access;
 @property (strong,nonatomic) TableViewController   *mainVC;
 @property   (nonatomic,strong) NSMutableArray *blockedUsers;

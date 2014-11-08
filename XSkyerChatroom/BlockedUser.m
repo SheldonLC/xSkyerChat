@@ -15,4 +15,14 @@
     BOOL nameEqual = [[another.userM uppercaseString] isEqualToString:[self.userM uppercaseString]];
     return idEqual && nameEqual;
 }
+
+-(instancetype)initWithUserId: (NSString *) userId withUserName: (NSString *) userM{
+    
+    
+    self = [super init];
+    self.userID = userId;
+    self.userM = userM;
+    
+    return self;
+}
 @end

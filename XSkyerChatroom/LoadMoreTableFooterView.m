@@ -88,10 +88,15 @@
 - (CGFloat)scrollViewOffsetFromBottom:(UIScrollView *) scrollView
 {
     CGFloat scrollAreaContenHeight = scrollView.contentSize.height;
+    //NSLog(@"scrollView.contentOffset.y = %f",scrollView.contentOffset.y );
+    //NSLog(@"scrollAreaContenHeight = %f",scrollAreaContenHeight);
+    //NSLog(@"scrollView.bounds.size.height = %f",scrollView.bounds.size.height);
+
     
     CGFloat visibleTableHeight = MIN(scrollView.bounds.size.height, scrollAreaContenHeight);
     CGFloat scrolledDistance = scrollView.contentOffset.y + visibleTableHeight+44; // If scrolled all the way down this should add upp to the content heigh.
-    
+    //NSLog(@"scrolledDistance = %f",scrolledDistance);
+
     CGFloat normalizedOffset = scrollAreaContenHeight -scrolledDistance;
     
     return normalizedOffset;
@@ -171,26 +176,27 @@
 - (void)egoRefreshScrollViewDidScroll:(UIScrollView *)scrollView {	
     CGFloat bottomOffset = [self scrollViewOffsetFromBottom:scrollView];
 	if (_state == EGOOPullLoading) {
-        
+
 		CGFloat offset = MAX(bottomOffset * -1, 0);
 		offset = MIN(offset, PULL_AREA_HEIGTH);
         UIEdgeInsets currentInsets = scrollView.contentInset;
         currentInsets.bottom = offset? offset + [self visibleTableHeightDiffWithBoundsHeight:scrollView]: 0;
+        
+
+
         scrollView.contentInset = currentInsets;
 		
 	} else if (scrollView.isDragging) {
-        NSLog(@"*********************" );
-        NSLog(@"scrollView.contentOffset.y = %f",scrollView.contentOffset.y );
-        NSLog(@"bottomOffset = %f",bottomOffset );
-        NSLog(@"%d",_state );
 
+       // NSLog(@"bottomOffset = %f",bottomOffset);
+		if (_state == EGOOPullPulling &&scrollView.contentOffset.y > -PULL_TRIGGER_HEIGHT && !isLoading) {
+           // NSLog(@"_state = EGOOPullPulling");
 
-
-        
-		if (_state == EGOOPullPulling && bottomOffset > -PULL_TRIGGER_HEIGHT && bottomOffset < 0.0f && !isLoading) {
 			[self setState:EGOOPullNormal];
-		} else if (_state == EGOOPullNormal && bottomOffset < -PULL_TRIGGER_HEIGHT && !isLoading) {
+		} else if (_state == EGOOPullNormal &&scrollView.contentOffset.y < -PULL_TRIGGER_HEIGHT && !isLoading) {
 			[self setState:EGOOPullPulling];
+            //NSLog(@"_state = EGOOPullNormal");
+
             
 		}
 		

@@ -20,6 +20,6 @@
 - (NSString *) generateGetBlockedListWithToken:(NSString *) sToken;
 - (NSString *) generateAddBlockedUserWithToken:(NSString *) sToken forUserId: (NSString *) userID ;
 - (NSString *) generateRemoveBlockedUserWithToken:(NSString *) sToken forUserId: (NSString *) userID ;
-
+- (NSString *) generatePMToUser:(NSString *) toUser withContent:(NSString *) pmContent withToken: (NSString *) token;
 
 @end

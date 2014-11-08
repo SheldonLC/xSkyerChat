@@ -16,4 +16,5 @@
 
 - (BOOL) isEqual:(BlockedUser *) another;
 
+-(instancetype)initWithUserId: (NSString *) userId withUserName: (NSString *) userM;
 @end

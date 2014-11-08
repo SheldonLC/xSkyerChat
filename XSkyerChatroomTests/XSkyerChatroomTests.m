@@ -54,7 +54,6 @@
     NSData *data1 = [str1 dataUsingEncoding:NSUTF8StringEncoding];
     [requestLogin setHTTPBody:data1];
     NSData *received1 = [NSURLConnection sendSynchronousRequest:requestLogin returningResponse:nil error:nil];
-    NSString *strResult1 = [[NSString alloc]initWithData:received1 encoding:NSUTF8StringEncoding];
     NSString  *stoken = [[[ParseChat alloc]init] parseHTMLDataForAccess:received1];
     NSLog(@"%@",@"******************* Test Log Begin *****************");
 
@@ -68,7 +67,6 @@
     NSData *data2 = [str2 dataUsingEncoding:NSUTF8StringEncoding];
     [requestLogin2 setHTTPBody:data2];
     NSData *received2 = [NSURLConnection sendSynchronousRequest:requestLogin2 returningResponse:nil error:nil];
-    NSString *strResult2 = [[NSString alloc]initWithData:received2 encoding:NSUTF8StringEncoding];
     
     [[[ParseChat alloc]init] parseHTMLDataForBlockedUsers:received2];
 
