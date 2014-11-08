@@ -39,4 +39,9 @@ extern NSString * const ACCSEE_LOGIN_AUTH_FAILED;
 extern NSString * const THEME_NIGHT_MODE;
 extern NSString * const THEME_DAFAULT_MODE;
 
+extern NSString * const USER_DEFAULTS_ACCOUNT;
+extern NSString * const USER_DEFAULTS_USER_M;
+extern NSString * const USER_DEFAULTS_PASSWORD;
+
+
 @end

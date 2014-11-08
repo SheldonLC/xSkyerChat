@@ -49,8 +49,17 @@
     } completion:^(BOOL finished) {
         
         
-        //call mainVC's delegate to perform login
-        [weakSelf.mainVC loginForUser:@"SheldonLC" withPassword:@"yb830922"];
+        NSString *userM = nil;
+        NSString *password = nil;
+        if ([accountDefaults boolForKey:USER_DEFAULTS_ACCOUNT] == YES)
+        {
+            
+            userM = [accountDefaults objectForKey:USER_DEFAULTS_USER_M];
+            password = [accountDefaults objectForKey:USER_DEFAULTS_PASSWORD];
+            
+            //call mainVC's delegate to perform login
+            [weakSelf.mainVC loginForUser:userM withPassword:password];
+        }
         if (weakSelf.mainVC.access.hasLogin) {
               [weakSelf performSegueWithIdentifier:@"LoginSegue" sender:weakSelf];
                //NSLog(@"End");
@@ -69,6 +78,7 @@
             }];
         }
         
+     
     }];
 }
 - (void)didReceiveMemoryWarning {
@@ -186,6 +196,17 @@
             [UIView animateWithDuration:1.0 animations:^{
                 [self.icon setAlpha:1.0];
             } completion:^(BOOL finished) {
+                
+                if ([accountDefaults boolForKey:USER_DEFAULTS_ACCOUNT] == YES)
+                {
+                    [accountDefaults setObject:self.userTxt.text forKey:USER_DEFAULTS_USER_M];
+                    [accountDefaults setObject:self.passwordTxt.text forKey:USER_DEFAULTS_PASSWORD];
+                    
+                }else{
+                    [accountDefaults setBool:YES forKey:USER_DEFAULTS_ACCOUNT];
+                    [accountDefaults setObject:self.userTxt.text forKey:USER_DEFAULTS_USER_M];
+                    [accountDefaults setObject:self.passwordTxt.text forKey:USER_DEFAULTS_PASSWORD];
+                }
                 [weakSelf performSegueWithIdentifier:@"LoginSegue" sender:weakSelf];
                 //NSLog(@"Login successfully!");
             }];

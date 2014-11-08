@@ -42,7 +42,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     NSInteger blockedCount = self.blockedUsers?[self.blockedUsers count] :0;
-    [self.enterBlackList setTitle:[NSString stringWithFormat:@"(%lu 人) 更改",blockedCount]
+    [self.enterBlackList setTitle:[NSString stringWithFormat:@"(%lu 人) 更改",(long)blockedCount]
                          forState:UIControlStateNormal];
 
 }

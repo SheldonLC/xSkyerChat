@@ -81,7 +81,8 @@
     requestLogout = nil;
     data1 = nil;
     requestLogout = nil;
-    
+    NSUserDefaults *accountDefaults = [NSUserDefaults standardUserDefaults];
+    [accountDefaults removeObjectForKey:USER_DEFAULTS_ACCOUNT];
     [self performSegueWithIdentifier:@"LogoutSegue" sender:self];
     
     
