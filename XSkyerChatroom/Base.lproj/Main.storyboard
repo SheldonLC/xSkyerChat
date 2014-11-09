@@ -241,7 +241,7 @@
                                     <constraint firstAttribute="height" constant="26" id="lhP-YA-d0m"/>
                                 </constraints>
                                 <attributedString key="attributedText">
-                                    <fragment content="联系我">
+                                    <fragment content="联系作者">
                                         <attributes>
                                             <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <font key="NSFont" size="24" name="STHeitiSC-Medium"/>
