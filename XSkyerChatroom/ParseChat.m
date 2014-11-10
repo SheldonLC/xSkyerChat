@@ -25,8 +25,7 @@
 - (NSArray *) parseXMLDataForCurrentChat:(NSData *) data
 {
     NSArray *chats = nil;
-   // NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-   // NSLog(@"%@",str1);
+    
     
     //int index = 0;
 
@@ -442,8 +441,8 @@
 
 - (NSArray *) parseHTMLDataForPMList:(NSData *) data
 {
-    //NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    //NSLog(@"%@",str1);
+    NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"%@",str1);
     
     NSMutableArray *users = nil;
     if (data) {

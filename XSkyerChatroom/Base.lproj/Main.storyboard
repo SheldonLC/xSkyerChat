@@ -186,11 +186,18 @@
                                     <constraint firstAttribute="height" constant="30" id="mWU-7I-DgH"/>
                                 </constraints>
                                 <attributedString key="attributedText">
-                                    <fragment content="ver.1.0">
+                                    <fragment content="ver.1.">
                                         <attributes>
                                             <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <font key="NSFont" size="24" name="HelveticaNeue-Bold"/>
                                             <font key="NSOriginalFont" size="24" name="HelveticaNeue-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="2">
+                                        <attributes>
+                                            <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <font key="NSFont" size="24" name="HelveticaNeue-Bold"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
                                         </attributes>
                                     </fragment>
@@ -504,6 +511,7 @@
                     </view>
                     <toolbarItems/>
                     <connections>
+                        <outlet property="about" destination="RRk-7D-fta" id="AP1-9A-wfX"/>
                         <outlet property="currentUser" destination="EXB-fr-RdR" id="rIO-Di-wgo"/>
                         <outlet property="enterBlackList" destination="qp8-lJ-S1m" id="gtM-0T-7O5"/>
                         <segue destination="GFX-gN-BRE" kind="presentation" identifier="LogoutSegue" id="fhD-l3-SzH"/>
@@ -655,7 +663,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="send"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" spellCheckingType="yes" returnKeyType="send"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

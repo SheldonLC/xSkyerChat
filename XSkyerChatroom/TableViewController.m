@@ -330,7 +330,7 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.pullTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.pullTableView.backgroundColor = [UIColor whiteColor];
+    self.pullTableView.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
 
 
     //init the setup for pop over controller
@@ -345,8 +345,8 @@
     
     
     self.pullTableView.pullArrowImage = [UIImage imageNamed:@"blueArrow"];
-    self.pullTableView.pullBackgroundColor = [UIColor whiteColor];
-    self.pullTableView.pullTextColor = [UIColor grayColor];
+    self.pullTableView.pullBackgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
+    //self.pullTableView.pullTextColor = [UIColor grayColor];
 
     __weak TableViewController *weakSelf = self;
     self.pullTableView.pullDelegate = weakSelf;
@@ -931,7 +931,7 @@
         
         //Remove the chat by chat id
         for (ChatData *chat in self.chats) {
-            if ([[cell.textLabel.text uppercaseString] isEqualToString:[chat.speaker uppercaseString]]) {
+            if ([weakSelf.chosenChatID isEqualToString:chat.chatId]) {
                 [self.chats removeObject:chat];
                 break;
             }
@@ -1081,6 +1081,9 @@
     cell.detailTextLabel.text = chat.content;
     cell.chat  = chat;
     
+    //Set Cell color
+    cell.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
+    
     //cell.imageView.image = [UIImage imageNamed:@"Set"];
 
     //Attach gesture
@@ -1137,13 +1140,12 @@
 
             UIMenuItem *reply = [[UIMenuItem alloc] initWithTitle:@"回复"action:@selector(reply:)];
             UIMenuItem *quote = [[UIMenuItem alloc] initWithTitle:@"引用"action:@selector(quote:)];
-            UIMenuItem *block = [[UIMenuItem alloc] initWithTitle:@"屏蔽"action:@selector(block:)];
             UIMenuItem *remove = [[UIMenuItem alloc] initWithTitle:@"删除"action:@selector(remove:)];
             UIMenuItem *report = [[UIMenuItem alloc] initWithTitle:@"举报"action:@selector(report:)];
 
 
             UIMenuController *menu = [UIMenuController sharedMenuController];
-            [menu setMenuItems:[NSArray arrayWithObjects:reply, quote, block,remove,report,nil]];
+            [menu setMenuItems:[NSArray arrayWithObjects:reply, quote,remove,report,nil]];
             
         }else {
             

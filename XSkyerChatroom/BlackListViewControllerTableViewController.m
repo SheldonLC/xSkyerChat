@@ -42,6 +42,8 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
+
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -81,6 +83,7 @@
     
     BlockedUser  *user = [self.blockedUsers objectAtIndex:indexPath.row];
     // Configure the cell...
+    cell.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
     cell.textLabel.text = user.userM;
     return cell;
 }

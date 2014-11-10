@@ -14,6 +14,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *currentUser;
 @property (strong, nonatomic) IBOutlet UIButton *enterBlackList;
 @property (strong,nonatomic) MFMailComposeViewController *mailPicker;
+@property (strong, nonatomic) IBOutlet UITextView *about;
 
 @end
 
@@ -33,7 +34,10 @@
     //Get the sourceview controller, set the current user to login user
     self.currentUser.text= self.access.userName;
     
-    
+    self.view.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
+
+    self.about.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
+    ;
     mailPicker = [[MFMailComposeViewController alloc] init];
 
 
