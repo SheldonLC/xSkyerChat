@@ -8,6 +8,7 @@
 
 #import "ParseChat.h"
 #import "BlockedUser.h"
+#import "PrivateMessage.h"
 
 @interface ParseChat ()
 
@@ -15,6 +16,7 @@
 @property  (strong,nonatomic) NSMutableArray   *blockedUsers;
 //@property (strong,nonatomic) NSURLConnection *theConnection;
 @property (strong,nonatomic) NSData *data;
+
 @end
 
 @implementation ParseChat
@@ -437,6 +439,59 @@
     }
     return users;
 }
+
+- (NSArray *) parseHTMLDataForPMList:(NSData *) data
+{
+    NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"%@",str1);
+    
+    NSMutableArray *users = nil;
+    if (data) {
+        TFHpple *xpathParser = [[TFHpple alloc] initWithHTMLData:data];
+        NSArray *elementsP = [xpathParser searchWithXPathQuery:@"//ul[@id='ignorelist']"];
+        
+        if([elementsP count]!=0){
+            
+            
+            NSArray *elements = [[elementsP objectAtIndex:0] children];
+            
+            if (elements && [elements count] !=0) {
+                //Initialize the ChatData
+                users = [[NSMutableArray alloc]init];
+                NSString *userM = nil;
+                NSString *userID = nil;
+                for (TFHppleElement *userElement in elements) {
+                    if(![userElement isTextNode]){
+                        NSArray *arr = [userElement searchWithXPathQuery:@"//input"];
+                        if(arr && [arr count]>0){
+                            userID = [[arr objectAtIndex:0] objectForKey:@"value"];
+                            //NSLog(@"%@", userID);
+                            
+                            //Get the userName
+                            
+                            NSArray* nameArr =  [userElement searchWithXPathQuery:@"//a"];
+                            if(nameArr && [nameArr count]>0){
+                                userM = [[nameArr objectAtIndex:0] text];
+                                //NSLog(@"%@", userM);
+                                
+                            }
+                            //Set obj
+                            BlockedUser *blockedUser = [[BlockedUser alloc] init];
+                            
+                            blockedUser.userM  = userM;
+                            blockedUser.userID = userID;
+                            [users addObject:blockedUser];//Add result to array
+                        }
+                    }
+                }
+                
+            }
+        }
+        
+    }
+    return users;
+}
+
 - (NSArray *) parseHTMLDataForHistory:(NSData *) data
 {
 

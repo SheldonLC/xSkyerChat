@@ -31,6 +31,8 @@
 		4DB69A3C1A00C09700B493D9 /* ChatData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A3B1A00C09700B493D9 /* ChatData.m */; };
 		4DB69A3F1A00C0DA00B493D9 /* AccessControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A3E1A00C0DA00B493D9 /* AccessControl.m */; };
 		4DB69A421A00C0FD00B493D9 /* ParseChat.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A411A00C0FD00B493D9 /* ParseChat.m */; };
+		4DC5386F1A0F61870099104C /* PrivateMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC5386E1A0F61870099104C /* PrivateMessage.m */; };
+		4DC538721A0F63C90099104C /* PrivateMessageDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC538711A0F63C90099104C /* PrivateMessageDetail.m */; };
 		4DCB40A31A05C39200ED80C6 /* PostParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DCB40A21A05C39200ED80C6 /* PostParameter.m */; };
 		4DCC0C4E1A0B0613004724A8 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DCC0C4D1A0B0613004724A8 /* SettingViewController.m */; };
 		4DCC0C521A0B48D5004724A8 /* ChatView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DCC0C511A0B48D5004724A8 /* ChatView.m */; };
@@ -92,6 +94,10 @@
 		4DB69A3E1A00C0DA00B493D9 /* AccessControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AccessControl.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		4DB69A401A00C0FD00B493D9 /* ParseChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ParseChat.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		4DB69A411A00C0FD00B493D9 /* ParseChat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ParseChat.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		4DC5386D1A0F61870099104C /* PrivateMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateMessage.h; sourceTree = "<group>"; };
+		4DC5386E1A0F61870099104C /* PrivateMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrivateMessage.m; sourceTree = "<group>"; };
+		4DC538701A0F63C90099104C /* PrivateMessageDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateMessageDetail.h; sourceTree = "<group>"; };
+		4DC538711A0F63C90099104C /* PrivateMessageDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrivateMessageDetail.m; sourceTree = "<group>"; };
 		4DCB40A11A05C39200ED80C6 /* PostParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PostParameter.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		4DCB40A21A05C39200ED80C6 /* PostParameter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PostParameter.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		4DCC0C4C1A0B0613004724A8 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
@@ -258,6 +264,10 @@
 				4DCB40A21A05C39200ED80C6 /* PostParameter.m */,
 				4DCC0C6F1A0C6AC1004724A8 /* BlockedUser.h */,
 				4DCC0C701A0C6AC1004724A8 /* BlockedUser.m */,
+				4DC5386D1A0F61870099104C /* PrivateMessage.h */,
+				4DC5386E1A0F61870099104C /* PrivateMessage.m */,
+				4DC538701A0F63C90099104C /* PrivateMessageDetail.h */,
+				4DC538711A0F63C90099104C /* PrivateMessageDetail.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -322,6 +332,7 @@
 				TargetAttributes = {
 					4DB699FA1A00BD7900B493D9 = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = 4SAUMR9499;
 					};
 					4DB69A131A00BD7900B493D9 = {
 						CreatedOnToolsVersion = 6.1;
@@ -389,9 +400,11 @@
 				4D6E30E31A08BDDC007698FC /* LoginViewController.m in Sources */,
 				4DB69A2B1A00BDF700B493D9 /* TFHpple.m in Sources */,
 				4DB69A331A00BE5700B493D9 /* XPathQuery.m in Sources */,
+				4DC538721A0F63C90099104C /* PrivateMessageDetail.m in Sources */,
 				4DB69A381A00BF9700B493D9 /* Constants.m in Sources */,
 				4D6E30DB1A088F76007698FC /* LoadMoreTableFooterView.m in Sources */,
 				4DB69A2D1A00BDF700B493D9 /* TFHppleElement.m in Sources */,
+				4DC5386F1A0F61870099104C /* PrivateMessage.m in Sources */,
 				4DCB40A31A05C39200ED80C6 /* PostParameter.m in Sources */,
 				4D6E30DD1A088F76007698FC /* PullTableView.m in Sources */,
 				4DCC0C6E1A0C6A84004724A8 /* BlackListViewControllerTableViewController.m in Sources */,
@@ -521,6 +534,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -531,6 +546,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				"OTHER_LDFLAGS[arch=*]" = /usr/lib/libxml2.dylib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -539,6 +555,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -549,6 +567,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				"OTHER_LDFLAGS[arch=*]" = /usr/lib/libxml2.dylib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

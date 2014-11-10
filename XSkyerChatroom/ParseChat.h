@@ -17,6 +17,7 @@
 - (NSArray *) parseHTMLDataForBlockedUsers:(NSData *) data;
 - (NSArray *) parseXMLDataForCurrentChat:(NSData *) data;
 - (NSString *) parseHTMLDataForAccess:(NSData *) data;
+- (NSArray *) parseHTMLDataForPMList:(NSData *) data;
 
 
 @end

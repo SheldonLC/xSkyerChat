@@ -39,6 +39,9 @@
 @property   (nonatomic) BOOL isBlockedUserRefreshed;
 @property  (nonatomic,weak ) ChatTableViewCell *touchedCell;
 
+//Private
+@property (nonatomic,weak) NSMutableArray *pmArr;//Store the Private Message, will pass to Private message page
+
 
 @end
 
@@ -62,9 +65,9 @@
 }
 
 - (void) logout{
-    NSURL *url1 = [NSURL URLWithString:@"http://www.xbox-skyer.com/login.php"];
+    NSURL *url1 = [NSURL URLWithString:@"http://www.xbox-skyer.com/login.php"];//Login operation
     NSMutableURLRequest *requestLogout= [[NSMutableURLRequest alloc]initWithURL:url1 cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60];
-    [requestLogout setHTTPMethod:@"POST"];//设置请求方式为POST，默认为GET
+    [requestLogout setHTTPMethod:@"POST"];//Set the request method to "Post"
     NSString *str1 = [self.param generateLogoutWithToken:self.access.token];//设置参数
     NSData *data1 = [str1 dataUsingEncoding:NSUTF8StringEncoding];
     [requestLogout setHTTPBody:data1];
@@ -92,8 +95,9 @@
     if(self.access){
         NSURL *url1 = [NSURL URLWithString:@"http://www.xbox-skyer.com/login.php"];
         NSMutableURLRequest *requestLogin = [[NSMutableURLRequest alloc]initWithURL:url1 cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60];
-        [requestLogin setHTTPMethod:@"POST"];//设置请求方式为POST，默认为GET
-        NSString *str1 = [self.param generateLoginWithUser:self.access.userName withPassword:self.access.password];        NSData *data1 = [str1 dataUsingEncoding:NSUTF8StringEncoding];
+        [requestLogin setHTTPMethod:@"POST"];//Set request method to POST
+        NSString *str1 = [self.param generateLoginWithUser:self.access.userName withPassword:self.access.password];
+        NSData *data1 = [str1 dataUsingEncoding:NSUTF8StringEncoding];
         [requestLogin setHTTPBody:data1];
         NSData *received1 = [NSURLConnection sendSynchronousRequest:requestLogin returningResponse:nil error:nil];
        // NSString *strResult1 = [[NSString alloc]initWithData:received1 encoding:NSUTF8StringEncoding];
@@ -130,6 +134,8 @@
         
     }
 }
+
+
 -(PostParameter *)param{
     if(!_param){
         _param = [[PostParameter alloc]init];
@@ -161,6 +167,8 @@
         result = [self.parse parseHTMLDataForHistory:self.data];
     }else if([self.target isEqualToString:HTML_REQUEST_TARGET_PROFILE]){
         result = [self.parse parseHTMLDataForBlockedUsers:self.data];
+    }else if([self.target isEqualToString:HTML_REQUEST_TARGET_PRIVATE]){
+        result = nil;
     }
     
     return result;
@@ -296,6 +304,8 @@
 
     }else if([target isEqualToString:HTML_REQUEST_TARGET_PRIVATE]){
         url = [[NSMutableString alloc] initWithString:@"http://www.xbox-skyer.com/private.php?do=newpm"];
+    }else if([target isEqualToString:HTML_REQUEST_TARGET_PRIVATE]){
+        url = [[NSMutableString alloc] initWithString:@"http://www.xbox-skyer.com/private.php?folderid=0&styleid=47"];
     }
     
     self.thisUrl = [[NSURL alloc] initWithString:url];
@@ -420,16 +430,57 @@
     // e.g. self.myOutlet = nil;
 }
 
+
+
+#pragma private message
+
+
+//Get private messages listed
+
+-(void) getPrivateMessages{
+    [self startRequestDataFrom:HTML_REQUEST_TARGET_HISTORY forPage:[NSString stringWithFormat:@"%lu",(long)self.page ] forType:HTML_REQUEST_TYPE_REFRESH];
+
+}
+
+
 #pragma mark - PullTableViewDelegate
 
 - (void)pullTableViewDidTriggerRefresh:(PullTableView *)pullTableView
 {
     [self performSelector:@selector(refreshTable) withObject:nil afterDelay:1.0f];
+    
+//#warning add the refresh the private messages here
+//    Query
+//    
+//    1. http://www.xbox-skyer.com/private.php?folderid=0&styleid=47
+//    2. PUT
+//    3. do=procee&securitytoken=%@
+//    4. First 50 record only // maybe only retrieve the latest 50
+//    
+//        Delete
+//        1.http://www.xbox-skyer.com/private.php?folderid=0
+//        2.Post
+//        3.securitytoken=1415524351-b6a7a32eafde90b89edda42be6c53939cc72b57d&do=managepm&s=&folderid=0&dowhat=delete&pmid=627079&pm[627079]=
+//            
+//            detail
+//            securitytoken=1415524351-b6a7a32eafde90b89edda42be6c53939cc72b57d&do=showpm&pmid=628098
+//            
+//    New
+//            exists
+//    Report
+//             securitytoken=&private.php?do=report&amp;pmid=628098
+//            
+//            reply
+//    securitytoken=&private.php?do=newpm&amp;pmid=628098
+//    
+//    Private message page, just the simple table view list 
 }
 
 - (void)pullTableViewDidTriggerLoadMore:(PullTableView *)pullTableView
 {
     [self performSelector:@selector(loadMoreDataToTable) withObject:nil afterDelay:1.0f];
+//#warning add the refresh the private messages here
+
 }
 
 
@@ -703,6 +754,8 @@
 - (void) startRequestDataFrom: (NSString *) target forType: (NSString *) type{
     [self startRequestDataFrom:target forPage:@"" forType:type];
 }
+
+
 
 - (void) startRequestDataFrom: (NSString *) target forPage : (NSString *) page forType: (NSString *) type{
     [self setURLwith:target forPage:page];

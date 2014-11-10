@@ -28,6 +28,7 @@ extern NSString * const HTML_REQUEST_TYPE_BLOCKED_GET;
 extern NSString * const HTML_REQUEST_TYPE_BLOCKED_DELETE;
 extern NSString * const HTML_REQUEST_TYPE_BLOCKED_ADD;
 extern NSString * const HTML_REQUEST_TYPE_REPORT;
+extern NSString * const HTML_REQUEST_TYPE_GET_PM_LIST;
 
 
 extern NSString * const ACCSEE_LOGIN_FAILED;
