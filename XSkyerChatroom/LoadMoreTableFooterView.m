@@ -88,14 +88,10 @@
 - (CGFloat)scrollViewOffsetFromBottom:(UIScrollView *) scrollView
 {
     CGFloat scrollAreaContenHeight = scrollView.contentSize.height;
-    //NSLog(@"scrollView.contentOffset.y = %f",scrollView.contentOffset.y );
-    //NSLog(@"scrollAreaContenHeight = %f",scrollAreaContenHeight);
-    //NSLog(@"scrollView.bounds.size.height = %f",scrollView.bounds.size.height);
 
     
     CGFloat visibleTableHeight = MIN(scrollView.bounds.size.height, scrollAreaContenHeight);
     CGFloat scrolledDistance = scrollView.contentOffset.y + visibleTableHeight+44; // If scrolled all the way down this should add upp to the content heigh.
-    //NSLog(@"scrolledDistance = %f",scrolledDistance);
 
     CGFloat normalizedOffset = scrollAreaContenHeight -scrolledDistance;
     
@@ -188,21 +184,18 @@
 		
 	} else if (scrollView.isDragging) {
 
-       // NSLog(@"bottomOffset = %f",bottomOffset);
 		if (_state == EGOOPullPulling &&scrollView.contentOffset.y > -PULL_TRIGGER_HEIGHT && !isLoading) {
-           // NSLog(@"_state = EGOOPullPulling");
 
 			[self setState:EGOOPullNormal];
 		} else if (_state == EGOOPullNormal &&scrollView.contentOffset.y < -PULL_TRIGGER_HEIGHT && !isLoading) {
 			[self setState:EGOOPullPulling];
-            //NSLog(@"_state = EGOOPullNormal");
 
             
 		}
 		
 		if (scrollView.contentInset.bottom != 0) {
             UIEdgeInsets currentInsets = scrollView.contentInset;
-            currentInsets.bottom = 0;
+            currentInsets.bottom = 0+44;
             scrollView.contentInset = currentInsets;
 		}
 		

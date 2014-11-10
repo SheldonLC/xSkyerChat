@@ -537,12 +537,12 @@
 }
 
 
-#define HEIGHT_PATCH_4_0_INCH 60
+#define HEIGHT_PATCH_4_0_INCH 35
 #define HEIGHT_PATCH_9_7_INCH 420
 #define HEIGHT_PATCH_7_9_INCH 330
 #define HEIGHT_PATCH_3_5_INCH 0
-#define HEIGHT_PATCH_4_7_INCH 180
-#define HEIGHT_PATCH_5_5_INCH 220
+#define HEIGHT_PATCH_4_7_INCH 120
+#define HEIGHT_PATCH_5_5_INCH 180
 
 
 
@@ -562,7 +562,7 @@
         newTextViewFrame.size.height = keyboardTop - self.view.bounds.origin.y+HEIGHT_PATCH_9_7_INCH;
     }else if (newTextViewFrame.size.height == 480) {
         //Iphone 4/4s
-        newTextViewFrame.size.height = keyboardTop - self.view.bounds.origin.y+HEIGHT_PATCH_3_5_INCH;
+        newTextViewFrame.size.height = keyboardTop - self.view.bounds.origin.y-40+HEIGHT_PATCH_3_5_INCH;
     }else if (newTextViewFrame.size.height == 568) {
         //Iphone 5/5s, ipod touch
         newTextViewFrame.size.height = keyboardTop - self.view.bounds.origin.y+HEIGHT_PATCH_4_0_INCH;
@@ -1111,7 +1111,7 @@
        ChatTableViewCell *cell = (ChatTableViewCell *)recognizer.view;
        NSString *user = cell.textLabel.text;
        
-       NSString *copy = [NSString stringWithFormat: @"@%@:",user];
+       NSString *copy = [NSString stringWithFormat: @"@%@: ",user];
        //self.chatContents = copy;
        self.chatboxVC.chatbox.text = copy;
        
@@ -1168,7 +1168,7 @@
     //NSLog(@"Cell was replied");
 
     
-    NSString *copy = [NSString stringWithFormat: @"@%@:",self.touchedCell.textLabel.text];
+    NSString *copy = [NSString stringWithFormat: @"@%@: ",self.touchedCell.textLabel.text];
     //self.chatContents = copy;
     self.chatboxVC.chatbox.text = copy;
     
@@ -1183,7 +1183,7 @@
     
     
     
-    NSString *copy = [NSString stringWithFormat: @"\"@%@:%@\"",self.touchedCell.textLabel.text,self.touchedCell.detailTextLabel.text];
+    NSString *copy = [NSString stringWithFormat: @"\"@%@: %@\"",self.touchedCell.textLabel.text,self.touchedCell.detailTextLabel.text];
     //self.chatContents = copy;
     self.chatboxVC.chatbox.text = copy;
     

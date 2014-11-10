@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4DB699FA1A00BD7900B493D9"
-               BuildableName = "XSkyerChatroom.app"
-               BlueprintName = "XSkyerChatroom"
-               ReferencedContainer = "container:XSkyerChatroom.xcodeproj">
+               BuildableName = "xSkyerChat.app"
+               BlueprintName = "xSkyerChat"
+               ReferencedContainer = "container:xSkyerChat.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4DB69A131A00BD7900B493D9"
-               BuildableName = "XSkyerChatroomTests.xctest"
-               BlueprintName = "XSkyerChatroomTests"
-               ReferencedContainer = "container:XSkyerChatroom.xcodeproj">
+               BuildableName = "xSkyerChat.Tests.xctest"
+               BlueprintName = "xSkyerChat.Tests"
+               ReferencedContainer = "container:xSkyerChat.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4DB69A131A00BD7900B493D9"
-               BuildableName = "XSkyerChatroomTests.xctest"
-               BlueprintName = "XSkyerChatroomTests"
-               ReferencedContainer = "container:XSkyerChatroom.xcodeproj">
+               BuildableName = "xSkyerChat.Tests.xctest"
+               BlueprintName = "xSkyerChat.Tests"
+               ReferencedContainer = "container:xSkyerChat.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,9 +57,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4DB699FA1A00BD7900B493D9"
-            BuildableName = "XSkyerChatroom.app"
-            BlueprintName = "XSkyerChatroom"
-            ReferencedContainer = "container:XSkyerChatroom.xcodeproj">
+            BuildableName = "xSkyerChat.app"
+            BlueprintName = "xSkyerChat"
+            ReferencedContainer = "container:xSkyerChat.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -76,9 +76,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4DB699FA1A00BD7900B493D9"
-            BuildableName = "XSkyerChatroom.app"
-            BlueprintName = "XSkyerChatroom"
-            ReferencedContainer = "container:XSkyerChatroom.xcodeproj">
+            BuildableName = "xSkyerChat.app"
+            BlueprintName = "xSkyerChat"
+            ReferencedContainer = "container:xSkyerChat.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -94,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4DB699FA1A00BD7900B493D9"
-            BuildableName = "XSkyerChatroom.app"
-            BlueprintName = "XSkyerChatroom"
-            ReferencedContainer = "container:XSkyerChatroom.xcodeproj">
+            BuildableName = "xSkyerChat.app"
+            BlueprintName = "xSkyerChat"
+            ReferencedContainer = "container:xSkyerChat.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
@@ -105,6 +105,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
+      customArchiveName = "xSkyerChat"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

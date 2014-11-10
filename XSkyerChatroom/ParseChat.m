@@ -442,8 +442,8 @@
 
 - (NSArray *) parseHTMLDataForPMList:(NSData *) data
 {
-    NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"%@",str1);
+    //NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    //NSLog(@"%@",str1);
     
     NSMutableArray *users = nil;
     if (data) {
@@ -576,6 +576,12 @@
                 if (substr1.location != NSNotFound) {
                     [text deleteCharactersInRange: substr1] ;// 字符串删除
                 }
+                
+                NSRange substr12 = [text rangeOfString:@" "];
+                if (substr12.location == 0) {
+                    [text deleteCharactersInRange:substr12];
+                }
+                
 
                 
                 NSRange substr2 = [speakerAndTime rangeOfString:@"&nbsp"]; // 字符串查找,可以判断字符串中是否有
@@ -625,7 +631,6 @@
                 chat.dateString =date;
                 chat.content = text;
                 chat.icon = imgSrc;
-                
                 [mChats addObject:chat];
             }
             chats = mChats;

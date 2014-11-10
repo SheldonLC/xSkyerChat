@@ -247,7 +247,7 @@
 		
 		if (scrollView.contentInset.top != 0) {
             UIEdgeInsets currentInsets = scrollView.contentInset;
-            currentInsets.top = 0;
+            currentInsets.top = 0+60;
             scrollView.contentInset = currentInsets;
 		}
 		
@@ -299,7 +299,7 @@
 
 - (void)egoRefreshScrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    //[self refreshLastUpdatedDate];
+    [self refreshLastUpdatedDate];
 }
 
 
