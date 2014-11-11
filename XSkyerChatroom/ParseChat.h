@@ -18,6 +18,7 @@
 - (NSArray *) parseXMLDataForCurrentChat:(NSData *) data;
 - (NSString *) parseHTMLDataForAccess:(NSData *) data;
 - (NSArray *) parseHTMLDataForPMList:(NSData *) data;
-
+- (NSString *) parseHTMLDataForBlockResult:(NSData *) data;
+- (NSArray *) parseHTMLDataForPMContent:(NSData *) data;
 
 @end

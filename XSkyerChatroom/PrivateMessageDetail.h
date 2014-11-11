@@ -14,7 +14,7 @@
 @property (nonatomic,strong) NSString *content;
 @property (nonatomic,strong) NSString *avatarUrl;
 @property (nonatomic,strong) NSString *onlineStatus;
-@property (nonatomic,strong) NSString *userTitle;
+@property (nonatomic,strong) NSString *senderId;
 @property (nonatomic,strong) NSString *liveId;
 
 

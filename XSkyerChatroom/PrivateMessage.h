@@ -15,6 +15,7 @@
 @property (nonatomic,strong) NSString* fromUser;
 @property (nonatomic,strong) NSString* title;
 @property (nonatomic,strong) NSString* sendDate;
+@property (nonatomic,strong) NSString* senderId;
 @property (nonatomic,strong) NSString* messageStatus;//Unread,pm_old, read- pm_new, replied-pm_replied
 
 @property (nonatomic,strong) PrivateMessageDetail *detail;

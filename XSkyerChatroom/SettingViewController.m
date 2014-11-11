@@ -9,45 +9,48 @@
 #import "SettingViewController.h"
 #import "LoginViewController.h"
 #import "BlackListViewControllerTableViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface SettingViewController ()
 @property (strong, nonatomic) IBOutlet UILabel *currentUser;
-@property (strong, nonatomic) IBOutlet UIButton *enterBlackList;
+@property (strong, nonatomic) IBOutlet UILabel *blackListLabel;
 @property (strong,nonatomic) MFMailComposeViewController *mailPicker;
-@property (strong, nonatomic) IBOutlet UITextView *about;
+@property (strong,nonatomic) UIColor *bgColor;
+
+
 
 @end
 
 @implementation SettingViewController
 
 @synthesize mailPicker;
+@synthesize bgColor;
 #pragma Init
 -(instancetype)init{
     //Set title
     self = [super init];
     return self;
 }
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     //Get the sourceview controller, set the current user to login user
     self.currentUser.text= self.access.userName;
+    bgColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
+    self.view.backgroundColor = bgColor;
+
     
-    self.view.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
-
-    self.about.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
-    ;
     mailPicker = [[MFMailComposeViewController alloc] init];
-
+    
 
     
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     NSInteger blockedCount = self.blockedUsers?[self.blockedUsers count] :0;
-    [self.enterBlackList setTitle:[NSString stringWithFormat:@"(%lu 人) 更改",(long)blockedCount]
-                         forState:UIControlStateNormal];
+    
+    self.currentUser.text = self.access.userName;
+    [self.blackListLabel setText:[NSString stringWithFormat:@"黑名单 (%lu 人)",(long)blockedCount]];
 
 }
 
@@ -59,10 +62,6 @@
     }
 }
 
-#pragma action
-- (IBAction)blackListMaint:(id)sender {
-    [self performSegueWithIdentifier:@"GoBlackList" sender:self];
-}
 
 
 - (IBAction)logout:(UIButton *)sender {
@@ -72,16 +71,43 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if( [[segue identifier] isEqualToString:@"LogoutSegue"] ) {
-        TableViewController *mainVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
-        mainVC.access = self.access;
-        [mainVC logout];
+        //
+        NSUserDefaults *accountDefaults = [NSUserDefaults standardUserDefaults];
+        [accountDefaults removeObjectForKey:USER_DEFAULTS_ACCOUNT];
     }else if( [[segue identifier] isEqualToString:@"GoBlackList"] ) {
 
         BlackListViewControllerTableViewController * blackVC = [segue destinationViewController];
         
         blackVC.access = self.access;
         blackVC.blockedUsers = self.blockedUsers;
+    }else if( [[segue identifier] isEqualToString:@"About"] ) {
+        
+        UIViewController * vc = [segue destinationViewController];
+        
+        vc.view.backgroundColor = bgColor;
+        for (UIView *view in vc.view.subviews) {
+            view.backgroundColor = bgColor;
+        }
+    }else if( [[segue identifier] isEqualToString:@"Update"] ) {
+        
+        UIViewController * vc = [segue destinationViewController];
+        
+        vc.view.backgroundColor = bgColor;
+        for (UIView *view in vc.view.subviews) {
+            view.backgroundColor = bgColor;
+        }
+    }else if( [[segue identifier] isEqualToString:@"EULA"] ) {
+        
+        UITableViewController * vc = [segue destinationViewController];
+        
+        vc.view.backgroundColor = bgColor;
+        for (UIView *view in vc.view.subviews) {
+            view.backgroundColor = bgColor;
+        }
     }
+
+
+
 
 
     
@@ -163,6 +189,22 @@
             break;
     }
     [self alertWithMessage:msg];
+}
+
+
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    // Return the number of sections.
+    return 3;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    // Return the number of rows in the section.
+    if(section == 2){
+        return 3;
+    }
+    return 1;
 }
 
 

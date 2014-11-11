@@ -7,13 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D4B4C891A11D07900E4816B /* ChatboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D4B4C881A11D07900E4816B /* ChatboxViewController.m */; };
 		4D59CC091A03D172002B4AE9 /* ChatTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D59CC081A03D172002B4AE9 /* ChatTableViewCell.m */; };
 		4D6E30DA1A088F76007698FC /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E30D31A088F76007698FC /* EGORefreshTableHeaderView.m */; };
 		4D6E30DB1A088F76007698FC /* LoadMoreTableFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E30D51A088F76007698FC /* LoadMoreTableFooterView.m */; };
 		4D6E30DC1A088F76007698FC /* MessageInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E30D71A088F76007698FC /* MessageInterceptor.m */; };
 		4D6E30DD1A088F76007698FC /* PullTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E30D91A088F76007698FC /* PullTableView.m */; };
-		4D6E30E01A0892AD007698FC /* ChatboxPopOverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E30DF1A0892AD007698FC /* ChatboxPopOverController.m */; };
 		4D6E30E31A08BDDC007698FC /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6E30E21A08BDDC007698FC /* LoginViewController.m */; };
+		4D8324701A124B5300E0F741 /* LabelTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D83246F1A124B5300E0F741 /* LabelTableViewController.m */; };
+		4D8324761A124F8E00E0F741 /* EULATableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D8324751A124F8E00E0F741 /* EULATableViewController.m */; };
+		4D95C98F1A11FC9D001906CE /* SetAccountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D95C98E1A11FC9D001906CE /* SetAccountTableViewCell.m */; };
 		4DB69A011A00BD7900B493D9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A001A00BD7900B493D9 /* main.m */; };
 		4DB69A041A00BD7900B493D9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DB69A031A00BD7900B493D9 /* AppDelegate.m */; };
 		4DB69A0A1A00BD7900B493D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4DB69A081A00BD7900B493D9 /* Main.storyboard */; };
@@ -53,6 +56,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4D4B4C871A11D07900E4816B /* ChatboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatboxViewController.h; sourceTree = "<group>"; };
+		4D4B4C881A11D07900E4816B /* ChatboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatboxViewController.m; sourceTree = "<group>"; };
 		4D59CC071A03D172002B4AE9 /* ChatTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = ChatTableViewCell.h; path = ../ChatTableViewCell.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		4D59CC081A03D172002B4AE9 /* ChatTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = ChatTableViewCell.m; path = ../ChatTableViewCell.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		4D6E30D21A088F76007698FC /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
@@ -63,10 +68,14 @@
 		4D6E30D71A088F76007698FC /* MessageInterceptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageInterceptor.m; sourceTree = "<group>"; };
 		4D6E30D81A088F76007698FC /* PullTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullTableView.h; sourceTree = "<group>"; };
 		4D6E30D91A088F76007698FC /* PullTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullTableView.m; sourceTree = "<group>"; };
-		4D6E30DE1A0892AD007698FC /* ChatboxPopOverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ChatboxPopOverController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		4D6E30DF1A0892AD007698FC /* ChatboxPopOverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ChatboxPopOverController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		4D6E30E11A08BDDC007698FC /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = LoginViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		4D6E30E21A08BDDC007698FC /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		4D83246E1A124B5300E0F741 /* LabelTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LabelTableViewController.h; sourceTree = "<group>"; };
+		4D83246F1A124B5300E0F741 /* LabelTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LabelTableViewController.m; sourceTree = "<group>"; };
+		4D8324741A124F8E00E0F741 /* EULATableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EULATableViewController.h; sourceTree = "<group>"; };
+		4D8324751A124F8E00E0F741 /* EULATableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EULATableViewController.m; sourceTree = "<group>"; };
+		4D95C98D1A11FC9D001906CE /* SetAccountTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetAccountTableViewCell.h; sourceTree = "<group>"; };
+		4D95C98E1A11FC9D001906CE /* SetAccountTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetAccountTableViewCell.m; sourceTree = "<group>"; };
 		4DB699FB1A00BD7900B493D9 /* xSkyerChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xSkyerChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DB699FF1A00BD7900B493D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4DB69A001A00BD7900B493D9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -185,18 +194,22 @@
 				4DCC0C4F1A0B48AF004724A8 /* Custom */,
 				4DB69A241A00BDB700B493D9 /* TableViewController.h */,
 				4DB69A251A00BDB700B493D9 /* TableViewController.m */,
-				4D6E30DE1A0892AD007698FC /* ChatboxPopOverController.h */,
 				4DCC0C4C1A0B0613004724A8 /* SettingViewController.h */,
 				4DCC0C4D1A0B0613004724A8 /* SettingViewController.m */,
-				4D6E30DF1A0892AD007698FC /* ChatboxPopOverController.m */,
 				4D6E30E11A08BDDC007698FC /* LoginViewController.h */,
 				4D6E30E21A08BDDC007698FC /* LoginViewController.m */,
+				4D4B4C871A11D07900E4816B /* ChatboxViewController.h */,
+				4D4B4C881A11D07900E4816B /* ChatboxViewController.m */,
 				4DCC0C6C1A0C6A84004724A8 /* BlackListViewControllerTableViewController.h */,
 				4DCC0C6D1A0C6A84004724A8 /* BlackListViewControllerTableViewController.m */,
 				4DB69A0B1A00BD7900B493D9 /* Images.xcassets */,
 				4DB69A081A00BD7900B493D9 /* Main.storyboard */,
 				4DB69A0D1A00BD7900B493D9 /* LaunchScreen.xib */,
 				4DB699FE1A00BD7900B493D9 /* Supporting Files */,
+				4D83246E1A124B5300E0F741 /* LabelTableViewController.h */,
+				4D83246F1A124B5300E0F741 /* LabelTableViewController.m */,
+				4D8324741A124F8E00E0F741 /* EULATableViewController.h */,
+				4D8324751A124F8E00E0F741 /* EULATableViewController.m */,
 			);
 			path = XSkyerChatroom;
 			sourceTree = "<group>";
@@ -283,6 +296,8 @@
 				4D59CC081A03D172002B4AE9 /* ChatTableViewCell.m */,
 				4DCC0C501A0B48D5004724A8 /* ChatView.h */,
 				4DCC0C511A0B48D5004724A8 /* ChatView.m */,
+				4D95C98D1A11FC9D001906CE /* SetAccountTableViewCell.h */,
+				4D95C98E1A11FC9D001906CE /* SetAccountTableViewCell.m */,
 			);
 			name = Custom;
 			sourceTree = "<group>";
@@ -399,7 +414,6 @@
 			files = (
 				4DCC0C551A0B4A5E004724A8 /* Theme.m in Sources */,
 				4DDD18A91A10964600EA82B1 /* KeyChainWrapper.m in Sources */,
-				4D6E30E01A0892AD007698FC /* ChatboxPopOverController.m in Sources */,
 				4D6E30DC1A088F76007698FC /* MessageInterceptor.m in Sources */,
 				4D59CC091A03D172002B4AE9 /* ChatTableViewCell.m in Sources */,
 				4DB69A041A00BD7900B493D9 /* AppDelegate.m in Sources */,
@@ -412,9 +426,12 @@
 				4D6E30DA1A088F76007698FC /* EGORefreshTableHeaderView.m in Sources */,
 				4DB69A011A00BD7900B493D9 /* main.m in Sources */,
 				4D6E30E31A08BDDC007698FC /* LoginViewController.m in Sources */,
+				4D8324761A124F8E00E0F741 /* EULATableViewController.m in Sources */,
 				4DB69A2B1A00BDF700B493D9 /* TFHpple.m in Sources */,
 				4DB69A331A00BE5700B493D9 /* XPathQuery.m in Sources */,
+				4D8324701A124B5300E0F741 /* LabelTableViewController.m in Sources */,
 				4DC538721A0F63C90099104C /* PrivateMessageDetail.m in Sources */,
+				4D95C98F1A11FC9D001906CE /* SetAccountTableViewCell.m in Sources */,
 				4DB69A381A00BF9700B493D9 /* Constants.m in Sources */,
 				4D6E30DB1A088F76007698FC /* LoadMoreTableFooterView.m in Sources */,
 				4DB69A2D1A00BDF700B493D9 /* TFHppleElement.m in Sources */,
@@ -422,6 +439,7 @@
 				4DCB40A31A05C39200ED80C6 /* PostParameter.m in Sources */,
 				4D6E30DD1A088F76007698FC /* PullTableView.m in Sources */,
 				4DCC0C6E1A0C6A84004724A8 /* BlackListViewControllerTableViewController.m in Sources */,
+				4D4B4C891A11D07900E4816B /* ChatboxViewController.m in Sources */,
 				4DB69A3C1A00C09700B493D9 /* ChatData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

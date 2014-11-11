@@ -11,6 +11,7 @@
 #import "ChatTableViewCell.h"
 #import "Theme.h"
 #import "BlockedUser.h"
+#import "ChatboxViewController.h"
 @interface TableViewController ()
 
 
@@ -18,7 +19,6 @@
 @property (strong,nonatomic) NSMutableArray *chats;
 
 
-@property (nonatomic,strong) ChatboxPopOverController *chatboxVC;
 
 @property (nonatomic,strong) UIView *customView;
 
@@ -26,9 +26,7 @@
 
 @property (nonatomic) BOOL  isRefreshed;
 @property  (nonatomic) BOOL isLoaded;
-@property  (nonatomic) BOOL isChatShowed;
 
-@property (strong,nonatomic) NSString  *chatContents;
 @property (strong,nonatomic) NSString *chosenChatID;
 
 @property  (strong,nonatomic) Theme *theme;
@@ -38,6 +36,9 @@
 @property   (nonatomic,strong) NSMutableArray *blockedUsers;
 @property   (nonatomic) BOOL isBlockedUserRefreshed;
 @property  (nonatomic,weak ) ChatTableViewCell *touchedCell;
+
+@property (nonatomic) BOOL afterDelete;
+
 
 //Private
 @property (nonatomic,weak) NSMutableArray *pmArr;//Store the Private Message, will pass to Private message page
@@ -65,13 +66,14 @@
 }
 
 - (void) logout{
-    NSURL *url1 = [NSURL URLWithString:@"http://www.xbox-skyer.com/login.php"];//Login operation
-    NSMutableURLRequest *requestLogout= [[NSMutableURLRequest alloc]initWithURL:url1 cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60];
-    [requestLogout setHTTPMethod:@"POST"];//Set the request method to "Post"
-    NSString *str1 = [self.param generateLogoutWithToken:self.access.token];//设置参数
-    NSData *data1 = [str1 dataUsingEncoding:NSUTF8StringEncoding];
-    [requestLogout setHTTPBody:data1];
-     [NSURLConnection sendSynchronousRequest:requestLogout returningResponse:nil error:nil];
+    //No need to actually logout from server
+//    NSURL *url1 = [NSURL URLWithString:@"http://www.xbox-skyer.com/login.php"];//Login operation
+//    NSMutableURLRequest *requestLogout= [[NSMutableURLRequest alloc]initWithURL:url1 cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60];
+//    [requestLogout setHTTPMethod:@"POST"];//Set the request method to "Post"
+//    NSString *str1 = [self.param generateLogoutWithToken:self.access.token];//设置参数
+//    NSData *data1 = [str1 dataUsingEncoding:NSUTF8StringEncoding];
+//    [requestLogout setHTTPBody:data1];
+//     [NSURLConnection sendSynchronousRequest:requestLogout returningResponse:nil error:nil];
 
     //Logout need to clear the user/pwd stored in keychain
     self.dataTask = nil;
@@ -81,9 +83,9 @@
     [self.thisSession invalidateAndCancel];
     self.thisSession = nil;
     self.chats=nil;
-    requestLogout = nil;
-    data1 = nil;
-    requestLogout = nil;
+    //requestLogout = nil;
+    //data1 = nil;
+    //requestLogout = nil;
     NSUserDefaults *accountDefaults = [NSUserDefaults standardUserDefaults];
     [accountDefaults removeObjectForKey:USER_DEFAULTS_ACCOUNT];
     [self performSegueWithIdentifier:@"LogoutSegue" sender:self];
@@ -320,11 +322,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Observe keyboard hide and show notifications to resize the text view appropriately.
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardDidShowNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(keyboardWasHidden:) name:UIKeyboardDidHideNotification object:nil];
-
-    // Uncomment the following line to preserve selection between presentations.
+        // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
@@ -336,12 +334,8 @@
     //init the setup for pop over controller
     
 
-    self.chatboxVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ChatboxPopOverController"];
     
-    [self setChatboxView];
     
-    self.chatboxVC.chatbox.delegate = self;
-    //Add the customView to the current view
     
     
     self.pullTableView.pullArrowImage = [UIImage imageNamed:@"blueArrow"];
@@ -351,7 +345,6 @@
     __weak TableViewController *weakSelf = self;
     self.pullTableView.pullDelegate = weakSelf;
     
-    self.isChatShowed = NO;
     self.page = 2;
     
     //Set the default Theme
@@ -449,6 +442,7 @@
 {
     [self performSelector:@selector(refreshTable) withObject:nil afterDelay:1.0f];
     
+//KIV
 //#warning add the refresh the private messages here
 //    Query
 //    
@@ -537,172 +531,8 @@
 }
 
 
-#define HEIGHT_PATCH_4_0_INCH 35
-#define HEIGHT_PATCH_9_7_INCH 420
-#define HEIGHT_PATCH_7_9_INCH 330
-#define HEIGHT_PATCH_3_5_INCH 0
-#define HEIGHT_PATCH_4_7_INCH 120
-#define HEIGHT_PATCH_5_5_INCH 180
 
 
-
-- (void) keyboardWasShown:(NSNotification *) notif
-{
-    NSDictionary *info = [notif userInfo];
-    NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
-    CGSize keyboardSize = [value CGRectValue].size;
-    
-    CGRect newTextViewFrame = self.view.bounds;
-    CGFloat keyboardTop =  keyboardSize.height;
-    CGRect keyboardRect = [value CGRectValue];
-    keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
-
-    if (newTextViewFrame.size.height == 1024) {
-        //Ipad
-        newTextViewFrame.size.height = keyboardTop - self.view.bounds.origin.y+HEIGHT_PATCH_9_7_INCH;
-    }else if (newTextViewFrame.size.height == 480) {
-        //Iphone 4/4s
-        newTextViewFrame.size.height = keyboardTop - self.view.bounds.origin.y-40+HEIGHT_PATCH_3_5_INCH;
-    }else if (newTextViewFrame.size.height == 568) {
-        //Iphone 5/5s, ipod touch
-        newTextViewFrame.size.height = keyboardTop - self.view.bounds.origin.y+HEIGHT_PATCH_4_0_INCH;
-    }else if (newTextViewFrame.size.height == 667) {
-        //Iphone 5/5s, ipod touch
-        newTextViewFrame.size.height = keyboardTop - self.view.bounds.origin.y+HEIGHT_PATCH_4_7_INCH;
-    }else if (newTextViewFrame.size.height == 736) {
-        //Iphone 5/5s, ipod touch
-        newTextViewFrame.size.height = keyboardTop - self.view.bounds.origin.y+HEIGHT_PATCH_5_5_INCH;
-    }
-    
-    // Get the duration of the animation.
-    NSValue *animationDurationValue = [info objectForKey:UIKeyboardAnimationDurationUserInfoKey];
-    NSTimeInterval animationDuration;
-    [animationDurationValue getValue:&animationDuration];
-    
-    // Animate the resize of the text view's frame in sync with the keyboard's appearance.
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:animationDuration];
-    
-    self.customView.frame = newTextViewFrame;
-    [UIView commitAnimations];
-
-}
-- (void) keyboardWasHidden:(NSNotification *) notif
-{
-    NSDictionary *info = [notif userInfo];
-    
-    NSValue *animationDurationValue = [info objectForKey:UIKeyboardAnimationDurationUserInfoKey];
-    NSTimeInterval animationDuration;
-    [animationDurationValue getValue:&animationDuration];
-    
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:animationDuration];
-    
-    self.customView.frame = self.view.bounds;
-    
-    [UIView commitAnimations];
-
-    
-}
-
-- (void) setChatboxView{
-    self.customView = self.chatboxVC.view; //<- change to where you want it to show.
-    
-    //Set the customView properties
-    self.customView.alpha = 0.0;
-    self.customView.layer.cornerRadius = 5;
-    self.customView.layer.borderWidth = 1.5f;
-    self.customView.layer.masksToBounds = YES;
-    
-    self.customView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    
-    CGRect viewFrame = self.view.frame;
-    [self.customView setFrame:CGRectMake(0, CGRectGetHeight(viewFrame)-50-44-10, CGRectGetWidth(viewFrame), 50)];
-
-}
--(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    if ([text isEqualToString:@"\n"]) {
-        [textView resignFirstResponder];
-        //NSLog(@"Ready to speak: %@",textView.text);
-        self.chatContents = textView.text;
-        [self sendMessage];
-        self.isChatShowed = NO;
-        textView.text = @"";
-
-        return NO;
-    }
-    return YES;
-}
-
-
-- (void)keyboardWillShow:(NSNotification *)notification {
-    
-    /*
-     Reduce the size of the text view so that it's not obscured by the keyboard.
-     Animate the resize so that it's in sync with the appearance of the keyboard.
-     */
-    NSDictionary *userInfo = [notification userInfo];
-    
-     //Get the origin of the keyboard when it's displayed.
-    NSValue* aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-     //Get the top of the keyboard as the y coordinate of its origin in self's view's coordinate system. The bottom of the text view's frame should align with the top of the keyboard's final position.
-    CGRect keyboardRect = [aValue CGRectValue];
-    keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
-    
-    CGFloat keyboardTop = 216;
-    //NSLog(@"%f",keyboardTop);
-    CGRect newTextViewFrame = self.view.bounds;
-    newTextViewFrame.size.height = keyboardTop - self.view.bounds.origin.y;
-    
-    // Get the duration of the animation.
-    NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
-    NSTimeInterval animationDuration;
-    [animationDurationValue getValue:&animationDuration];
-    
-    // Animate the resize of the text view's frame in sync with the keyboard's appearance.
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:animationDuration];
-    
-    self.customView.frame = newTextViewFrame;
-    [UIView commitAnimations];
-}
-
-- (IBAction)showChat:(id)sender {
-    //Display the customView with animation
-
-    if(!self.isChatShowed){
-        [self.customView removeFromSuperview];
-        [self setChatboxView];
-        [self.view.superview addSubview:self.customView];
-        [self.view.superview bringSubviewToFront: self.customView];
-        
-        __weak TableViewController *weakSelf = self;
-
-        [UIView animateWithDuration:0.4 animations:^{
-            [self.customView setAlpha:1.0];
-        } completion:^(BOOL finished) {
-            weakSelf.isChatShowed = YES;
-
-        }];
-    
-    }else{
-        __weak TableViewController *weakSelf = self;
-        [UIView animateWithDuration:0.4 animations:^{
-            [self.customView setAlpha:0.0];
-        } completion:^(BOOL finished) {
-            weakSelf.isChatShowed = NO;
-        [weakSelf.customView removeFromSuperview];
-        }];
-
-        
-
-    }
-    
-    
-    
-
-}
 
 - (void)keyboardWillHide:(NSNotification *)notification {
     
@@ -737,16 +567,20 @@
     [self filterBlockedChats];
 
     [self.pullTableView reloadData];
-    if (self.isRefreshed) {
-        [self appearAtTop];
-    }else{
-        [self appearAtBottom];
-    }
+    if(!self.afterDelete){
+        if (self.isRefreshed) {
+            [self appearAtTop];
+        }else{
+            [self appearAtBottom];
+        }
 
-    if (self.access.hasLogin) {
-        self.navigationController.toolbarHidden = NO;
+        if (self.access.hasLogin) {
+            self.navigationController.toolbarHidden = NO;
+        }else{
+            self.navigationController.toolbarHidden = YES;
+        }
     }else{
-        self.navigationController.toolbarHidden = YES;
+        self.afterDelete = NO;
     }
 
 }
@@ -903,15 +737,32 @@
         
         self.dataTask = [self.thisSession dataTaskWithRequest:[self requestWithURL:self.thisUrl forType:HTML_REQUEST_TYPE_BLOCKED_ADD withUserId:userID] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
             
-           // NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-            //NSLog(@"%@",str1);
+             NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+            NSLog(@"%@",str1);
             
-            BlockedUser *blockedUser = [[BlockedUser alloc]initWithUserId:userID withUserName:userM];
-            [weakSelf.blockedUsers addObject:blockedUser];
-            weakSelf.isBlockedUserRefreshed = YES;
-            [weakSelf performSelector:@selector(delayMethod) withObject:nil afterDelay:0.6f];
-
-            [weakSelf reloadView];
+            weakSelf.tempData = [[NSMutableData alloc]init];
+            
+            [data enumerateByteRangesUsingBlock:^(const void *bytes, NSRange byteRange, BOOL *stop) {
+                
+            [weakSelf.tempData appendBytes:bytes length:byteRange.length];  }];
+            
+            
+            NSString *result = [weakSelf.parse parseHTMLDataForBlockResult:weakSelf.tempData];
+            weakSelf.tempData = nil;
+            
+            if(!result){
+                //
+                BlockedUser *blockedUser = [[BlockedUser alloc]initWithUserId:userID withUserName:userM];
+                [weakSelf.blockedUsers addObject:blockedUser];
+                weakSelf.isBlockedUserRefreshed = YES;
+                [weakSelf performSelector:@selector(delayMethod) withObject:nil afterDelay:0.6f];
+                
+                [weakSelf reloadView];
+            }else{
+                //Cannot block admin
+                [self alertWithMessage:result];
+            }
+            
         }];
         [self.dataTask resume];
         
@@ -938,10 +789,11 @@
         }
         
         [weakSelf performSelector:@selector(delayMethod) withObject:nil afterDelay:0.6f];
-        
+        self.afterDelete = YES;
         [weakSelf reloadView];
     }];
     [self.dataTask resume];
+    
 }
 
 - (void) alertWithMessage: (NSString *)msg
@@ -972,19 +824,17 @@
 }
 
 
-
-
 - (void) sendMessage{
     [self setURLwith:HTML_REQUEST_TARGET_CURRENT];
     __weak TableViewController *weakSelf = self;
-
+    
     self.dataTask = [self.thisSession dataTaskWithRequest:[self requestWithURL:self.thisUrl forType:HTML_REQUEST_TYPE_CHAT] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         //NSLog(@"%lld", response.expectedContentLength);
         weakSelf.tempData = [[NSMutableData alloc]init];
         
         [data enumerateByteRangesUsingBlock:^(const void *bytes, NSRange byteRange, BOOL *stop) {
-         
-        [weakSelf.tempData appendBytes:bytes length:byteRange.length];  }];
+            
+            [weakSelf.tempData appendBytes:bytes length:byteRange.length];  }];
         weakSelf.data = weakSelf.tempData;
         if ([weakSelf.tempData length] != 112) {
             self.access.isSessionTimeout = YES;
@@ -993,21 +843,23 @@
         
     }];
     [self.dataTask resume];
-
+    
     
     if(self.access.isSessionTimeout){
         [self login];
         self.dataTask = [self.thisSession dataTaskWithRequest:[self requestWithURL:self.thisUrl forType:HTML_REQUEST_TYPE_CHAT] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-         
+            
             
         }];
         [self.dataTask resume];
-
+        
     }
-
+    
     [self performSelector:@selector(delayMethod) withObject:nil afterDelay:0.6f];
-
+    
 }
+
+
 - (void)delayMethod {
     [self startRequestDataFrom:HTML_REQUEST_TARGET_CURRENT forType:HTML_REQUEST_TYPE_REFRESH];
 }
@@ -1104,25 +956,7 @@
 
 - (void)tap:(UITapGestureRecognizer *)recognizer {
     
-   if(recognizer.state == UIGestureRecognizerStateEnded) {
-       if ([self.chatboxVC.chatbox isFirstResponder]) {
-           self.chatboxVC.chatbox.text = @"";
-           [self.chatboxVC.chatbox resignFirstResponder];
-           self.isChatShowed = NO;
-           return;
-       }
-       ChatTableViewCell *cell = (ChatTableViewCell *)recognizer.view;
-       NSString *user = cell.textLabel.text;
-       
-       NSString *copy = [NSString stringWithFormat: @"@%@: ",user];
-       //self.chatContents = copy;
-       self.chatboxVC.chatbox.text = copy;
-       
-       [self showChat:cell];
-       [self.chatboxVC.chatbox becomeFirstResponder];
-
-   }
-
+   //Do nothing
 }
 
 
@@ -1140,23 +974,26 @@
 
             UIMenuItem *reply = [[UIMenuItem alloc] initWithTitle:@"回复"action:@selector(reply:)];
             UIMenuItem *quote = [[UIMenuItem alloc] initWithTitle:@"引用"action:@selector(quote:)];
+            UIMenuItem *copy = [[UIMenuItem alloc] initWithTitle:@"复制"action:@selector(copyText:)];
             UIMenuItem *remove = [[UIMenuItem alloc] initWithTitle:@"删除"action:@selector(remove:)];
             UIMenuItem *report = [[UIMenuItem alloc] initWithTitle:@"举报"action:@selector(report:)];
+            
 
 
             UIMenuController *menu = [UIMenuController sharedMenuController];
-            [menu setMenuItems:[NSArray arrayWithObjects:reply, quote,remove,report,nil]];
+            [menu setMenuItems:[NSArray arrayWithObjects:reply, quote,copy,remove,report,nil]];
             
         }else {
             
             UIMenuItem *reply = [[UIMenuItem alloc] initWithTitle:@"回复"action:@selector(reply:)];
             UIMenuItem *quote = [[UIMenuItem alloc] initWithTitle:@"引用"action:@selector(quote:)];
+            UIMenuItem *copy = [[UIMenuItem alloc] initWithTitle:@"复制"action:@selector(copyText:)];
             UIMenuItem *block = [[UIMenuItem alloc] initWithTitle:@"屏蔽"action:@selector(block:)];
             UIMenuItem *report = [[UIMenuItem alloc] initWithTitle:@"举报"action:@selector(report:)];
             
             
             UIMenuController *menu = [UIMenuController sharedMenuController];
-            [menu setMenuItems:[NSArray arrayWithObjects:reply, quote, block,report,nil]];
+            [menu setMenuItems:[NSArray arrayWithObjects:reply, quote,copy, block,report,nil]];
  
         }
         
@@ -1166,18 +1003,25 @@
 }
 
 
+
+- (void)copyText:(id)sender{
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    pasteboard.string = [NSString stringWithFormat:@"%@ %@",self.touchedCell.textLabel.text,self.touchedCell.detailTextLabel.text];
+}
 - (void)reply:(id)sender {
     //NSLog(@"Cell was replied");
 
     
     NSString *copy = [NSString stringWithFormat: @"@%@: ",self.touchedCell.textLabel.text];
-    //self.chatContents = copy;
-    self.chatboxVC.chatbox.text = copy;
+    self.chatContents= copy;
+    [self showChatbox];
     
-    [self showChat:nil];
-    [self.chatboxVC.chatbox becomeFirstResponder];
 
     
+}
+
+- (void) showChatbox{
+    [self performSegueWithIdentifier:@"ShowChatbox" sender:self];
 }
 
 - (void)quote:(id)sender {
@@ -1186,11 +1030,9 @@
     
     
     NSString *copy = [NSString stringWithFormat: @"\"@%@: %@\"",self.touchedCell.textLabel.text,self.touchedCell.detailTextLabel.text];
-    //self.chatContents = copy;
-    self.chatboxVC.chatbox.text = copy;
+    self.chatContents = copy;
     
-    [self showChat:nil];
-    [self.chatboxVC.chatbox becomeFirstResponder];
+    [self showChatbox];
     
 }
 
@@ -1322,6 +1164,12 @@
         
         setView.access = self.access;
         setView.blockedUsers = self.blockedUsers;
+    }else if([[segue identifier] isEqualToString:@"ShowChatbox"] ){
+        ChatboxViewController  *chatboxVC = segue.destinationViewController;
+        chatboxVC.chatbox.text  = self.chatContents? self.chatContents: @"";
+        chatboxVC.access = self.access;
+        chatboxVC.mainVC = self;
+        
     }
     
 }

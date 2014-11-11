@@ -12,7 +12,7 @@
 #import "AccessControl.h"
 #import "TableViewController.h"
 
-@interface SettingViewController : UIViewController <MFMailComposeViewControllerDelegate>
+@interface SettingViewController : UITableViewController <MFMailComposeViewControllerDelegate>
 @property (strong,nonatomic) AccessControl *access;
 @property (strong,nonatomic) TableViewController   *mainVC;
 @property   (nonatomic,strong) NSMutableArray *blockedUsers;

@@ -60,15 +60,15 @@
     NSLog(@"%@",stoken);
     //Get the ignore list
     
-    NSURL *url2 = [NSURL URLWithString:@"http://www.xbox-skyer.com/profile.php"];
+    NSURL *url2 = [NSURL URLWithString:@"http://www.xbox-skyer.com/private.php?folderid=0&styleid=47"];
     NSMutableURLRequest *requestLogin2 = [[NSMutableURLRequest alloc]initWithURL:url2 cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60];
     [requestLogin2 setHTTPMethod:@"POST"];//设置请求方式为POST，默认为GET
-    NSString *str2 = [NSString stringWithFormat: @"do=ignorelist&styleid=47&securitytoken=%@",stoken];//设置参数
+    NSString *str2 = [NSString stringWithFormat: @"securitytoken=%@&do=showpm&pmid=665500",stoken];//设置参数
     NSData *data2 = [str2 dataUsingEncoding:NSUTF8StringEncoding];
     [requestLogin2 setHTTPBody:data2];
     NSData *received2 = [NSURLConnection sendSynchronousRequest:requestLogin2 returningResponse:nil error:nil];
     
-    [[[ParseChat alloc]init] parseHTMLDataForBlockedUsers:received2];
+    [[[ParseChat alloc]init] parseHTMLDataForPMContent:received2];
 
    
 }

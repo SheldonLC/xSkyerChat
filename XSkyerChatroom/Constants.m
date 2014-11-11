@@ -52,5 +52,10 @@ NSString * const USER_DEFAULTS_ACCOUNT = @"SKYER_ACCOUNT_DEFAULT";
 NSString * const USER_DEFAULTS_USER_M = @"SKYER_DEFAULT_USER_M";
 NSString * const USER_DEFAULTS_PASSWORD = @"SKYER_DEFAULT_PWD";
 
+NSString * const PM_STATUS_NEW = @"pm_new";
+NSString * const PM_STATUS_OLD = @"pm_new";
+NSString * const PM_STATUS_REPLIED = @"pm_replied";
+
+
 
 @end

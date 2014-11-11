@@ -44,5 +44,8 @@ extern NSString * const USER_DEFAULTS_ACCOUNT;
 extern NSString * const USER_DEFAULTS_USER_M;
 extern NSString * const USER_DEFAULTS_PASSWORD;
 
+extern NSString * const PM_STATUS_NEW;
+extern NSString * const PM_STATUS_OLD;
+extern NSString * const PM_STATUS_REPLIED;
 
 @end

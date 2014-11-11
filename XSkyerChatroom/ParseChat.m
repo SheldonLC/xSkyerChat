@@ -438,57 +438,145 @@
     }
     return users;
 }
+- (NSString *) parseHTMLDataForBlockResult:(NSData *) data
+{
+    NSString *result = nil;
+    if(data){
+        TFHpple *xpathParser = [[TFHpple alloc] initWithHTMLData:data];
+        NSArray *elements= [xpathParser searchWithXPathQuery:@"//div[@class='quote']"];
+        if (elements && [elements count]!=0) {
+             result = [[[elements firstObject]text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            
+        }
+    }
+    
+    return result;
+}
+//NOT IN USE, KIV
+- (NSArray *) parseHTMLDataForPMContent:(NSData *) data
+{
+    NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"%@",str1);
+    PrivateMessageDetail *pmDtl = nil;
+    if (data) {
+        TFHpple *xpathParser = [[TFHpple alloc] initWithHTMLData:data];
+        
+        {
+            NSArray *elements= [xpathParser searchWithXPathQuery:@"//div[@class='windowbg']"];
+            
+            if([elements count]!=0){
+                
+                pmDtl = [[PrivateMessageDetail alloc]init];
+                
+                
+                TFHppleElement *contentEle = [elements firstObject];
+                
+                pmDtl.content = [contentEle text];
+                
+                NSArray *elements2= [xpathParser searchWithXPathQuery:@"//div[@class='windowbg2']"];
 
+                TFHppleElement *headerEle = [elements2 firstObject];
+                NSArray *senderArr = [headerEle childrenWithTagName:@"a"];
+                TFHppleElement *senderEle = [senderArr objectAtIndex:1];
+                NSString *idUrl = [senderEle objectForKey:@"href"];
+                
+                pmDtl.senderId = [[idUrl componentsSeparatedByString:@"="] lastObject];
+
+            }
+        }
+      
+        
+    }
+    return nil;
+}
+
+//NOT IN USE, KIV
 - (NSArray *) parseHTMLDataForPMList:(NSData *) data
 {
     NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
     NSLog(@"%@",str1);
-    
-    NSMutableArray *users = nil;
+    //title[@lang]
+    NSMutableArray *pmArr = nil;
     if (data) {
         TFHpple *xpathParser = [[TFHpple alloc] initWithHTMLData:data];
-        NSArray *elementsP = [xpathParser searchWithXPathQuery:@"//ul[@id='ignorelist']"];
         
-        if([elementsP count]!=0){
+        {
+            NSArray *elementsPMUID= [xpathParser searchWithXPathQuery:@"//div[@class='windowbg']"];
             
-            
-            NSArray *elements = [[elementsP objectAtIndex:0] children];
-            
-            if (elements && [elements count] !=0) {
-                //Initialize the ChatData
-                users = [[NSMutableArray alloc]init];
-                NSString *userM = nil;
-                NSString *userID = nil;
-                for (TFHppleElement *userElement in elements) {
-                    if(![userElement isTextNode]){
-                        NSArray *arr = [userElement searchWithXPathQuery:@"//input"];
-                        if(arr && [arr count]>0){
-                            userID = [[arr objectAtIndex:0] objectForKey:@"value"];
-                            //NSLog(@"%@", userID);
-                            
-                            //Get the userName
-                            
-                            NSArray* nameArr =  [userElement searchWithXPathQuery:@"//a"];
-                            if(nameArr && [nameArr count]>0){
-                                userM = [[nameArr objectAtIndex:0] text];
-                                //NSLog(@"%@", userM);
-                                
-                            }
-                            //Set obj
-                            BlockedUser *blockedUser = [[BlockedUser alloc] init];
-                            
-                            blockedUser.userM  = userM;
-                            blockedUser.userID = userID;
-                            [users addObject:blockedUser];//Add result to array
-                        }
+            if([elementsPMUID count]!=0){
+                
+                pmArr = [[NSMutableArray alloc]initWithCapacity:elementsPMUID.count];
+                
+                NSString *pmId = nil;
+                NSString *sender = nil;
+                NSString *senderId = nil;
+                NSString *dateString = nil;
+                for (TFHppleElement *element in elementsPMUID) {
+                        //element
+                    
+                    NSString *tempID =  [element objectForKey:@"id"];
+                    if(tempID){
+                        //Split PMID frst
+                        pmId = [[tempID componentsSeparatedByString:@"_"] lastObject];
+                        
+                        //Get the sender
+                        NSArray *senderArr= [element childrenWithTagName:@"a"];
+                        TFHppleElement *senderEle = [senderArr objectAtIndex:0];
+                        sender = [senderEle text];
+                        NSString *senderProfile = [senderEle objectForKey:@"href"];
+                        senderId = [[senderProfile componentsSeparatedByString:@"="] lastObject];
+                        NSString *dateS = [[[[[[[element.children objectAtIndex:2] content]  componentsSeparatedByString:@":"] lastObject] componentsSeparatedByString:@","] firstObject] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                        
+                        TFHppleElement *timeEle = [element.children  objectAtIndex:3];
+                        
+
+                        NSString *timeS = [timeEle text];
+                        dateString = [NSString stringWithFormat:@"%@ %@",dateS,timeS];
+                        
+                        PrivateMessage *pm = [[PrivateMessage alloc] init];
+                        pm.fromUser = sender;
+                        pm.sendDate = dateString;
+                        pm.senderId = senderId;
+                        pm.senderId = senderId;
+                        [pmArr addObject:pm];
+                        
                     }
+                }
+            
+            }
+        }
+        if (pmArr && [pmArr count]>0)
+        {
+            NSArray *elementsPMTitle= [xpathParser searchWithXPathQuery:@"//div[@class='thread_']"];
+            
+            if([elementsPMTitle count]!=0){
+                
+                NSString *pmStatus = nil;
+                NSString *title = nil;
+                int index = 0;
+                for (TFHppleElement *element in elementsPMTitle) {
+                    //element
+                    NSArray *imgArr =  [element childrenWithTagName:@"img"];
+                    NSString *imgUrl = [[imgArr firstObject] objectForKey:@"src"];
+                    NSString *imgName = [[[[imgUrl componentsSeparatedByString:@"/"] lastObject] componentsSeparatedByString:@"."] firstObject];
+                    pmStatus = imgName;
+                    
+                    
+                    NSArray *titleArr = [element childrenWithTagName:@"a"];
+                    title = [[titleArr firstObject] text];
+                    
+                    PrivateMessage *pm = [pmArr objectAtIndex:index];
+                    index++;
+                    pm.messageStatus  = pmStatus;
+                    pm.title = title;
+                    
                 }
                 
             }
         }
-        
+
     }
-    return users;
+    return pmArr;
 }
 
 - (NSArray *) parseHTMLDataForHistory:(NSData *) data

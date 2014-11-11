@@ -12,11 +12,10 @@
 #import "Constants.h"
 #import "ParseChat.h"
 #import "PostParameter.h"
-#import "ChatboxPopOverController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "AccessControl.h"
 
-@interface TableViewController : UIViewController <UITableViewDataSource,NSURLSessionDelegate,UITextViewDelegate, PullTableViewDelegate>{
+@interface TableViewController : UIViewController <UITableViewDataSource,NSURLSessionDelegate, PullTableViewDelegate>{
     PullTableView *pullTableView;
 }
 //Session
@@ -35,7 +34,11 @@
 
 @property (strong, nonatomic) IBOutlet PullTableView *pullTableView;
 
+@property (strong,nonatomic) NSString  *chatContents;
+
+
 -(void) loginForUser: (NSString *) userName withPassword :(NSString *) password;
 -(void) logout;
+- (void) sendMessage;
 
 @end
