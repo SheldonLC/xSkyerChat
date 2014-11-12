@@ -100,12 +100,12 @@
             <objects>
                 <tableViewController title="EULA Accept" id="bVO-fk-yQM" customClass="EULATableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="63" sectionFooterHeight="22" id="X95-95-5Ac">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" id="vsD-kt-Pby">
-                            <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                        <button key="tableFooterView" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" id="vsD-kt-Pby">
+                            <rect key="frame" x="0.0" y="283" width="600" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="tintColor" red="0.50196081400000003" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <state key="normal">
                                 <attributedString key="attributedTitle">
                                     <fragment content="接受并继续">
@@ -118,13 +118,14 @@
                                 </attributedString>
                             </state>
                             <connections>
-                                <segue destination="GFX-gN-BRE" kind="show" id="Lqv-yg-wZV"/>
+                                <action selector="submit:" destination="bVO-fk-yQM" eventType="touchUpInside" id="bnt-rR-slq"/>
+                                <segue destination="GFX-gN-BRE" kind="show" identifier="Accept" id="Lqv-yg-wZV"/>
                             </connections>
                         </button>
                         <sections>
-                            <tableViewSection headerTitle="请仔细阅读并接受以继续使用" id="ygb-6j-rae">
+                            <tableViewSection id="ygb-6j-rae">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="D0y-SF-6FR" style="IBUITableViewCellStyleDefault" id="V1Z-SX-Ky2">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="D0y-SF-6FR" rowHeight="101" style="IBUITableViewCellStyleDefault" id="V1Z-SX-Ky2">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="V1Z-SX-Ky2" id="Sra-Yb-rgQ">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -218,6 +219,7 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="accept" destination="X95-95-5Ac" id="oXd-Dk-SFc"/>
                         <outlet property="release1" destination="V1Z-SX-Ky2" id="e0U-nf-MAD"/>
                         <outlet property="release2" destination="F31-X6-ES2" id="7Pi-uS-j2w"/>
                         <outlet property="release3" destination="I7J-uN-ENj" id="DDs-22-28X"/>
@@ -227,13 +229,14 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Acv-An-0uJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-847.5" y="47"/>
+            <point key="canvasLocation" x="-2041.5" y="-429"/>
         </scene>
         <!--更新日志-->
         <scene sceneID="uLe-gU-iEE">
             <objects>
                 <tableViewController title="更新日志" id="uFU-l4-YHb" customClass="LabelTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Za3-Wr-H8U">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -244,7 +247,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1FN-5l-QFb" id="rvu-OM-nkn">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="更新版本 ver 1.3" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="heo-hw-9iK">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="更新版本 ver 1.0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="heo-hw-9iK">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -261,7 +264,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SFs-x0-ae7" id="9Dk-yi-hde">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="1. 优化了发言框行为" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="h2S-yS-VMF">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="h2S-yS-VMF">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -278,7 +281,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gFf-mZ-bud" id="xG0-C6-7dU">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="2. 优化了设置页面布局与层次" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jGD-Yc-Hw6">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jGD-Yc-Hw6">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -295,7 +298,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gaW-4I-KrY" id="yMG-DE-bPe">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="3. 修正了一些缺陷" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5Yp-Lx-hdf">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5Yp-Lx-hdf">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -312,7 +315,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="s86-mi-MoG" id="bZu-7i-P61">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="4. 增加用户许可协议（EULA）" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="geQ-Ei-n6D">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="geQ-Ei-n6D">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -722,7 +725,7 @@
                                         <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9dA-7s-0hT" id="jOQ-P9-xSm">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="更新日志（ver 1.3）" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X8y-ew-wBy">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="更新日志（ver 1.0）" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X8y-ew-wBy">
                                                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="326" id="acJ-fM-jcj">
@@ -848,7 +851,7 @@
                     <connections>
                         <outlet property="blackListLabel" destination="p51-gL-JKr" id="jnP-6E-qpq"/>
                         <outlet property="currentUser" destination="9eL-mh-dbb" id="NLS-VH-MsZ"/>
-                        <segue destination="GFX-gN-BRE" kind="presentation" identifier="LogoutSegue" id="o4g-BU-z19"/>
+                        <segue destination="bVO-fk-yQM" kind="presentation" identifier="LogoutSegue" id="oRD-VN-pXK"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XjD-I7-Z4e" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -965,7 +968,7 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="TvP-FW-Kyd"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="X-Skyer 聊天室" id="OQb-1N-wek">
-                        <barButtonItem key="backBarButtonItem" title="返回" id="xAo-Ol-lcA"/>
+                        <barButtonItem key="backBarButtonItem" title="Back" id="VcL-SK-Oze"/>
                         <barButtonItem key="rightBarButtonItem" image="Set" id="ANt-O0-DEg">
                             <connections>
                                 <segue destination="PHe-q6-TjT" kind="show" identifier="ShowSet" id="tQp-Iq-rvd"/>
@@ -974,7 +977,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="pullTableView" destination="Ceo-kn-hVL" id="6Yi-Gl-uMD"/>
-                        <segue destination="GFX-gN-BRE" kind="presentation" identifier="LogoutSegue" id="h9j-0d-VTK"/>
+                        <segue destination="bVO-fk-yQM" kind="presentation" identifier="LogoutSegue" id="hZv-Gm-f6A"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8k5-mI-wI3" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1100,6 +1103,7 @@
             <objects>
                 <tableViewController title="EULA" id="5O7-rj-srh" customClass="LabelTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vx8-JE-G02">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -1218,7 +1222,7 @@
         <image name="powerIcon" width="216" height="209"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Lqv-yg-wZV"/>
         <segue reference="WLo-Oj-5rq"/>
+        <segue reference="oRD-VN-pXK"/>
     </inferredMetricsTieBreakers>
 </document>

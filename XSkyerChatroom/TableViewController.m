@@ -88,6 +88,8 @@
     //requestLogout = nil;
     NSUserDefaults *accountDefaults = [NSUserDefaults standardUserDefaults];
     [accountDefaults removeObjectForKey:USER_DEFAULTS_ACCOUNT];
+    [accountDefaults setBool:NO  forKey:@"AGREED_EULA"];
+
     [self performSegueWithIdentifier:@"LogoutSegue" sender:self];
     
     
@@ -737,8 +739,8 @@
         
         self.dataTask = [self.thisSession dataTaskWithRequest:[self requestWithURL:self.thisUrl forType:HTML_REQUEST_TYPE_BLOCKED_ADD withUserId:userID] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
             
-             NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-            NSLog(@"%@",str1);
+             //NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+            //NSLog(@"%@",str1);
             
             weakSelf.tempData = [[NSMutableData alloc]init];
             

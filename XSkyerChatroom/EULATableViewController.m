@@ -14,6 +14,7 @@
 @property (strong, nonatomic) IBOutlet UITableViewCell *release3;
 @property (strong, nonatomic) IBOutlet UITableViewCell *release4;
 @property (strong, nonatomic) IBOutlet UITableViewCell *release5;
+@property (strong, nonatomic) IBOutlet UITableView *accept;
 
 @end
 
@@ -36,6 +37,35 @@
     self.release3.backgroundColor = bgColor;
     self.release4.backgroundColor = bgColor;
     self.release5.backgroundColor = bgColor;
+    
+    NSUserDefaults  *eulaDefault = [NSUserDefaults standardUserDefaults];
+    
+    if ([eulaDefault boolForKey:@"AGREED_EULA"]) {
+        self.release1.textLabel.textColor = bgColor;
+        self.release2.textLabel.textColor = bgColor;
+        self.release3.textLabel.textColor = bgColor;
+        self.release4.textLabel.textColor = bgColor;
+        self.release5.textLabel.textColor = bgColor;
+        
+        self.accept.tintColor = bgColor;
+    }
+
+
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    NSUserDefaults  *eulaDefault = [NSUserDefaults standardUserDefaults];
+    
+    if ([eulaDefault boolForKey:@"AGREED_EULA"]) {
+        [self performSegueWithIdentifier:@"Accept" sender:self];
+    }else{
+        //Go ahead
+    }
+}
+- (IBAction)submit:(id)sender {
+    
+    NSUserDefaults  *eulaDefault = [NSUserDefaults standardUserDefaults];
+    [eulaDefault setBool:YES  forKey:@"AGREED_EULA"];
 
 }
 

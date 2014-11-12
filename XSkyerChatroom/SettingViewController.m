@@ -74,6 +74,8 @@
         //
         NSUserDefaults *accountDefaults = [NSUserDefaults standardUserDefaults];
         [accountDefaults removeObjectForKey:USER_DEFAULTS_ACCOUNT];
+        [accountDefaults setBool:NO  forKey:@"AGREED_EULA"];
+
     }else if( [[segue identifier] isEqualToString:@"GoBlackList"] ) {
 
         BlackListViewControllerTableViewController * blackVC = [segue destinationViewController];

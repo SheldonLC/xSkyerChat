@@ -455,8 +455,8 @@
 //NOT IN USE, KIV
 - (NSArray *) parseHTMLDataForPMContent:(NSData *) data
 {
-    NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"%@",str1);
+    //NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    //NSLog(@"%@",str1);
     PrivateMessageDetail *pmDtl = nil;
     if (data) {
         TFHpple *xpathParser = [[TFHpple alloc] initWithHTMLData:data];
@@ -493,8 +493,8 @@
 //NOT IN USE, KIV
 - (NSArray *) parseHTMLDataForPMList:(NSData *) data
 {
-    NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"%@",str1);
+   // NSString *str1 = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    //NSLog(@"%@",str1);
     //title[@lang]
     NSMutableArray *pmArr = nil;
     if (data) {

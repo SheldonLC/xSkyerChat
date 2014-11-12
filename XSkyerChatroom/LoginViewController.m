@@ -22,6 +22,8 @@
 @synthesize accountDefaults;
 
 #pragma mark init
+
+
 - (void)viewDidLoad {
     
     //try to login, verify if user/password is ok
