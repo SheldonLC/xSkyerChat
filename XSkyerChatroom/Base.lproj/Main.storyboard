@@ -125,7 +125,7 @@
                         <sections>
                             <tableViewSection id="ygb-6j-rae">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="D0y-SF-6FR" rowHeight="101" style="IBUITableViewCellStyleDefault" id="V1Z-SX-Ky2">
+                                    <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" textLabel="D0y-SF-6FR" rowHeight="101" style="IBUITableViewCellStyleDefault" id="V1Z-SX-Ky2">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="V1Z-SX-Ky2" id="Sra-Yb-rgQ">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -142,7 +142,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="SGY-1L-APt" style="IBUITableViewCellStyleDefault" id="F31-X6-ES2">
+                                    <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" textLabel="SGY-1L-APt" style="IBUITableViewCellStyleDefault" id="F31-X6-ES2">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="F31-X6-ES2" id="rln-sa-LPB">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -1222,7 +1222,7 @@
         <image name="powerIcon" width="216" height="209"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="WLo-Oj-5rq"/>
-        <segue reference="oRD-VN-pXK"/>
+        <segue reference="2R1-aY-z1d"/>
+        <segue reference="hZv-Gm-f6A"/>
     </inferredMetricsTieBreakers>
 </document>

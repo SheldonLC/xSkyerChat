@@ -11,6 +11,7 @@
 @interface Constants : NSObject
 
 extern NSString * const HTML_REQUEST_TARGET_CURRENT;
+extern NSString * const HTML_REQUEST_TARGET_CURRENT_CHAT;
 extern NSString * const HTML_REQUEST_TARGET_HISTORY;
 extern NSString * const HTML_REQUEST_TARGET_LOGIN;
 extern NSString * const HTML_REQUEST_TARGET_PROFILE;

@@ -165,8 +165,9 @@
 {
     NSArray *result = [[NSArray alloc]init];
     if ([self.target isEqualToString:HTML_REQUEST_TARGET_CURRENT]) {
-        result = [self.parse parseXMLDataForCurrentChat:self.data];
-        
+        //result = [self.parse parseXMLDataForCurrentChat:self.data];//BUG_FIX_001
+        result = [self.parse parseHTMLDataForHistory:self.data];
+
     }else if([self.target isEqualToString:HTML_REQUEST_TARGET_HISTORY]){
         result = [self.parse parseHTMLDataForHistory:self.data];
     }else if([self.target isEqualToString:HTML_REQUEST_TARGET_PROFILE]){
@@ -204,11 +205,11 @@
     if([type isEqualToString:HTML_REQUEST_TYPE_REFRESH]){
         if([self.target isEqualToString:HTML_REQUEST_TARGET_CURRENT]){
             //To get curreny chat, use post
-            [request setHTTPMethod:@"POST"];
+            /*[request setHTTPMethod:@"POST"];
             
             NSString *str = [self.param  generateRefreshWithToken: self.access.token];//Set parameter
             NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
-            [request setHTTPBody:data];
+            [request setHTTPBody:data];*///BUG_FIX_001
         }else if([self.target isEqualToString:HTML_REQUEST_TARGET_HISTORY]){
             //do nothing
         }
@@ -300,7 +301,13 @@
         [url appendString:page];
         [url appendString:@"&styleid=47"];
     }else if([target isEqualToString:HTML_REQUEST_TARGET_CURRENT]){
-        url = [[NSMutableString alloc] initWithString:@"http://www.xbox-skyer.com/mgc_cb_evo_ajax.php"];
+        //url = [[NSMutableString alloc] initWithString:@"http://www.xbox-skyer.com/mgc_cb_evo_ajax.php"];//BUG_FIX_001
+        url = [[NSMutableString alloc] initWithString:@"http://www.xbox-skyer.com/chat.php?do=view_archives&page="];
+        [url appendString:page];
+        [url appendString:@"&styleid=47"];
+
+    }else if([target isEqualToString:HTML_REQUEST_TARGET_CURRENT_CHAT]){
+        url = [[NSMutableString alloc] initWithString:@"http://www.xbox-skyer.com/mgc_cb_evo_ajax.php"];//BUG_FIX_001
     }else if([target isEqualToString:HTML_REQUEST_TARGET_LOGIN]){
         url = [[NSMutableString alloc] initWithString:@"http://www.xbox-skyer.com/login.php"];
     }else if([target isEqualToString:HTML_REQUEST_TARGET_PROFILE]){
@@ -338,7 +345,7 @@
 
     
     
-    
+    // int index =   [self.chats count];
     
     self.pullTableView.pullArrowImage = [UIImage imageNamed:@"blueArrow"];
     self.pullTableView.pullBackgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
@@ -588,7 +595,7 @@
 }
 
 - (void) startRequestDataFrom: (NSString *) target forType: (NSString *) type{
-    [self startRequestDataFrom:target forPage:@"" forType:type];
+    [self startRequestDataFrom:target forPage:@"1" forType:type];
 }
 
 
@@ -777,7 +784,7 @@
     
     __weak TableViewController *weakSelf = self;
     
-    [self setURLwith:HTML_REQUEST_TARGET_CURRENT];
+    [self setURLwith:HTML_REQUEST_TARGET_CURRENT_CHAT];
     ChatTableViewCell *cell = self.touchedCell;
     self.chosenChatID = cell.chat.chatId;
     self.dataTask = [self.thisSession dataTaskWithRequest:[self requestWithURL:self.thisUrl forType:HTML_REQUEST_TYPE_DELETE] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -827,7 +834,7 @@
 
 
 - (void) sendMessage{
-    [self setURLwith:HTML_REQUEST_TARGET_CURRENT];
+    [self setURLwith:HTML_REQUEST_TARGET_CURRENT_CHAT];
     __weak TableViewController *weakSelf = self;
     
     self.dataTask = [self.thisSession dataTaskWithRequest:[self requestWithURL:self.thisUrl forType:HTML_REQUEST_TYPE_CHAT] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
