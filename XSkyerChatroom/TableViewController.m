@@ -39,6 +39,8 @@
 
 @property (nonatomic) BOOL afterDelete;
 
+@property (nonatomic) BOOL hasSleeped;
+
 
 //Private
 @property (nonatomic,weak) NSMutableArray *pmArr;//Store the Private Message, will pass to Private message page
@@ -411,8 +413,9 @@
     
     if (!self.access || !self.access.hasLogin) {
         //Navigate to Setting page
-        [self performSegueWithIdentifier:@"LogoutSegue" sender:self];
-        return;
+        //[self performSegueWithIdentifier:@"LogoutSegue" sender:self];
+        //return;
+        [self login];
     }
     if(!self.pullTableView.pullTableIsLoadingMore) {
         self.pullTableView.pullTableIsLoadingMore = YES;
@@ -523,9 +526,9 @@
      
      */
     
-    
+    self.hasSleeped = YES;
     [self startRequestDataFrom:HTML_REQUEST_TARGET_CURRENT forType:HTML_REQUEST_TYPE_REFRESH];
-    if (!self.chats || [self.chats count] ==0) {
+    if (!self.chats || [self.chats count] ==0 || self.hasSleeped)  {
         self.access.isSessionTimeout = YES;
         [self login];
         [self startRequestDataFrom:HTML_REQUEST_TARGET_CURRENT forType:HTML_REQUEST_TYPE_REFRESH];
@@ -620,7 +623,7 @@
         }else if([target isEqualToString:HTML_REQUEST_TARGET_PROFILE]){
             [weakSelf refreshBlockedUserList:[weakSelf parseData]];
         }
-        
+        weakSelf.hasSleeped = NO;
         [weakSelf.tempData setLength:0];
         weakSelf.data = nil;
 
@@ -638,7 +641,23 @@
     NSData *data2 = [str2 dataUsingEncoding:NSUTF8StringEncoding];
     [requestLogin2 setHTTPBody:data2];
     NSData *received2 = [NSURLConnection sendSynchronousRequest:requestLogin2 returningResponse:nil error:nil];
-    [self refreshBlockedUserList:[ self.parse parseHTMLDataForBlockedUsers:received2]];
+    NSArray *blockedArr =  [self.parse parseHTMLDataForBlockedUsers:received2];
+    
+    if (!blockedArr || [blockedArr count]==0) {
+        [self login];
+        
+            url2 = [NSURL URLWithString:@"http://www.xbox-skyer.com/profile.php"];
+            requestLogin2 = [[NSMutableURLRequest alloc]initWithURL:url2 cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60];
+            [requestLogin2 setHTTPMethod:@"POST"];//设置请求方式为POST，默认为GET
+            str2 = [NSString stringWithFormat: @"do=ignorelist&styleid=47&securitytoken=%@",self.access.token];
+            data2 = [str2 dataUsingEncoding:NSUTF8StringEncoding];
+            [requestLogin2 setHTTPBody:data2];
+            received2 = [NSURLConnection sendSynchronousRequest:requestLogin2 returningResponse:nil error:nil];
+            blockedArr =  [self.parse parseHTMLDataForBlockedUsers:received2];
+        
+    }
+    
+    [self refreshBlockedUserList:blockedArr];
 
     }
 
@@ -758,7 +777,7 @@
             
             NSString *result = [weakSelf.parse parseHTMLDataForBlockResult:weakSelf.tempData];
             weakSelf.tempData = nil;
-            
+            weakSelf.hasSleeped = NO;
             if(!result){
                 //
                 BlockedUser *blockedUser = [[BlockedUser alloc]initWithUserId:userID withUserName:userM];
@@ -796,7 +815,8 @@
                 break;
             }
         }
-        
+        weakSelf.hasSleeped = NO;
+
         [weakSelf performSelector:@selector(delayMethod) withObject:nil afterDelay:0.6f];
         self.afterDelete = YES;
         [weakSelf reloadView];
@@ -824,7 +844,7 @@
     self.dataTask = [self.thisSession dataTaskWithRequest:[self requestWithURL:self.thisUrl forType:HTML_REQUEST_TYPE_REPORT] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
         [weakSelf performSelector:@selector(delayMethod) withObject:nil afterDelay:0.6f];
-        
+        self.hasSleeped = NO;
         //Send alert
         [self alertWithMessage:@"举报已经发送至管理员，管理员核实后将会及时处理，谢谢您为维持一个良好环境的努力"];
         
@@ -836,7 +856,8 @@
 - (void) sendMessage{
     [self setURLwith:HTML_REQUEST_TARGET_CURRENT_CHAT];
     __weak TableViewController *weakSelf = self;
-    
+    self.hasSleeped = YES;
+
     self.dataTask = [self.thisSession dataTaskWithRequest:[self requestWithURL:self.thisUrl forType:HTML_REQUEST_TYPE_CHAT] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         //NSLog(@"%lld", response.expectedContentLength);
         weakSelf.tempData = [[NSMutableData alloc]init];
@@ -849,12 +870,14 @@
             self.access.isSessionTimeout = YES;
             
         }
+        weakSelf.hasSleeped = NO;
+
         
     }];
     [self.dataTask resume];
     
     
-    if(self.access.isSessionTimeout){
+    if(self.access.isSessionTimeout || self.hasSleeped){
         [self login];
         self.dataTask = [self.thisSession dataTaskWithRequest:[self requestWithURL:self.thisUrl forType:HTML_REQUEST_TYPE_CHAT] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
             
@@ -877,7 +900,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
     
-    [self logout];
+    //[self logout];
 }
 
 #pragma mark - Table view data source
@@ -1049,15 +1072,32 @@
     //NSLog(@"Cell was blocked");
     
     [self blockUser:[self getUserID:self.touchedCell.textLabel.text] :self.touchedCell.textLabel.text];
+    if (self.hasSleeped) {
+        [self login];
+        [self blockUser:[self getUserID:self.touchedCell.textLabel.text] :self.touchedCell.textLabel.text];
+    }
 }
 
 - (void)report:(id)sender {
     //NSLog(@"Cell was reported");
     [self reportChat];
+    if( self.hasSleeped){
+        [self login];
+
+        [self reportChat];
+        
+    }
+
 }
 - (void)remove:(id)sender {
     //NSLog(@"Cell was removed");
     [self deleteChat];
+    if( self.hasSleeped){
+        [self login];
+
+        [self deleteChat];
+
+    }
     
 }
 
